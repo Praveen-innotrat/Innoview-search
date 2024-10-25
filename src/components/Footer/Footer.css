@@ -1,0 +1,23 @@
+.footer-container{
+    
+    width: 100%;
+    height: auto;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    margin-bottom: 50px;
+    /* position: absolute;
+    bottom: 0; */
+
+}
+
+
+
+@media screen and (max-width: 480px) {
+    .footer-container{
+        display: none;
+    }
+
+    
+}
+

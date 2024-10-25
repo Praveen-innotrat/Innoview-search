@@ -1,0 +1,7 @@
+.innomart-container{
+    max-width: 100%;
+    background: #ececff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

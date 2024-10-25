@@ -1,0 +1,289 @@
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.programs {
+  display: flex;
+  
+  align-items: center;
+  flex-direction: column;
+
+  background: #ececff;
+  width: 100%;
+  /* height:100vh; */
+}
+
+.programs-content {
+  margin: 20px 20px;
+  padding: 10px;
+}
+
+.programs-heading {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+}
+.programs-heading h1 {
+  color: #034aac;
+  font-feature-settings: "clig" off, "liga" off;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-right: 5px;
+}
+
+.programs-div {
+  width: auto;
+  height: 1px;
+  background: #034aac;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 20px;
+}
+
+.programs-container-parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.programs-container {
+  margin: 20px;
+ 
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.programs-card {
+  height: auto;
+  width: 380px;
+  padding:15px;
+  border-radius: 15px;
+  background: rgba(253, 255, 255, 0.98);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.programs-card-img {
+  height: auto;
+  width: 280px;
+  border-radius: 15px;
+}
+.programs-card-img video {
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+.programs-card-text {
+  margin-top: 5px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+.programs-card-text h1 {
+  margin: 2px;
+  color: #034aac;
+  font-feature-settings: "clig" off, "liga" off;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.programs-card-text p {
+  margin: 2px;
+  color: rgba(136, 136, 136, 0.8);
+  font-feature-settings: "clig" off, "liga" off;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.programs-card-text .programs-card-text-button {
+  display: none;
+}
+.programs-desc {
+  display: none;
+}
+.programs-card:hover {
+  cursor: default;
+}
+
+.programs-card:hover .programs-card-img {
+  display: none;
+}
+
+.programs-card:hover .programs-card-text p {
+  margin: 2px;
+  animation: slideInFromBottom 0.8s ease-out;
+  transform: rotate(-0.739deg);
+  flex-shrink: 0;
+}
+
+.programs-card:hover .programs-card-text h1 {
+  margin: 2px;
+  animation: slideInFromBottom 0.8s ease-out;
+  transform: rotate(-0.651deg);
+  flex-shrink: 0;
+  overflow: scroll;
+}
+
+.programs-card:hover .programs-card-text {
+  animation: slideInFromBottom 0.8s ease-out;
+  width: 280px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  z-index: 1;
+}
+
+.programs-card:hover .programs-desc {
+  animation: slideInFromBottom 0.8s ease-out;
+  display: block;
+  transform: rotate(-0.651deg);
+  flex-shrink: 0;
+  height: 80px;
+  color: rgba(50, 50, 50, 0.8);
+  font-feature-settings: "clig" off, "liga" off;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+  overflow: scroll;
+}
+
+.programs-card:hover .programs-card-text-button {
+  animation: slideInFromBottom 0.8s ease-out;
+  display: block;
+  padding: 20px;
+  color: #ececff;
+  border-radius: 15px;
+  background: #3771c8;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
+
+/* @media screen and (width: 1024px) {
+  .programs-container{
+    grid-template-columns:repeat(4, 1fr) ;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .programs-container{
+    grid-template-columns:repeat(3, 1fr) ;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .programs-container{
+    grid-template-columns:repeat(2, 1fr) ;
+  }
+  
+}
+
+@media screen and (orientation: landscape) {
+  .programs-container{
+    grid-template-columns:repeat(3, 1fr) ;
+  }
+}
+
+@media screen and (device-aspect-ratio: 16/9) {
+  .programs-container{
+    grid-template-columns:repeat(2, 1fr) ;
+  }
+} */
+
+
+/* Large Screens - max four cards */
+@media screen and (min-width: 1200px) {
+  .programs-content{
+    margin: 10px 50px;
+    width: 100%;
+  }
+
+  .programs-heading{
+
+    margin: 10px 50px;
+    width: 100%;
+
+  }
+
+
+  .programs-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablet View - 3 cards */
+@media screen and (max-width: 1199px) and (min-width: 769px) {
+  .programs-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Laptop Screens - 4 cards */
+@media screen and (max-width: 768px) and (min-width: 481px) {
+  .programs-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Screens - 1 card */
+@media screen and (max-width: 480px) {
+  .programs-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Large Screens - max four cards */
+@media screen and (min-width: 1600px) {
+  .programs-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+@media screen and (min-width: 1400px) {
+  .programs-content{
+    width: 1440px;
+  }
+  .programs-div{
+    width: 100%;
+    
+  }
+}
+/* Landscape of Mobile - 3 cards in a row */
+@media screen and (max-width: 480px) and (orientation: landscape) {
+  .programs-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

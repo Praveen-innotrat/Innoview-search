@@ -1,0 +1,51 @@
+.create-poll-popup {
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
+    /* transform: translate(-50%, -50%); */
+    background-color: #9393cf;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    color: black;
+  }
+  
+  .create-poll-popup label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .create-poll-popup input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  .create-poll-popup button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .create-poll-popup button:hover {
+    background-color: #45a049;
+  }
+  
+  .create-poll-popup .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+  }
+  

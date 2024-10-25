@@ -1,0 +1,40 @@
+.sidebar-container{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+min-height: 85vh;
+margin: 20px;
+}
+
+.sidebar-heading{
+    display: flex;
+    margin: 20px auto;
+
+}
+
+.heading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+p{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+.sidebar-dynamic-part{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-static-part{
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}

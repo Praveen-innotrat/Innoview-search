@@ -1,0 +1,214 @@
+.schedule{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    height:auto;
+    background: #ececff;
+    width: 100%;
+}
+
+.schedule-container{
+    height: 100%;
+    margin: 25px;
+}
+
+
+
+
+
+  /* Interview Details Page CSS */
+  .interview-details{
+    display: flex;
+    align-items: center;
+    
+    flex-direction: column;
+    height: 100vh;
+    background: #ececff;
+    /* width: 100%; */
+  }
+  
+
+
+
+  
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+  }
+  
+/* Common styles */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  label {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  input[type="date"],
+  input[type="time"] {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .schedule-info {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .schedule-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .schedule-info p {
+    margin: 5px 0;
+  }
+  
+  .schedule-info p:not(:last-child) {
+    margin-bottom: 15px;
+  }
+  
+  /* Conditional rendering styles */
+  .schedule-info p:first-child {
+    font-weight: bold;
+  }
+  
+  /* Additional styles for when interview not scheduled */
+  .schedule-info p:not(:first-child) {
+    display: none;
+  }
+  
+  /* Styles for when interview is scheduled */
+  .schedule-info.scheduled p:not(:first-child) {
+    display: block;
+  }
+  
+  .table-container{
+    margin: 25px;
+    width: 100%;
+    padding: 0 75px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  
+  th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+   
+  }
+  
+  /* Borders for each block */
+  table {
+    border-spacing: 0;
+  }
+  
+  /* Borders for each row */
+  tr {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Borders for each column */
+  td {
+    border-right: 1px solid #ccc;
+    text-align: left;
+  }
+
+  th{
+    text-align: center;
+  }
+  
+  /* Borders for last column */
+  td:last-child {
+    border-right: none;
+  }
+  
+  /* Borders for last row */
+  tr:last-child td {
+    border-bottom: none;
+  }
+  
+
+
+  /* Popup CSS */
+  
+
+  .status-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 9999; /* Ensure the status-popup is on top of other content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .status-popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Drop shadow effect */
+    max-width: 400px;
+    width: 90%;
+  }
+  
+  .status-popup-content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .status-popup-content p {
+    margin-bottom: 10px;
+  }
+  
+  .view-profile-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #034aac;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .view-profile-btn:hover {
+    background-color: #0056b3;
+  }
+
+
+  

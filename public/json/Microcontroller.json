@@ -1,0 +1,16 @@
+[{"Microcontroller":{
+    "module_name": "M4",
+    "module_description": "Microcontroller",
+    "Module Type":"self",
+    "Number_of_Pins":"8",
+    "pins": [
+        { "Pno":"1","name": "VIN", "type": "GP" ,"interface":"powerIN","each_mandatory":true,"con_port":"VOUT"},
+        { "Pno":"2","name": "SCL1", "type": "GP", "interface":"powerIN","each_mandatory":false,"con_port":"SCL1"},
+        { "Pno":"3","name":"SDA1","type":"GP","interface":"powerIN","each_mandatory":false,"con_port":"SDA1"},
+        { "Pno":"4","name": "INT1", "type": "GP" ,"interface":"powerIN","each_mandatory":false,"con_port":"INT1"},
+        { "Pno":"5","name": "GND", "type": "GP", "interface":"powerGND","each_mandatory":false,"con_port":"GND"},
+        { "Pno":"6","name": "SCL2", "type": "GP", "interface":"powerOUT","each_mandatory":false,"con_port":"SCL2"},
+        { "Pno":"7","name":"INT2","type":"GP","interface":"powerIN","each_mandatory":false,"con_port":"INT2"},
+        { "Pno":"8","name":"SDA2","type":"GP","interface":"powerIN","each_mandatory":false,"con_port":"SDA2"}
+      ]
+  }}]

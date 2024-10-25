@@ -1,0 +1,13 @@
+[{"TPS62240":{
+    "module_name": "M1",
+    "module_description": "TPS62240",
+    "Module Type":"self",
+    "Number_of_Pins":"4",
+    "pins": [
+        { "Pno":"1","name": "VIN", "type": "GP" ,"interface":"powerIN","con_port":"VOUT","each_mandatory":true},
+        { "Pno":"2","name": "SW", "type": "GP", "interface":"powerGND","con_port":"SW","each_mandatory":false},
+        { "Pno":"3","name": "VIN2", "type": "GP", "interface":"powerGND","con_port":"FB","each_mandatory":true},
+        {"Pno":"4","name":"VOUT","type":"GP","interface":"powerOUT","con_port":"GND","each_mandatory":true}
+        
+      ]
+  }}]
