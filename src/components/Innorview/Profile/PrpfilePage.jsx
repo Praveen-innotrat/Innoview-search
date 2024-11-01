@@ -13,6 +13,7 @@ import Header from "../../Header/Header";
 import Cookies from "js-cookie";
 import axios from "axios";
 import API_URLS from "../../../config";
+import { formatPhoneNumber } from "../../../Utils";
 
 const MyComponent = styled("div")({
   color: "#000000",
@@ -36,7 +37,7 @@ const ProfilePage = () => {
     name: "",
     number: "",
     email: "",
-    resume:""
+    resume: "",
   });
 
   useEffect(() => {
@@ -44,18 +45,21 @@ const ProfilePage = () => {
       try {
         const token = Cookies.get("token");
         if (token) {
-          const response = await axios.get(`${API_URLS.InnoviewBaseUrl}/api/user/profile`, {
-            headers: {
-              authorization: `${token}`,
-            },
-          });
+          const response = await axios.get(
+            `${API_URLS.InnoviewBaseUrl}/api/user/profile`,
+            {
+              headers: {
+                authorization: `${token}`,
+              },
+            }
+          );
           const { profile } = response.data;
-          console.log(profile,'profile')
+          console.log(profile, "profile");
           setUserDetails({
             name: profile.name,
             number: profile.mobile_number,
             email: profile.email,
-            resume:profile.resume
+            resume: profile.resume,
           });
         }
       } catch (error) {
@@ -79,12 +83,16 @@ const ProfilePage = () => {
     const token = Cookies.get("token");
 
     try {
-      const response = await axios.post(`${API_URLS.InnoviewBaseUrl}/api/user/update`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${API_URLS.InnoviewBaseUrl}/api/user/update`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `${token}`,
+          },
+        }
+      );
 
       console.log("Resume uploaded successfully:", response.data);
     } catch (error) {
@@ -161,8 +169,7 @@ const ProfilePage = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
-                  Contact:{" "}
-                  {userDetails.number}
+                  Contact: {formatPhoneNumber(userDetails.number)}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -199,20 +206,19 @@ const ProfilePage = () => {
                       },
                     }}
                   >
-                    {isEditing ? ( <TextField
-                      type="file"
-                      required
-                      onChange={handleResumeFileChange}
-                      inputProps={{ accept: ".pdf, .doc, .docx" }}
-                    />):(userDetails.resume)}
-                   
- 
                     {isEditing ? (
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
+                      <TextField
+                        type="file"
+                        required
+                        onChange={handleResumeFileChange}
+                        inputProps={{ accept: ".pdf, .doc, .docx" }}
+                      />
+                    ) : (
+                      userDetails.resume
+                    )}
+
+                    {isEditing ? (
+                      <Button type="submit" variant="contained" color="primary">
                         Save
                       </Button>
                     ) : (

@@ -24,6 +24,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import API_URLS from "../../../config";
 import axios from "axios";
+import { Label } from "@mui/icons-material";
 
 const SectionContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -57,45 +58,6 @@ export default function SignUpSide() {
       setPhone(e.target.value);
     }
   };
-
-  // const submitSignup = () => {
-  //   const reqURL = `${baseUrl}/signup`;
-  //   const mobile_number = countryCode + phone;
-  //   fetch(reqURL, {
-  //     cache: "no-store",
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       name: name,
-  //       //mobile_number:countryCode + phone,
-  //       mobile_number: mobile_number,
-  //       password: password,
-  //     }),
-  //   })
-  //     .then((res) => {
-  //       res
-  //         .json()
-  //         .then((data) => {
-  //           if (data.success === true) {
-  //             setMessage(data.message);
-  //             // window.location.href = "/login";
-  //             //localStorage.setItem('mobile_number',phone)
-  //             localStorage.setItem("mobile_number", mobile_number);
-  //             navigate("/verify-otp");
-  //           } else {
-  //             setMessage(data.message);
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   const submitSignup = async () => {
     const reqURL = `${API_URLS.InnoviewBaseUrl}/signup`;
@@ -140,47 +102,6 @@ export default function SignUpSide() {
         setMessage("Error in sending request.");
       }
     }
-    // const reqURL = `${baseUrl}/signup`;
-    // // const reqURL = `http://localhost:4000/user/register`;
-
-    // const mobile_number = countryCode + phone;
-    // fetch(reqURL, {
-    //   cache: "no-store",
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: name,
-    //     //mobile_number:countryCode + phone,
-    //     mobile_number: mobile_number,
-    //     password: password,
-    //   }),
-    // })
-    //   .then((res) => {
-    //     res.json()
-    //       .then((data) => {
-    //         if (data.success === true) {
-    //           setMessage(data.message);
-    //           console.log(data,"jhgjhgjhgj")
-    //           // window.location.href = "/login";
-    //           //localStorage.setItem('mobile_number',phone)
-    //           localStorage.setItem("mobile_number", mobile_number);
-
-    //           // navigate("/verify-otp");
-    //           navigate("/eureka");
-    //         } else {
-    //           setMessage(data.message);
-    //           alert(data.message)
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
   return (
@@ -221,12 +142,12 @@ export default function SignUpSide() {
               Sign up
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
+              <InputLabel htmlFor="name">Name</InputLabel>
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="name"
-                label="Name"
                 name="name"
                 type="text"
                 value={name}
@@ -260,6 +181,32 @@ export default function SignUpSide() {
                   handlePhoneChange(e);
                 }}
               />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="file"
+                label="Upload File"
+                id="file"
+                type="file"
+                onChange={(e) => {
+                  // handleFileChange(e); // Update this function to handle file input
+                }}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="video"
+                label="Upload Video"
+                id="video"
+                type="file"
+                accept="video/*" // This restricts file selection to video types
+                onChange={(e) => {
+                  // handleVideoChange(e); // Update this function to handle video input
+                }}
+              />
+
               <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
                 <InputLabel htmlFor="password">Password *</InputLabel>
                 <OutlinedInput

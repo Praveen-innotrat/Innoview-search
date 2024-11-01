@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../Header/Header";
 import "./Schedule.css";
 import Cookies from "js-cookie";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import Status from "./Status";
-import schedule_interview_not_found from "../../../assets/schedule_interview_not_found.gif";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import moment from "moment";
@@ -21,92 +19,53 @@ import { toast } from "react-toastify";
 import API_URLS from "../../../config";
 
 import "./InterviewDetails.css";
+import { formatPhoneNumber } from "../../../Utils";
+import { fontSize } from "@mui/system";
 
 const InterviewDetails = ({ interviews, setInterviews }) => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const [age, setAge] = useState("");
   const [interviewData, setInterviewData] = useState([]);
-  const [status, setStatus] = useState(false);
-  const [link, setLink] = useState("");
-  const [gen, setGen] = useState(false);
+  const [status, setStatus] = useState({ open: false, interviewId: null });
 
   const usertoken = Cookies.get("token");
   const headers = {
     headers: { authorization: `${usertoken}` },
   };
 
+  console.log(status, "status");
+
   useEffect(() => {
-    const get = async () => {
-      const response = await axios.get(
-        `${API_URLS.InnoviewBaseUrl}/api/meetings/schedule`,
-        headers
-      );
-      console.log(response.data);
-      setInterviewData(response.data);
+    const getInterviews = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URLS.InnoviewBaseUrl}/api/meetings/schedule`,
+          headers
+        );
+        setInterviewData(response.data);
+      } catch (error) {
+        console.error("Error fetching interview data:", error);
+      }
     };
-    get();
+    getInterviews();
   }, []);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleStatus = () => {
-    setStatus(!status);
+  const handleStatus = (interviewId) => {
+    setStatus({ open: !status.open, interviewId });
   };
 
   const handleClose = () => {
-    setStatus(false);
+    setStatus({ open: false, interviewId: null });
   };
-
-  const linkGen = () => {
-    // fetch("http://localhost:5000")
-    // .then((data)=> data.json())
-    // .then((link) => setLink(link))
-    // .then(()=> setGen(true))
-  };
-
-  const savedNotes = ["asss", "ad", "aaa"];
-  const chk = async () => {
-    const data = {
-      interviewId: "12",
-      answers: savedNotes,
-    };
-    const response = await axios.post(
-      `${API_URLS.InnoviewBaseUrl}/api/interview/answers`,
-      data,
-      headers
-    );
-    console.log(response.data);
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(
-      "https://app.dyte.io/v2/meeting?id=bbbdf12d-2606-4979-8a52-bd5eb79fa943"
-    );
-  };
-
-  const admin = () => {
-    navigate("/interview/admin");
-  };
-
-  console.log("checking interview", interviews);
 
   const handleJoinMeeting = async (id) => {
     try {
-      console.log(id, "id");
-      var interviewId =id
       localStorage.setItem("interviewId", id);
-      const data = { data: interviewId };
+      const data = { data: id };
       const response = await axios.post(
         `${API_URLS.InnoviewBaseUrl}/api/meetings/conflicts`,
         data,
         headers
       );
-
-      console.log(response.data);
-      // localStorage.setItem('InterviewMeetingId',id)
 
       if (response.data.success) {
         navigate(`/interview/${response.data.token}`);
@@ -114,23 +73,22 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         toast.warning(response.data.message || "An error occurred");
       }
     } catch (error) {
-      console.error("Error joining meeting:", error);
       toast.warning(
         error.response ? error.response.data.message : error.message
       );
     }
   };
 
- 
-
   const isJoinButtonDisabled = (scheduledDate, scheduledTime, attended) => {
     const currentTime = moment();
-    const interviewTime = moment(`${scheduledDate} ${scheduledTime}`, "YYYY-MM-DD HH:mm");
-  
-    // Disable the button if the current time is more than an hour after the scheduled time or if the interview has already been attended
+    const interviewTime = moment(
+      `${scheduledDate} ${scheduledTime}`,
+      "YYYY-MM-DD HH:mm"
+    );
+
+    // Disable the button if current time is more than an hour after scheduled time or if interview has been attended
     return currentTime.isAfter(interviewTime.add(1, "hours")) || attended;
   };
-  
 
   return (
     <div className="interview-details">
@@ -151,84 +109,100 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Interview ID</TableCell>
-              <TableCell>Job ID</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>HR Details</TableCell>
-              <TableCell>Contact Details</TableCell>
-              <TableCell>Result</TableCell>
-              <TableCell>Status</TableCell>
+              {[
+                "Interview ID",
+                "Job ID",
+                "Date",
+                "Time",
+                "HR Details",
+                "Contact Details",
+                "Result",
+                "Status",
+              ].map((heading) => (
+                <TableCell
+                  key={heading}
+                  sx={{ fontSize: "14px", textAlign: "center" }} // Set text to 14px and center-align
+                >
+                  <b>{heading}</b>
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {interviewData.length > 0 ? (
               interviewData.map((interview, i) => (
                 <TableRow key={i}>
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell>{interview.scheduledDate}</TableCell>
-                  <TableCell>{interview.scheduledTime}</TableCell>
-                  <TableCell>Hr</TableCell>
-                  <TableCell>{interview.mobile_number}</TableCell>
-                  <TableCell
-                    onClick={handleStatus}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <span className="">
-                      <FolderCopyIcon
-                        sx={{
-                          fontSize: 30,
-                          marginRight: "10px",
-                          cursor: "pointer",
-                        }}
-                        color="warning"
-                      />
-                    </span>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
+                    {i + 1}
                   </TableCell>
-
-                  {status && <Status close={handleClose} />}
-
-                  <TableCell style={{ cursor: "pointer", color: "white" }}>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
+                    {i + 1}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
+                    {interview.scheduledDate}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
+                    {interview.scheduledTime}
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
+                    HR
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
+                    {formatPhoneNumber(interview.mobile_number)}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: "14px",
+                      textAlign: "center",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleStatus(interview._id)}
+                  >
+                    <FolderCopyIcon
+                      sx={{ fontSize: 30, cursor: "pointer" }}
+                      color="warning"
+                    />
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
                     {interview.status === false ? (
                       <button disabled>Pending</button>
                     ) : (
-                      <div className="button-join">
-                        <Button
-                          onClick={() => handleJoinMeeting(interview._id)}
-                          disabled={isJoinButtonDisabled(
-                            interview.scheduledDate,
-                            interview.scheduledTime,
-                            interview.attended
-                          )}
-                        >
-                          Join Now
-                        </Button>
-                      </div>
+                      <Button
+                        sx={{ fontSize: "14px" }}
+                        onClick={() => handleJoinMeeting(interview._id)}
+                        disabled={isJoinButtonDisabled(
+                          interview.scheduledDate,
+                          interview.scheduledTime,
+                          interview.attended
+                        )}
+                      >
+                        Join Now
+                      </Button>
                     )}
                   </TableCell>
                 </TableRow>
               ))
             ) : (
-              <div
-                style={{
-                  maxWidth: "100%",
-                  height: "300px",
-                  textAlign: "center",
-                }}
-              >
-                <div>
-                  <h2> No Data Found </h2>
-                  <h4>
-                    Do you want to take an interview?
-                    <Link to="/innorview/schedule"> Click here </Link>
-                  </h4>
-                </div>
-              </div>
+              <TableRow>
+                <TableCell colSpan={8} align="center">
+                  <div>
+                    <h2>No Data Found</h2>
+                    <h4>
+                      Do you want to schedule an interview?{" "}
+                      <Link to="/innorview/schedule">Click here</Link>
+                    </h4>
+                  </div>
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Status Component - Only display when status is toggled */}
+      {status.open && (
+        <Status interviewId={status.interviewId} close={handleClose} />
+      )}
     </div>
   );
 };

@@ -22,9 +22,9 @@
   .interview-details{
     display: flex;
     align-items: center;
-    
+    font-size: 14px;
     flex-direction: column;
-    height: 100vh;
+    height: 73vh;
     background: #ececff;
     /* width: 100%; */
   }
@@ -53,6 +53,11 @@ h1 {
     width: 100%;
     margin-bottom: 10px;
   }
+  .form-section{
+    padding: 49px 0px;
+    background: #f9f9f9;
+
+  }
   
   input[type="date"],
   input[type="time"] {
@@ -60,6 +65,19 @@ h1 {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+  }
+
+  .schedule-form-inputs{
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 8px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .schedule-submit-form-btn{
+    font-size: 14px;
+
   }
   
   button {
@@ -158,7 +176,18 @@ h1 {
     border-bottom: none;
   }
   
+.schedule-form{
+  text-align: left;
+  font-size: 14px;
+}
+.schedule-interview-tab{
+  display: flex;
+  text-align: center;
+  padding: 20px;
+  flex-direction: column;
+  gap: 37px;
 
+}
 
   /* Popup CSS */
   

@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react'
-import Header from '../../Header/Header'
-import"./UpdateProfile.css"
+import React, { useMemo, useState } from "react";
+import Header from "../../Header/Header";
+import "./UpdateProfile.css";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,7 +11,7 @@ import {
   CardActions,
   Modal,
 } from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
+import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -31,8 +31,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
 export default function UpdateProfile() {
-
-    
   const navigate = useNavigate();
 
   const profession = Cookies.get("profession");
@@ -45,24 +43,23 @@ export default function UpdateProfile() {
 
   const [check, setCheck] = useState(false);
   const [open, setOpen] = useState(false);
-  
+
   const [value, setValue] = useState();
 
-  
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-  
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-//   if (profession === "normal") {
-//     handleOpenModal()
-//   } else {
-    
-//   }
-Cookies.get("mobile_number")
+  //   if (profession === "normal") {
+  //     handleOpenModal()
+  //   } else {
+
+  //   }
+  Cookies.get("mobile_number");
 
   const checkHandle = () => {
     if (check) {
@@ -90,59 +87,56 @@ Cookies.get("mobile_number")
   };
 
   return (
-    <div className='updateProfile-container'>
-         <Header />
+    <div className="updateProfile-container">
+      <Header />
 
-         {
-            profession === "normal" ? (
-                <div
-                style={{
-             marginTop:"100px",
-             marginBottom:"100px",
-                  background: "#ececff",
-                  border: "1px solid #034aac",
-                  padding: "2rem",
-                  width: "80%",
-                  maxWidth: "600px",
-                  
-                }}
-              >
-                <h4 style={{ textAlign: "center" }}>
-                  Are you Fresher or Experienced ?
-                </h4>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    aria-label="Checking"
-                    name="check"
-                    value={value}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value="students"
-                      control={<Radio />}
-                      label="Students / Fresher"
-                    />
-      
-                    <FormControlLabel
-                      value="experience"
-                      control={<Radio />}
-                      label="Experience"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <div className="d-flex">
-                  <Button onClick={checkHandle} color="primary">
-                    Next
-                  </Button>
-      
-                  <Button onClick={handleCloseModal} color="error">
-                    Close
-                  </Button>
-                </div>
-              </div>
-            ) : null
-         }
-         <Modal open={fresherModal} onClose={fresherCloseModal}>
+      {profession === "normal" ? (
+        <div
+          style={{
+            marginTop: "100px",
+            marginBottom: "100px",
+            background: "#ececff",
+            border: "1px solid #034aac",
+            padding: "2rem",
+            width: "80%",
+            maxWidth: "600px",
+          }}
+        >
+          <h4 style={{ textAlign: "center" }}>
+            Are you Fresher or Experienced ?
+          </h4>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="Checking"
+              name="check"
+              value={value}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="students"
+                control={<Radio />}
+                label="Students / Fresher"
+              />
+
+              <FormControlLabel
+                value="experience"
+                control={<Radio />}
+                label="Experience"
+              />
+            </RadioGroup>
+          </FormControl>
+          <div className="d-flex">
+            <Button onClick={checkHandle} color="primary">
+              Next
+            </Button>
+
+            <Button onClick={handleCloseModal} color="error">
+              Close
+            </Button>
+          </div>
+        </div>
+      ) : null}
+      <Modal open={fresherModal} onClose={fresherCloseModal}>
         <div
           style={{
             position: "absolute",
@@ -187,122 +181,120 @@ Cookies.get("mobile_number")
         </div>
       </Modal>
     </div>
-  )
+  );
 }
 
-
 function Fresher({ close }) {
-
   const tomorrow = dayjs().add(2, "day");
   const today = dayjs();
-  
+
   const [error, setError] = useState(null);
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
-    const errorMessage = useMemo(() => {
-        switch (error) {
-          case "maxDate":
-          case "minDate": {
-            return "Please select a fast track date";
-          }
-    
-          case "invalidDate": {
-            return "Your date is not valid";
-          }
-    
-          default: {
-            return "";
-          }
-        }
-      }, [error]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const navigate = useNavigate();
-  
-    const courseValidationSchema = yup.object({
-      email: yup.string().required().email(),
-       //   dateOfBirth: yup.number().required(),
-      alterPhoneNumber: yup.number().required(),
-      qualification: yup.string().required(), 
-      department: yup.string().required()
-    //   attachFile:yup.mixed().required('A file is required')
-     })
-    // .shape({
-    //     attachFile:yup.mixed().required()
-    //           .test('fileFormat', 'Only PDF files are allowed', value => {
-    //             if (value) {
-    //               const supportedFormats = ['pdf'];
-    //               return supportedFormats.includes(value.name.split('.').pop());
-    //             }
-    //             return true;
-    //           })
-    //           .test('fileSize', 'File size must not be more than 3MB', 
-    //           value => {
-    //             if (value) {
-    //               return value.size <= 3145728;
-    //             }
-    //             return true;
-    //           })
-    //         });
-            // .shape({
-            //     attachFile:yup.mixed().required('A file is required')
-            //         });
-    
-    const formik = useFormik({
-      initialValues: {
-        profession:"fresher",
-        mobile_number:Cookies.get("mobile_number"),
-        email: "",
-        dateOfBirth: "",
-        alterPhoneNumber: "",
-        qualification: "",
-        department: "",
-        resume: ""
-      },
-  
-      validationSchema: courseValidationSchema,
-  
-      onSubmit: (values) => {
-        console.log(values)
-        updateData(values)
-       
-      },
-    });
-  
-    const updateData = async(values)=> {
-try {
-          let users = await axios.post(`http://localhost:4000/user/profileupdate`, values);
-  if (users.status == "201") {
-    Cookies.set("mobile_number", users.data.profession, {
-        secure: true,
-        expires: 7,
-        path: "/",
-      });
-    alert(users.data.message)
-    navigate("/innorview")
-  } else {
-    alert(users.message)
-  }
-        } catch (err) {
-          alert(err.response.data);
-        }
+  const errorMessage = useMemo(() => {
+    switch (error) {
+      case "maxDate":
+      case "minDate": {
+        return "Please select a fast track date";
+      }
+
+      case "invalidDate": {
+        return "Your date is not valid";
+      }
+
+      default: {
+        return "";
+      }
     }
+  }, [error]);
 
-    return (
-      <div>
-        <form
-          className=" d-flex flex-column mx-auto gap-6"
-          onSubmit={formik.handleSubmit}
-        >
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
-            
-            
+  const navigate = useNavigate();
+
+  const courseValidationSchema = yup.object({
+    email: yup.string().required().email(),
+    //   dateOfBirth: yup.number().required(),
+    alterPhoneNumber: yup.number().required(),
+    qualification: yup.string().required(),
+    department: yup.string().required(),
+    //   attachFile:yup.mixed().required('A file is required')
+  });
+  // .shape({
+  //     attachFile:yup.mixed().required()
+  //           .test('fileFormat', 'Only PDF files are allowed', value => {
+  //             if (value) {
+  //               const supportedFormats = ['pdf'];
+  //               return supportedFormats.includes(value.name.split('.').pop());
+  //             }
+  //             return true;
+  //           })
+  //           .test('fileSize', 'File size must not be more than 3MB',
+  //           value => {
+  //             if (value) {
+  //               return value.size <= 3145728;
+  //             }
+  //             return true;
+  //           })
+  //         });
+  // .shape({
+  //     attachFile:yup.mixed().required('A file is required')
+  //         });
+
+  const formik = useFormik({
+    initialValues: {
+      profession: "fresher",
+      mobile_number: Cookies.get("mobile_number"),
+      email: "",
+      dateOfBirth: "",
+      alterPhoneNumber: "",
+      qualification: "",
+      department: "",
+      resume: "",
+    },
+
+    validationSchema: courseValidationSchema,
+
+    onSubmit: (values) => {
+      console.log(values);
+      updateData(values);
+    },
+  });
+
+  const updateData = async (values) => {
+    try {
+      let users = await axios.post(
+        `http://localhost:4000/user/profileupdate`,
+        values
+      );
+      if (users.status == "201") {
+        Cookies.set("mobile_number", users.data.profession, {
+          secure: true,
+          expires: 7,
+          path: "/",
+        });
+        alert(users.data.message);
+        navigate("/innorview");
+      } else {
+        alert(users.message);
+      }
+    } catch (err) {
+      alert(err.response.data);
+    }
+  };
+
+  return (
+    <div>
+      <form
+        className=" d-flex flex-column mx-auto gap-6"
+        onSubmit={formik.handleSubmit}
+      >
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <TextField
             id="outlined-basic"
             label="Email"
@@ -321,25 +313,19 @@ try {
           />
 
           <div className="d-flex w-100 justify-content-between gap-6 experience-sub-container2">
-
-        
-          <DatePicker
-            className="w-100"
-            onError={(newError) => setError(newError)}
-            slotProps={{
-              textField: {
-                helperText: errorMessage,
-              },
-            }}
-            label="Date of birth"
-            disableFuture
-           
-            views={["year", "month", "day"]}
-            format="DD-MM-YYYY"
-         
-          />
-
-        
+            <DatePicker
+              className="w-100"
+              onError={(newError) => setError(newError)}
+              slotProps={{
+                textField: {
+                  helperText: errorMessage,
+                },
+              }}
+              label="Date of birth"
+              disableFuture
+              views={["year", "month", "day"]}
+              format="DD-MM-YYYY"
+            />
 
             {/* <TextField
                className="w-100"
@@ -359,9 +345,9 @@ try {
                   : null
               }
             /> */}
-  
+
             <TextField
-               className="w-100"
+              className="w-100"
               id="outlined-basic"
               label="Alternative Phone Number"
               variant="outlined"
@@ -370,16 +356,19 @@ try {
               onChange={formik.handleChange}
               name="alterPhoneNumber"
               onBlur={formik.handleBlur}
-              error={formik.touched.alterPhoneNumber && formik.errors.alterPhoneNumber}
+              error={
+                formik.touched.alterPhoneNumber &&
+                formik.errors.alterPhoneNumber
+              }
               helperText={
-                formik.touched.alterPhoneNumber && formik.errors.alterPhoneNumber
+                formik.touched.alterPhoneNumber &&
+                formik.errors.alterPhoneNumber
                   ? formik.errors.alterPhoneNumber
                   : null
               }
             />
           </div>
-  
-  
+
           <TextField
             id="outlined-basic"
             label="Highest Education"
@@ -396,7 +385,7 @@ try {
                 : null
             }
           />
-  
+
           <TextField
             id="outlined-basic"
             label="Department"
@@ -413,54 +402,54 @@ try {
                 : null
             }
           />
-  
-  <TextField
-  type='file'
-  accept='application/pdf'
-          value={formik.values.resume}
-          id="outlined-basic"
-          variant="outlined"
-          placeholder="Enter a Attach File"
-          onChange={formik.handleChange}
-          name="resume"
-          error={formik.touched.resume && formik.errors.resume}
-          helperText={
-            formik.touched.resume && formik.errors.resume
-              ? formik.errors.resume
-              : null
-          }
-          onBlur={formik.handleBlur}
-       
-          InputProps={{
-            endAdornment: <InputAdornment position="start">Resume</InputAdornment>,
-          }}
-        />
+
+          <TextField
+            type="file"
+            accept="application/pdf"
+            value={formik.values.resume}
+            id="outlined-basic"
+            variant="outlined"
+            placeholder="Enter a Attach File"
+            onChange={formik.handleChange}
+            name="resume"
+            error={formik.touched.resume && formik.errors.resume}
+            helperText={
+              formik.touched.resume && formik.errors.resume
+                ? formik.errors.resume
+                : null
+            }
+            onBlur={formik.handleBlur}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">Resume</InputAdornment>
+              ),
+            }}
+          />
           <div className="d-flex">
             <Button color="primary" type="submit">
               Next
             </Button>
             {close}
           </div>
-          </LocalizationProvider>
-        </form>
-      </div>
-    );
-  }
-  
-  // function Experience() {
-  
-  //   const [open, setOpen] = useState(false);
-  //   const handleOpen = () => {
-  //     setOpen(true);
-  //   };
-  //   const handleClose = () => {
-  //     setOpen(false);
-  //   };
-  
-  //   return (
-  //     <div>
-  //       <h1>experience</h1>
-  //     </div>
-  //   );
-  // }
-  
+        </LocalizationProvider>
+      </form>
+    </div>
+  );
+}
+
+// function Experience() {
+
+//   const [open, setOpen] = useState(false);
+//   const handleOpen = () => {
+//     setOpen(true);
+//   };
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
+
+//   return (
+//     <div>
+//       <h1>experience</h1>
+//     </div>
+//   );
+// }

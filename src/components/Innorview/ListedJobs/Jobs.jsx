@@ -12,6 +12,7 @@ import axios from "axios";
 import { Button } from "bootstrap";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
+import API_URLS from "../../../config";
 
 const Jobs = () => {
   const [jobName, setJobName] = useState("");
@@ -56,7 +57,7 @@ const Jobs = () => {
 
       // Make the POST request
       const response = await axios.post(
-        "https://api2.innotrat.in/api/scrap_internships",
+        `${API_URLS.InnoviewResumeUrl}/scrap_internships`,
         payload,
         { signal } // Attach the signal to the axios request
       );
@@ -163,6 +164,9 @@ const Jobs = () => {
               }}
             >
               <CancelIcon
+                style={{
+                  display: jobName.length == 0 ? "none" : "block",
+                }}
                 onClick={() => handleCancelButton()}
                 sx={{
                   fontSize: 24,

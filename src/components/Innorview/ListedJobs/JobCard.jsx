@@ -39,7 +39,7 @@ const JobCard = ({
   };
 
   const handleNavigate = () => {
-    navigate("/interview-details");
+    navigate("/innorview/schedule");
   };
 
   return (

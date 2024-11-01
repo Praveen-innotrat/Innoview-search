@@ -38,7 +38,7 @@ export default function ResetSide() {
   const [countryCode, setCountryCode] = React.useState("+91");
 
   const navigate = useNavigate();
-  const baseUrl=API_URLS.base;
+  const baseUrl = API_URLS.innofabapi;
 
   const handlePhoneChange = (e) => {
     const regex = /^[+0-9\b]+$/;
@@ -48,40 +48,38 @@ export default function ResetSide() {
   };
 
   const submitReset = () => {
-   
-      const reqURL =`${baseUrl}/reset_password`;
-      const mobile_number= countryCode +  phone 
+    const reqURL = `${baseUrl}/reset_password`;
+    const mobile_number = countryCode + phone;
+    navigate("/verifyResetOtp");
 
-      fetch(reqURL, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mobile_number: mobile_number
-        }),
+    fetch(reqURL, {
+      cache: "no-store",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mobile_number: mobile_number,
+      }),
+    })
+      .then((res) => {
+        res
+          .json()
+          .then((data) => {
+            if (data.success === true) {
+              localStorage.setItem("mobile_number", mobile_number);
+              setMessage(data.message);
+            } else {
+              setMessage(data.message);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
-        .then((res) => {
-          res
-            .json()
-            .then((data) => {
-              if (data.success === true) {
-                navigate("/verifyResetOtp");
-                localStorage.setItem("mobile_number", mobile_number);
-                setMessage(data.message)
-              } else {
-                setMessage(data.message);
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -121,7 +119,7 @@ export default function ResetSide() {
               Forgot your password
             </Typography>
             <Box component="form" sx={{ mt: 1 }}>
-               <TextField
+              <TextField
                 margin="normal"
                 select
                 required
@@ -169,4 +167,4 @@ export default function ResetSide() {
       </Grid>
     </SectionContainer>
   );
-              }
+}

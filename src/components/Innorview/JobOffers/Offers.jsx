@@ -3,6 +3,7 @@ import Header from "../../Header/Header";
 import "./Offers.css";
 import { useNavigate } from "react-router";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
+import PriceCard from "./PriceCard";
 
 const offers = [
   {
@@ -90,9 +91,9 @@ const Offers = () => {
       <Header />
       <div className="offers-container">
         <h1>Job Offers</h1>
-        <table style={{width:"70%"}}>
+        <table className="job-offer-wrapper" style={{ width: "70%" }}>
           <thead>
-            <tr>
+            <tr className="offer-table-row">
               <th>Interview ID</th>
               <th>Offer Status</th>
               <th>Download Offer Letter</th>
@@ -102,10 +103,18 @@ const Offers = () => {
           <tbody>
             {offers.map((interview) => (
               <tr>
-                <td>{interview.interviewId}</td>
-                <td>{interview.OfferStatus[2]}</td>
+                <td className="job-offer-table-body">
+                  {interview.interviewId}
+                </td>
+                <td className="job-offer-table-body">
+                  {interview.OfferStatus[2]}
+                </td>
 
-                <td onClick={handleStatus} style={{ cursor: "pointer" }}>
+                <td
+                  className="job-offer-table-body"
+                  onClick={handleStatus}
+                  style={{ cursor: "pointer" }}
+                >
                   <span className="">
                     <FolderCopyIcon
                       sx={{
@@ -120,13 +129,22 @@ const Offers = () => {
 
                 {/* {status && <Status close={handleClose} />} */}
 
-                <td style={{ cursor: "pointer" }}>
-                        {interview.myResponse}
+                <td
+                  className="job-offer-table-body"
+                  style={{
+                    cursor: "pointer",
+                    color: interview.myResponse == "Accepted" ? "Green" : "Red",
+                  }}
+                >
+                  {interview.myResponse}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="price-card">
+        <PriceCard />
       </div>
     </div>
   );
