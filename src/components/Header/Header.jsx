@@ -269,7 +269,7 @@ options in header bar
                   </button>
                 </Link>
               ) : (
-                <Link to="/eureka">
+                <Link to="/logins">
                   <button className="header-user-logout">Login</button>
                 </Link>
               )}

@@ -49,7 +49,7 @@ import Programs from "./components/Programs/Programs";
 import Footer from "./components/Footer/Footer";
 import Program from "./components/Programs/Program";
 import StickyFooter from "./components/layout-components/StickyFooter";
-
+import RecruiterLogin from "./components/Recruiters/Login";
 import Subscription from "./components/Subscription";
 import InnoMartHome from "./components/innomart/InnoMartHome";
 import Innobator from "./components/innomart/pages/innoBator/Innobator";
@@ -77,6 +77,11 @@ import AdminMeeting from "./components/Innorview/ScheduleInterview/AdminMeeting"
 import AsyncMeeting from "./components/Innorview/ScheduleInterview/AsyncMeeting";
 import Cookies from "js-cookie";
 import EurekaPortal from "./pages/EurekaPortal";
+import RecruiterSignup from "./components/Recruiters/Signup";
+import MainLogin from "./pages/LoginScreens/MainLogin";
+import Header from "./components/Header/Header";
+import RecruitersDashboard from "./components/Recruiters/Dashboard";
+import AfterLogin from "./components/Recruiters/AfterLogin";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const hasCookies =
@@ -159,7 +164,7 @@ function App() {
         theme="light"
       />
       <ThemeProvider theme={theme}>
-        {/* <Header /> */}
+        <Header />
 
         <Routes>
           <Route path="/eureka" element={<Login />} />
@@ -255,6 +260,12 @@ function App() {
               />
             }
           />
+
+          <Route path="/logins" element={<MainLogin />} />
+          <Route path="/recruiters-login" element={<RecruiterLogin />} />
+          <Route path="/recruiters-signup" element={<RecruiterSignup />} />
+          <Route path="/recruiters-dashboard" element={<AfterLogin />} />
+
           <Route path="/interview" element={<Interview />} />
           <Route path="/interview/:id" element={<AsyncInterview />} />
           <Route path="/interview/async" element={<AsyncMeeting />} />

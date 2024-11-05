@@ -1,0 +1,37 @@
+.login-image{
+    width: 100%;
+}
+.login-card-wrapper{
+    border: 1px solid lightgrey;
+    width: 40rem;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+.title-for{
+    font-size: 32px;
+    font-weight: 600;
+}
+.subtitle-for{
+    font-size: 16px;
+    color: gray;
+    font-weight: 500;
+}
+.main-login-container{
+    height: 72vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.logins{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+.login-body-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 20px;
+}

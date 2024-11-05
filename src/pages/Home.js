@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div>
       {/* <Navbar/> */}
-      <Header />
+      {/* <Header /> */}
       <LandingScreen />
     </div>
   );
