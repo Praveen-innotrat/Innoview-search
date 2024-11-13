@@ -4,7 +4,7 @@ import Recruiters from "../../assets/LoginScreens/recruiters.png";
 import ForJobseekers from "../../assets/LoginScreens/jobseekers.png";
 import "./LoginsCard.css";
 
-function MainLogin() {
+function  MainLogin() {
   const cardValue = [
     {
       title: "For Recruiters",

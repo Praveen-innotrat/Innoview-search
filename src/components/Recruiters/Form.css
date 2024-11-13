@@ -1,0 +1,116 @@
+.select-post-type{
+    border: 1px solid lightgray;
+    border: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    height: 10rem;
+    padding-left: 20px;
+    border-radius: 20px;
+}
+.radio-post{
+    display: flex;
+    gap: 5px;
+    /* height: 4rem; */
+    align-items: baseline;
+    font-size: 14px;
+}
+.post-type-wrapper{
+    display: flex;
+    gap: 16px;
+}
+.post-form-title{
+    font-size: 16px;
+    font-weight: 600;
+}
+/* .job-form-wrapper , */
+.post-for{
+    width: 52%;
+}
+/* style for job form */
+.job-form-wrapper{
+    width: fit-content;
+}
+.post-job-tab{
+    /* height: 50vh; */
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+.job-form-group{
+    display: flex;
+    flex-direction: column; 
+}
+.job-form-label{
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 600;
+}
+.job-form-input{
+    padding-left: 10px;
+    height: 4.5rem;
+    border: 1px solid lightgray;
+    width: 57rem;
+    font-size: 14px;
+    border-radius: 10px;
+}
+.job-form-input-date{
+    padding-left: 10px;
+    height: 4.5rem;
+    border: 1px solid lightgray;
+    width: 57rem;
+    font-size: 14px;
+    border-radius: 10px; 
+}
+.job-form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.post-title{
+    margin-top: 50px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.jd-wrapper{
+    padding: 25px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    display: flex;
+    width: 63rem;
+    flex-direction: column;
+    gap: 25px;
+}
+.post-button-section{
+display: flex;
+justify-content: space-between;
+}
+.post-back-button , .post-submit-button{
+    width: 17rem;
+}
+.job-form-radio{
+    font-size: 14px;
+}
+.post-text-area{
+    height: 12rem !important;
+    padding-top: 10px;
+}
+.job-form-radio-label{
+    width: fit-content;
+    font-size: 14px;
+    /* width: 25rem; */
+}
+.job-form-radio-group{
+    display: flex;
+    flex-direction: column;
+}
+.internship-form{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.checkbox-group > label {
+    font-size: 14px;
+}

@@ -17,11 +17,13 @@ import API_URLS from "../../../config";
 const Jobs = () => {
   const [jobName, setJobName] = useState("");
   const [matchedKeywords, setMatchedKeywords] = useState([]); // State to hold matched keywords
-  console.log(matchedKeywords, "value");
+  // console.log(matchedKeywords, "value");
   const [loading, setLoading] = useState(false);
   const controllerRef = useRef(null); // Initialize as null
-  let jobs = useSelector((state) => state.job.listedJobs);
+  // let jobs = useSelector((state) => state.job.listedJobs);
+  const [jobs, setJobs] = useState([]);
   const dispatch = useDispatch();
+  // console.log(jobs, "jobData");
 
   let keywords = [
     "iot",
@@ -39,43 +41,34 @@ const Jobs = () => {
   // console.log(jobName, "value");
 
   const fetchJobData = async () => {
-    // Abort the previous request if it exists
+    setLoading(true); // At the start of fetchJobData
     if (controllerRef.current) {
       controllerRef.current.abort(); // Cancel previous request
     }
-
-    // Create a new AbortController
     controllerRef.current = new AbortController();
     const signal = controllerRef.current.signal;
 
     try {
-      // Define the payload
-      const payload = {
-        keyword: key.trim(), // Trim keyword to remove extra spaces
-        signal,
-      };
-
-      // Make the POST request
+      const payload = { keyword: key.trim(), signal };
       const response = await axios.post(
-        `${API_URLS.InnoviewResumeUrl}/scrap_internships`,
+        `${API_URLS.InnoviewResumeUrl}/get_internships`,
         payload,
-        { signal } // Attach the signal to the axios request
+        { signal }
       );
 
-      // Handle the response
-      console.log("Response:", response.data);
       if (response.data) {
-        setLoading(false);
-        dispatch(setListedJob(response.data.data)); // Assuming 'setListedJob' is an action to set data in state
+        // console.log(response.data, "jobsdata");
+
+        setJobs(response.data); // Update the jobs state with fetched data
+        setLoading(false); // Set loading to false once data is fetched
       }
     } catch (error) {
-      // Check if the error is due to request cancellation
       if (axios.isCancel(error)) {
         console.log("Request canceled", error.message);
       } else {
-        // Handle other errors
         console.error("Error:", error);
       }
+      setLoading(false); // Ensure loading is false on error
     }
   };
 
@@ -208,16 +201,7 @@ const Jobs = () => {
             }}
           >
             {jobs?.map((job, index) => (
-              <JobCard
-                key={index}
-                company={job.Company}
-                jobTitle={job.Title}
-                jobLocation={job.Location}
-                jobDescription={job["Job Description"]}
-                jobData={job}
-                jobSalary={job.Stipend}
-                jobId={job["Internship ID"]}
-              />
+              <JobCard key={index} job={job} />
             ))}
           </Box>
         </>

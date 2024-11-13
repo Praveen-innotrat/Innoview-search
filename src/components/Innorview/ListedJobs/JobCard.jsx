@@ -14,20 +14,10 @@ import { Link, useNavigate } from "react-router-dom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { fontSize } from "@mui/system";
 
-const JobCard = ({
-  jobId,
-  company,
-  jobTitle,
-  jobDescription,
-  jobLocation,
-  // jobType,
-  jobData,
-  jobSalary,
-  // jobSkills,
-  // jobExperience,
-}) => {
+const JobCard = ({ job }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  console.log(job, "jobcards");
   const navigate = useNavigate();
 
   const handleOpenModal = () => {
@@ -77,7 +67,7 @@ const JobCard = ({
             component="h2"
             gutterBottom
           >
-            {company}
+            {job.company}
           </Typography>
           <Typography
             textAlign={"center"}
@@ -87,7 +77,7 @@ const JobCard = ({
               paddingBottom: "1rem",
             }}
           >
-            {jobTitle}
+            {job.title}
           </Typography>
 
           <Typography
@@ -103,7 +93,7 @@ const JobCard = ({
             }}
           >
             <PlaceIcon />
-            {jobLocation}
+            {job.location}
           </Typography>
         </CardContent>
 
@@ -185,11 +175,17 @@ const JobCard = ({
             <HighlightOffIcon sx={{ fontSize: 30 }} className="custom-icon" />
           </div>
           {/* Display job details in the modal */}
-          <div className="company-name">{jobData.Company}</div>
-          <div className="job-title">{jobData.Title}</div>
-          <div className="job-description">{jobDescription}</div>
+          <div className="company-name">{job.company}</div>
+          <div className="job-title">{job.title}</div>
+          <div className="job-description">
+            {job.job_description.Introduction}
+          </div>
+          <div className="job-description">
+            {job.job_description.Responsibilities}
+          </div>
+          <div className="job-description">{job.job_description.Footer}</div>
           {/* Display other job details here */}
-          <Link to={jobData["Data-Href"]} target="_blank">
+          <Link to={job["Data-Href"]} target="_blank">
             <Button
               sx={{
                 color: "grey",

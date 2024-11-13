@@ -76,6 +76,12 @@
     /* height: 8/9vh; */
 
 }
+.error {
+  color: red; /* Change to your desired color */
+  font-size: 14px; /* Optional: adjust font size */
+  margin-top: 5px; /* Optional: add space above/below error */
+}
+
 .side-bar-contents{
     width: 20%;
 
