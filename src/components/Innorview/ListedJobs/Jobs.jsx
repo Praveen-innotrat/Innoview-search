@@ -9,7 +9,6 @@ import JobPageHeader from "./JobPageHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { setDefaultKey, setListedJob } from "../../../Store/JoblistingSlice";
 import axios from "axios";
-import { Button } from "bootstrap";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
 import API_URLS from "../../../config";

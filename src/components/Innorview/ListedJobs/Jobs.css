@@ -8,12 +8,28 @@
     background: #ececff;
     width: 100%;
 }
-
+.details-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.duration{
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 10px;
+}
+.job-description{
+  font-size: 16px;
+}
 .jobs-container{
     height: 100%;
     margin: 0px 0px 25px 0px;
     width: 100%;
     padding: 0 50px;
+}
+.links-modal{
+  color: black;
 }
 .model-container{
     display: flex;

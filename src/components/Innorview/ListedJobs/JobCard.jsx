@@ -12,8 +12,9 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import Groups2Icon from "@mui/icons-material/Groups2";
+import HistoryIcon from "@mui/icons-material/History";
 import { fontSize } from "@mui/system";
-
 const JobCard = ({ job }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -69,6 +70,7 @@ const JobCard = ({ job }) => {
           >
             {job.company}
           </Typography>
+
           <Typography
             textAlign={"center"}
             variant="h5"
@@ -164,19 +166,22 @@ const JobCard = ({ job }) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            background: "#ececff",
+            background: "white",
             border: "1px solid #034aac",
             padding: "2rem",
             width: "80%",
-            maxWidth: "600px",
+            maxWidth: "880px",
           }}
         >
           <div className="close-button-modal" onClick={handleCloseModal}>
             <HighlightOffIcon sx={{ fontSize: 30 }} className="custom-icon" />
           </div>
           {/* Display job details in the modal */}
-          <div className="company-name">{job.company}</div>
+          <Link className="links-modal" to={job.website_url}>
+            <div className="company-name">{job.company}</div>
+          </Link>
           <div className="job-title">{job.title}</div>
+          <div className="duration">{job.duration}</div>
           <div className="job-description">
             {job.job_description.Introduction}
           </div>
@@ -185,6 +190,18 @@ const JobCard = ({ job }) => {
           </div>
           <div className="job-description">{job.job_description.Footer}</div>
           {/* Display other job details here */}
+          <div className="details-wrapper">
+            <div className="duration">{job.active_since}</div>
+            <div className="duration">
+              <Groups2Icon sx={{ fontSize: 24 }} /> {job.candidates_hired}
+            </div>
+            <div className="duration">{job.no_of_jobs_posted}</div>
+            <div className="duration">
+              <HistoryIcon sx={{ fontSize: 24 }} />
+              {job.posted_on}
+            </div>
+            <div className="duration">{job.stipend}</div>
+          </div>
           <Link to={job["Data-Href"]} target="_blank">
             <Button
               sx={{
@@ -205,8 +222,8 @@ const JobCard = ({ job }) => {
               borderRadius: "10px",
               backgroundColor: "#4caf50",
               fontSize: "15px",
-              color: "white", // Set text color for better visibility
               textAlign: "center", // Center the text
+              color: "white", // Set text color for better visibility
               cursor: "pointer", // Change cursor to pointer for better UX
               transition: "background-color 0.3s", // Smooth transition for hover
             }}
