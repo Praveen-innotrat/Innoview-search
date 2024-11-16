@@ -1,0 +1,434 @@
+
+*{
+  font-family: "Poppins", serif !important;
+}
+.recruiter-piechart{
+  position: relative;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+}
+.loading-wrapper{
+  display: flex;
+  height: 70vh;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.loading-title{
+  font-size: xxx-large;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.recruiter-login-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.login-recruitment-label{
+    font-size: 16px;
+    font-weight: 600;
+}
+.login-recruitment-input{
+    border: 1px solid lightgray;
+    width: 100%;
+    height: 3.5rem;
+    padding-left: 10px;
+    border-radius: 10px;
+}
+.password-input-wrapper {
+    position: relative;
+  }
+  
+  .no-data-found{
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;  }
+  .no-data-found-imag{
+    width: 54%;
+  }
+  .no-data-found >p {
+    font-size: x-large;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #333; /* Customize as needed */
+  }
+.button-section > button{
+    font-size: 16px;
+    border-radius: 10px;
+}
+.login-remember{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: baseline;
+    padding: 10px 0px;
+}
+.text-muted{
+    font-size: 13px;
+}
+.login-title{
+    font-size: xx-large;
+    text-align: center;
+    padding-bottom: 15px;
+}
+.login-form-section{
+    border: 1px solid lightgray;
+    padding: 50px;
+    border-radius: 42px;
+}
+.create-new-account-container{
+    text-align: center;
+    font-size: 14px;
+    padding: 13px;
+}
+.recruiter-dashboard-wrapper{
+    position: relative;
+    z-index: -1;
+
+}
+
+/* .after-login-main-page{
+    height: 100vh;
+    overflow-y: scroll;
+} */
+.side-bar-wrapper{
+    display: flex;
+    /* gap: 50px; */
+    /* height: 8/9vh; */
+
+}
+.error {
+  color: red; /* Change to your desired color */
+  font-size: 14px; /* Optional: adjust font size */
+  margin-top: 5px; /* Optional: add space above/below error */
+}
+
+.side-bar-contents{
+    width: 20%;
+
+}
+.sidebar-list{
+  margin-top: 60px;
+    display: flex;
+    height: 80vh;
+    cursor: pointer;
+    color: gray;
+    border-right: 1px solid lightgray;
+    font-size: 16px;
+    padding-left: 70px;
+    flex-direction: column;
+    gap: 15px;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+.sidebar-opts{
+  padding: 10px;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+.sidebar-opts:hover{
+  background-color: #f1f1f1;  /* Hover background color */
+
+  color: #1976d2; /* Hover text color */
+
+}
+.sidebar-opts:active {
+  font-weight: bold;
+  color: #1976d2;  /* Active link color */
+  background-color: #e0f7fa; /* Active background color */
+}
+
+.company-name{
+    font-size: 32px;
+    text-align: center;
+    padding: 36px 0px;
+}
+.profile-dropdown {
+    position: absolute; /* Position it relative to the parent */
+    background-color: white; /* Background color */
+    border: 1px solid #ccc; /* Border style */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow for dropdown */
+    z-index: 1000; /* Make sure it appears above other content */
+    width: 200px; /* Set a fixed width for the dropdown */
+    border-radius: 4px; /* Rounded corners */
+    margin-top: 5px; /* Space between profile option and dropdown */
+  }
+  
+  .profile-dropdown-item {
+    display: flex; /* Flex layout for icon and text */
+    align-items: center; /* Center icon and text vertically */
+    padding: 10px 15px; /* Padding for each item */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background color transition */
+  }
+  
+  .profile-dropdown-item:hover {
+    background-color: #f0f0f0; /* Change background on hover */
+  }
+  
+  .dropdown-arrow {
+    margin-left: 5px; /* Space between the text and the arrow */
+    font-size: 0.8em; /* Smaller arrow size */
+    color: #555; /* Color for the arrow */
+  }
+  .postjobinput{
+    padding-left: 12px;
+    border: 1px solid lightgray;
+    width: 30rem;
+    height: 4.5rem;
+    border-radius: 10px;
+  }
+  .postjobdate {
+    padding-left: 12px !important;
+    border: 1px solid lightgray !important;
+    width: 30rem !important;
+    height: 4.5rem !important;
+    border-radius: 10px !important;
+  }
+  .postjobTextarea{
+    padding-left: 12px;
+    border: 1px solid lightgray;
+    width: 30rem;
+    /* height: 3.5rem; */
+    border-radius: 10px;
+  }
+  .postjoblabel{
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .input-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .input-section{
+    padding: 15px 0px
+  }
+  .post-submit-btn-section{
+    text-align: center;
+  }
+  .post-submit-button{
+    width: 20rem;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+  .post-job-title{
+    text-align: center;
+    font-size: 32px;
+    padding: 20px 0px;
+  }
+
+  .header-section{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+  }
+  .body-content{
+    /* background-color: #FAF9F6	; */
+    width: 80%;
+    padding-left: 50px;
+    overflow: scroll;
+    height: 85vh;
+}
+  .body-content::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar */
+  }
+  .post-company-name{
+    font-size: large;
+    color: gray;  }
+  .post-card-wrapper{
+    background-color: white;
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 30px;
+    height: fit-content;
+    /* margin: 20px;? */
+  }
+  .post-card-image{
+    width: 5rem;
+    border-radius: 46px;
+  }
+  .body-section {
+    font-size: 14px;
+    border-bottom: 1px solid lightgray;
+}
+  .job-post-button-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 0px;
+  }
+  .footer-job-card{
+    display: flex;
+    flex-direction: row;
+    gap: 19px;
+    margin: 31px 0px;
+  }
+  .header-row-1{
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.view-button{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  color: white;
+  background: #1669e9de;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+  .salary{
+    display: flex;
+    font-size: large;
+    font-weight: 300;
+    flex-direction: row;
+  }
+  .applicants-applied{
+    display: flex;
+    font-weight: 300;
+    font-size: large;
+    gap: 5px;
+    flex-direction: row;
+  }
+  .post-job-location{
+    display: flex;
+    color: #299abf;
+    align-items: center;
+  }
+  .edit-jobpost-button{
+    background-color: #4f4fc1e0;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+        padding: 10px;
+    cursor: pointer;
+  }
+  .input-profile-section{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .delete-jobpost-button{
+    background-color: #e90c0ce3;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .posted-job-container{
+    height: 67vh;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 20px;
+    overflow-y: scroll;
+  }
+  .footer-job-card-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    text-transform: capitalize;
+  }
+  .jobpost-search{
+    width: 50%;
+    border: 1px solid lightgray;
+    height: 4rem;
+    font-size: 16px;
+    padding-left: 10px;
+    border-radius: 10px;
+  }
+  .job-type{
+    background: #cff4fe;
+    padding: 8px 21px;
+    margin: 20px 0px;
+    border-radius: 5px;
+  }
+  .jobs-search{
+    display: flex;
+    gap: 25px;
+    padding: 20px 32px;
+  }
+  .job-post-search-button{
+    width: 17rem;
+    border-radius: 10px;
+    display: flex;
+    font-size: 18px;
+    background: #288eaf;
+    color: white;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .post-jobcard-title{
+    font-size: x-large;
+    text-transform: capitalize;
+  }
+
+
+  /* Profile picture styles */
+
+  .profile-title{
+    padding: 47px 16px;
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+  }
+  .profile-img{
+    width: 10rem;
+  }
+  .input-profile-label{
+    font-size: 16px;
+    font-weight: 500;  }
+  .input-profile-field{
+    padding-left: 11px;
+    font-size: 16px;
+    border: 1px solid lightgray;
+    width: 40%;
+    height: 4rem;
+    border-radius: 8px;/* width: ; */
+  }
+  .save-profile-btn{
+    cursor: pointer;
+    width: fit-content;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+  .profile-form-details{
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .update-img{
+    width: fit-content;
+    padding: 10px 53px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+  .profile-img-container{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+.profile-tab{
+    height: 67vh;
+}

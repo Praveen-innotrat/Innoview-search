@@ -82,6 +82,11 @@ import MainLogin from "./pages/LoginScreens/MainLogin";
 import Header from "./components/Header/Header";
 import RecruitersDashboard from "./components/Recruiters/Dashboard";
 import AfterLogin from "./components/Recruiters/AfterLogin";
+import JobsType from "./components/Innorview/ListedJobs/JobsType";
+import InternOrJob from "./components/Innorview/ListedJobs/InternOrJob";
+import PostedJobs from "./components/Innorview/ListedJobs/PostedJobs";
+import PostedInternships from "./components/Innorview/ListedJobs/PostedInternships";
+import Jd from "./components/Innorview/ListedJobs/JobDescription/Jd";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const hasCookies =
@@ -260,6 +265,11 @@ function App() {
               />
             }
           />
+          <Route path="/choose-type" element={<JobsType />} />
+          <Route path="/from-our-hiringpartners" element={<InternOrJob />} />
+          <Route path="/posted-jobs" element={<PostedJobs />} />
+          <Route path="/posted-internships" element={<PostedInternships />} />
+          <Route path="/jobs-description" element={<Jd />} />
 
           <Route path="/logins" element={<MainLogin />} />
           <Route path="/recruiters-login" element={<RecruiterLogin />} />

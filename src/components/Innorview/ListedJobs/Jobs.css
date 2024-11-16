@@ -13,11 +13,40 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+.jobtypes-wrapper{
+  height: 70vh;
+  display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.type-card-wrapper {
+  cursor: pointer;
+  height: 50rem;
+  width: 40rem;
+  border: 1px solid lightgray;
+  border-radius: 20px;
+  display: flex
+;
+  flex-direction: column;
+  justify-content: space-between;
+}
+  .job-type-content{
+    font-size: x-large;
+    text-align: center;
+    font-weight: 500;
+    padding: 10px 2px;
+  }
 .duration{
   font-size: 16px;
   border: 1px solid black;
   border-radius: 4px;
   padding: 10px;
+}
+.type-image{
+  width: 100%;
+  margin: 10px;
 }
 .job-description{
   font-size: 16px;
