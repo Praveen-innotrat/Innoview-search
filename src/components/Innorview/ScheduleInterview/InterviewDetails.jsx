@@ -68,7 +68,6 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         headers
       );
 
-      console.log(response, "response");
       if (response.data.success) {
         navigate(`/interview/${response.data.token}`);
       } else {
