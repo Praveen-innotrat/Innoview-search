@@ -1,0 +1,32 @@
+.eureka-container{
+    display: flex;
+    max-width: 100%;
+}
+
+.left-sidebar{
+    min-height: 85vh;
+    width: 300px;
+}
+
+.right-sidebar{
+    position: relative;
+    padding: 10px;
+    border: 7px solid #F6F8FB;
+    width: 100%;
+    background-size:cover;
+     background-position:"center"; 
+}
+
+
+.search-container{
+    margin: 0;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: 1px solid rgb(121, 206, 249);
+ 
+}
+
+

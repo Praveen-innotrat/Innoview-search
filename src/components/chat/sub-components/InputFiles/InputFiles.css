@@ -1,0 +1,27 @@
+.input-files-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+.input-file-item {
+  display: flex;
+  align-items: center;  
+  gap: 5px;
+  width: 160px;
+  padding: 12px 10px;
+  color: #fff;
+  border-radius: 30px;
+  background-color: #1c2c73;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  cursor: pointer;
+}
+.input-file-item label {
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+}

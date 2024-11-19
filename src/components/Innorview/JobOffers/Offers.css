@@ -1,0 +1,80 @@
+.offers{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* height: 100vh; */
+    height:auto;
+    background: #ececff;
+    width: 100%;
+}
+.offers-container{
+    height: 100%;
+    margin: 25px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.price-card-wrapper{
+    text-align: center;
+    display: flex;
+    width: 40rem;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 20px 0px;
+}
+.header-card{
+    font-size: 33px;
+}
+.pricing{
+    font-size: 14px;
+
+}
+.price-rate{
+    font-size: 30px;
+
+}
+.plans{
+    font-size: 14px;
+
+}
+.plan-option{
+    font-size: 14px;
+
+}
+.started-button{
+    padding: 19px 10px;
+    background-color: lightblue;
+    font-size: 16px;
+    font-weight: 600;
+    width: 18rem;
+    border-radius: 10px;
+    text-align: center;
+}
+.started-button:hover{
+cursor: pointer;
+color: white;
+}
+ .list-parent{
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+.job-offer-wrapper{
+font-size: 14px;
+text-align: center;
+}
+.job-offer-table-body{
+    text-align: center;
+}
+.offer-table-row{
+    border-bottom: 1px solid lightgray;
+}

@@ -1,0 +1,10 @@
+.updateProfile-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* height: 100vh; */
+    height:auto;
+    background: hsl(240, 100%, 96%);
+    width: 100%;
+}

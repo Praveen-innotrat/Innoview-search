@@ -1,0 +1,16 @@
+[{"MAX30102":{
+    "module_name": "M2",
+    "module_description": "MAX30102",
+    "Module Type":"self",
+    "Number_of_Pins":"7",
+    "pins": [
+        { "Pno":"1","name": "VDD", "type": "GP" ,"interface":"powerIN","each_mandatory":true,"con_port":"VOUT"},
+        { "Pno":"2","name": "VLED+", "type": "GP", "interface":"powerGND","each_mandatory":false,"con_port":"VLED+"},
+        { "Pno":"3","name":"GND","type":"GP","interface":"powerOUT","each_mandatory":false,"con_port":"GND"},
+        { "Pno":"4","name": "PGND", "type": "GP" ,"interface":"powerOUT","each_mandatory":false,"con_port":"PGND"},
+        { "Pno":"5","name": "SDA", "type": "GP", "interface":"powerGND","each_mandatory":false,"con_port":"SDA"},
+        { "Pno":"6","name": "SCL", "type": "GP", "interface":"powerGND","each_mandatory":false,"con_port":"SCL"},
+        { "Pno":"7","name":"INT","type":"GP","interface":"powerOUT","each_mandatory":false,"con_port":"INT"}
+        
+      ]
+  }}]

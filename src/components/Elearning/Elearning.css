@@ -1,0 +1,217 @@
+.elearning-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* height: 100vh; */
+  height:auto;
+  /* background: #ececff url('../../assets/svg2.png') repeat center center fixed;
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px); 
+  -moz-backdrop-filter: blur(10px);  */
+  background: #ececff;
+            
+}
+
+.elearning {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.elearning-content {
+  margin: 0 50px;
+  max-width: 1024px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.elearning-content-left {
+  width: 50%;
+}
+
+.elearning-content-right {
+  width: 50%;
+}
+
+.elearning-content-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.elearning-content-left-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.elearning-content-left-btm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.elearning-content-left-btm-top {
+  height: 300px;
+  width: 300px;
+  background-image: url("../../assets/left-bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-position: cover;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.elearning-content-left-btm-top-p {
+  color: #717171;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.elearning-content-left-btm-btm .button-elearning {
+  margin-right: 10px;
+  padding: 20px 40px;
+
+  color: rgba(255, 255, 255, 0.8);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+  border-radius: 15px;
+  background: #3771c8;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.elearning-content-left-btm-btm .button-elearning:hover {
+  transform: rotate(-0.76deg);
+  flex-shrink: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #3771c8;
+}
+
+.elearning-3-btn {
+  margin-right: 10px;
+  padding: 20px 40px;
+
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #3771c8;
+}
+
+.elearning-3-btn:hover {
+  transform: rotate(-0.76deg);
+  flex-shrink: 0;
+  background: #3771c8;
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.elearning-content-left-top h1 {
+  color: rgba(3, 74, 172, 0.69);
+  font-feature-settings: "clig" off, "liga" off;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-size: 36px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 5px;
+}
+
+.learning-content-left-top-div {
+  background: rgba(0, 0, 0, 0.52);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 1px;
+}
+
+@media screen and (min-width: 1200px) {
+}
+
+/* Tablet View - 3 cards */
+@media screen and (max-width: 1199px) and (min-width: 769px) {
+}
+
+/* Laptop Screens - 4 cards */
+@media screen and (max-width: 768px) and (min-width: 481px) {
+  .elearning {
+    display: flex;
+  }
+
+  .elearning-content {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+/* Mobile Screens - 1 card */
+@media screen and (max-width: 480px) {
+  .elearning-container{
+    height: auto;
+  }
+  .elearning-content {
+    width: 100%;
+    height:auto;
+  }
+  .elearning-content-left {
+    margin-top: 100px;
+    width: 100%;
+    
+    padding: 40px;
+  }
+  .elearning-content-left-btm{
+    height:auto;
+  }
+
+  .elearning-content-left-btm-btm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .button-elearning {
+    margin-bottom: 20px;
+  }
+
+  .elearning-content-right {
+    display: none;
+  }
+}
+
+/* Large Screens - max four cards */
+@media screen and (min-width: 1600px) {
+}
+
+@media screen and (min-width: 1600px) {
+}
+/* Landscape of Mobile - 3 cards in a row */
+@media screen and (max-width: 480px) and (orientation: landscape) {
+
+}

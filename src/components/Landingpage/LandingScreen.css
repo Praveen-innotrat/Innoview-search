@@ -1,0 +1,248 @@
+#screen-1{
+    height: 90vh;
+    width: 100%;
+    /* background-color:  #039BE5; */
+    ;
+}
+.image-section{
+    width: 50%;
+}
+.image{
+    /* height: 90vh; */
+    width: 100%;
+}
+.screen-1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+.section-1-content{
+    text-align: center;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.word{
+    font-size: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}  
+.word-2{
+    font-size: 80px;
+    color:darkblue;
+}
+.section-1-moto{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.section1-content{
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    padding-left: 40px;
+    /* width: 600px; */
+    line-height: 24px;
+}
+.scheldule-button {
+    background: #cbbcf6;
+    /* border: 1px solid lightgray; */
+    display: inline;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    transition: all 0.16s ease-in;
+  }
+  
+  .scheldule-button:hover {
+    background: none;
+    /* border: 1px solid lightgray; */
+    display: inline;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    color: #464646;
+    box-shadow: 0 0 0 1px rgba(80, 80, 80, .5);
+  }
+  #screen-2{
+    /* height: 90vh; */
+    background-color: #e6f7ff
+    ;
+  }
+  .section-header{
+    font-size: 50px;
+    padding: 50px 0px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .section-header-bolder{
+    color: red;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+  }
+  .screen2-content-container{
+    display: flex;
+    justify-content: center;
+  }
+  .screen2-content{
+    text-align: center;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    width: 80%;
+  }
+  .choose-us-cards-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  .card-container {
+    /* Optional border */
+    /* border: 1px solid black; */
+    
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-img-section{
+    display: flex;
+    height: 10rem;
+    justify-content: center;
+  }
+  .cardHeader{
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    /* color: black; */
+
+  }
+  .cardContent{
+    /* color: black; */
+    font-size: 14px;
+    font-weight: 500;
+    /* letter-spacing: 0.5px; */
+    line-height: 20px;
+  }
+  .card-body-content{
+    color: black;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    justify-content: center;
+    padding: 10px;
+  }
+  .choose-us-cards-wrapper{
+    padding: 3rem 1rem;
+  }
+  .card-img-section{
+    padding: 20px 0px;
+  }
+  /* Reviews section styling */
+#reviews {
+  padding: 20px; /* Padding around the reviews section */
+  color: #333; /* Dark text color for readability */
+  overflow: hidden; /* Hide any content that overflows the section */
+}
+.review-header{
+  font-size: 45px;
+  padding: 20px 0px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+}
+/* Container for the reviews */
+.reviews-container {
+  max-width: 95%; /* Max width to center the content */
+  margin: 0 auto; /* Center the container horizontally */
+  text-align: center; /* Center-align the text */
+  position: relative; /* Relative positioning for flexibility */
+}
+/* Styling for the section heading */
+.reviews-container h2 {
+  margin-bottom: 20px; /* Space below the heading */
+  font-size: 2rem; /* Larger font size for prominence */
+}
+
+/* Slider that holds and scrolls the reviews */
+.reviews-slider {
+  padding: 30px 0px;
+  display: flex; /* Flexbox layout for horizontal alignment */
+  justify-content: space-around; /* Space between review boxes */
+  align-items: center; /* Center items vertically */
+  flex-wrap: nowrap; /* Prevent wrapping, keep reviews in one line */
+  gap: 20px; /* Space between each review box */
+  animation: scrollReviews 15s linear infinite; /* Smooth, infinite scrolling animation */
+}
+
+/* Styling for each individual review box */
+.review-box {
+  min-width: 300px; /* Minimum width for each review box */
+  padding: 15px; /* Padding inside each box */
+  background: #fff; /* White background for the review box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  border-radius: 8px; /* Rounded corners for the review box */
+  font-size: 1rem; /* Standard font size for readability */
+}
+
+/* Styling for the star ratings */
+.stars {
+  margin-top: 10px; /* Space above the star ratings */
+  font-size: 1.5rem; /* Larger font size for visibility */
+  color: #FFA500; /* Gold color for the stars */
+}
+.review-avatar{
+  padding: 20px 0px;
+}
+.review-content{
+  color: black;
+}
+.facebook-icon{
+  color: #1877F2;
+  font-size: 50px;
+}
+.instagram-icon{
+  background: linear-gradient(45deg, #833AB4, #E1306C, #F77737, #F56040, #FFDC80);
+  color: white;
+}
+.linkedin-icon{
+  color: #0077B5;
+}
+.youtube-icon{
+  color: #FF0000;
+}
+.social-media-icons-container{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.subscribe{
+  display: flex;
+  flex-direction: column;
+  /* gap: 20px; */
+}
+.social-media-icons{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+}
+.footer-section{
+text-align: center;
+}
+/* Keyframes for the scrolling animation */
+@keyframes scrollReviews {
+  0% {
+      transform: translateX(100%); /* Start with the content off-screen to the right */
+  }
+  100% {
+      transform: translateX(-100%); /* End with the content off-screen to the left */
+  }
+}

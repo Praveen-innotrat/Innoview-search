@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
+
+
+html {
+  scroll-behavior: smooth !important;
+  /* font-family: "Roboto", "Helvetica", "Arial", sans-serif !important; */
+  font-size : 62.5% !important;
+
+  /* overflow-x : hidden; */
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #3b73c1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 10px;
+  background: #034aac;
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: "Work Sans", sans-serif; */
+  font-family: 'Poppins', sans-serif !important;
+
+}
+/* html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+} */
+
+body{
+  overflow-x : hidden;
+  /* overflow-y : hidden !important; */
+
+}
+
+a{
+  text-decoration: inherit;
+}
+
+h1 {
+  font-size: 3.2rem;
+  font-weight: 900;
+ 
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  white-space: normal;
+  text-align: center;
+}
+
+
+p { 
+  opacity: 0.9;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+  margin-top: 1rem;
+  font-weight: 500;
+  /* margin-bottom: 2rem; */
+  
+}
+a {
+  text-decoration: none !important;
+  text-decoration-skip:inherit;
+}
+
+li {
+  list-style: none;
+
+  /* font-size : 1rem; */
+}
+
+.grid-two-columns{
+  display : grid;
+  grid-template-columns : repeat(2,1fr);
+}
+
+.container{
+    max-width : 110rem;
+    margin : 0 auto;
+   
+}
+
+.container1{
+  max-width : 120rem;
+  margin : 0 auto;
+}
+.grid-three-column{
+  display : grid;
+    grid-template-columns : repeat(3, 1fr);
+    place-items : center center;
+    grid-gap : 3rem;
+}
+
+.grid-four-column{
+    grid-template-columns : repeat(1fr 1.2fr, .5fr .8fr);
+}
+
+@media only screen and (max-width:750px){
+  .container{
+    padding : 0 3rem;
+  }
+
+  .grid{
+    grid-gap : 3rem;
+  }
+
+  .grid-two-columns, .grid-three-column, .grid-four-column{
+    grid-template-columns : 1fr;
+  }
+}
+
+.transition-3{
+  transition : all 0.33s ease;
+  -webkit-transition : all 0.33s ease;
+  -moz-transition : all 0.33s ease;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

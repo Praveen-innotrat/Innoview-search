@@ -1,0 +1,19 @@
+.heading-container{
+    display: flex;
+    width: 50%;
+    align-items:center;
+    margin-right: 0px;
+    justify-content: space-between;
+
+}
+
+h4{
+    margin-right: 0px;
+}
+
+.button-join{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    max-width: 100px;
+}

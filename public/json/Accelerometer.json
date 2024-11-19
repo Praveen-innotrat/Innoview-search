@@ -1,0 +1,14 @@
+[{"Accelerometer":{
+    "module_name": "M3",
+    "module_description": "Accelerometer",
+    "Module Type":"self",
+    "Number_of_Pins":"5",
+    "pins": [
+        { "Pno":"1","name": "VDD", "type": "GP" ,"interface":"powerOUT","each_mandatory":true,"con_port":"VOUT"},
+        { "Pno":"2","name":"VOUT","type":"GP","interface":"powerGND","each_mandatory":false,"con_port":"GND"},
+        { "Pno":"3","name": "SDA", "type": "GP", "interface":"powerIN","each_mandatory":false,"con_port":"SDA"},
+        { "Pno":"4","name": "SCL", "type": "GP", "interface":"powerIN","each_mandatory":false,"con_port":"SCL"},
+        { "Pno":"5","name":"INT","type":"GP","interface":"powerIN","each_mandatory":false,"con_port":"INT"}
+        
+      ]
+  }}]

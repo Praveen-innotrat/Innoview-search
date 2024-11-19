@@ -1,0 +1,142 @@
+/* MobileHeader.css */
+
+.mobile-header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+
+    position: sticky;
+    top: 0;
+  
+  }
+  
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+    background-color: #fff;
+    padding: 10px 50px;
+    width: 100%;
+    height: 60px;
+    border-radius: 15px;
+  }
+  
+  .mobile-header-logo img {
+    width: 120px;
+  }
+  
+  .mobile-header-icon {
+    cursor: pointer;
+  }
+  
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #000;
+    margin: 5px 0;
+  }
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    
+    padding: 10px;
+    /* border-bottom: 1px solid #ddd; */
+    position: absolute;
+    top: 60px; /* Adjust this value to match the header height */
+    right: 34%;
+    /* border: 2px solid #fff; */
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .mobile-header.open .mobile-menu {
+    transform: translateX(0);
+  }
+  
+  .mobile-menu-item {
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .mobile-menu-item:last-child {
+    border-bottom: none;
+  }
+
+@media screen and (min-width: 767px) {
+    .mobile-header-container {
+      display: none;
+    }
+    .mobile-header{
+        display: none;
+    }
+
+  }
+
+
+  @media screen and (max-width: 767px) {
+    .mobile-header {
+      padding: 10px 20px;
+  }
+    .mobile-menu {
+      right:22%;
+    }  
+
+    .mobile-header-menu-item{
+      height: 40px;
+      width:40x;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ececff;
+      border:1px solid #000;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+}
+  }
+    
+  
+  
+@media screen and (max-width:480px) {
+    .mobile-header {
+        padding: 10px 20px;
+    }
+    .mobile-menu {
+      /* right:45%; */
+    }  
+
+}
+@media screen and (max-width:425px) {
+  .mobile-menu {
+    right:23%;
+  }  
+
+}
+
+
+@media screen and (max-width:375px) {
+  .mobile-menu {
+    right:26%;
+  }  
+
+}
+
+@media screen and (max-width:320px) {
+  .mobile-menu {
+    right:30%;
+  }  
+
+}
