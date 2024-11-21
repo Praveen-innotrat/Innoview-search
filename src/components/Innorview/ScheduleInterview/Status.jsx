@@ -16,6 +16,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import "./Status.css";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable"; // Optional for table-specific features
 
 const Status = ({ close, Interview_id, open }) => {
   const location = useLocation();
@@ -45,6 +49,66 @@ const Status = ({ close, Interview_id, open }) => {
     };
     get();
   }, [Interview_id]);
+
+  const downloadPDF = () => {
+    const pdf = new jsPDF();
+
+    // Add Title
+    pdf.setFont("helvetica", "bold"); // Set a clear and bold font for the title
+    pdf.setFontSize(18);
+    pdf.text("Interview Details", 14, 20); // Adjusted Y-coordinate for proper spacing
+
+    // Add the main table with question details
+    const tableColumn = ["S.no", "Question", "Answer", "Mark in Percentage"];
+    const tableRows = [];
+
+    array.forEach((item, index) => {
+      const rowData = [
+        index + 1,
+        item["question_text"], // Question
+        item["answers"], // Answer
+        `${item["similarity_percentage"]}%`, // Mark
+      ];
+      tableRows.push(rowData);
+    });
+
+    pdf.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30, // Ensure sufficient spacing below the title
+      styles: { fontSize: 11, halign: "center" }, // Use a slightly smaller font for table content
+      didParseCell: (data) => {
+        // Customize cell styling for the 'Answer' column
+      },
+    });
+
+    // Add a gap before the total table
+    let finalY = pdf.lastAutoTable.finalY + 10; // Ensure sufficient space after the main table
+
+    // Add Total Table Header
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(16);
+    pdf.text("Summary Table", 14, finalY);
+
+    // Total Table data
+    const summaryColumn = ["Metric", "Count"];
+    const summaryRows = [
+      ["Wrong Answers (less than 30%)", wrongCount],
+      ["Answers above 30%", aboveThirtyCount],
+      ["Total Score", `${finalScore.toFixed(2)}%`],
+    ];
+
+    // Add the summary table
+    pdf.autoTable({
+      head: [summaryColumn],
+      body: summaryRows,
+      startY: finalY + 5, // Slight gap after the header
+      styles: { fontSize: 11, halign: "center" },
+    });
+
+    // Save the PDF
+    pdf.save("Interview_Report.pdf");
+  };
 
   // Calculate total score and counts based on the updated logic
   const calculateCounts = () => {
@@ -104,9 +168,15 @@ const Status = ({ close, Interview_id, open }) => {
       >
         {!showTotalTable ? (
           <>
-            <p style={{ fontSize: "1.5rem", padding: "40px 0px" }}>
-              Number of questions: {array.length}
-            </p>
+            <div className="status-header-wrapper">
+              <div style={{ fontSize: "1.5rem", padding: "40px 0px" }}>
+                Number of questions: {array.length}
+              </div>
+              <div className="download-pdf" onClick={downloadPDF}>
+                <CloudDownloadIcon style={{ fontSize: "16px" }} /> Download as
+                PDF
+              </div>
+            </div>
             <TableContainer>
               <Table stickyHeader>
                 <TableHead>

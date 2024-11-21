@@ -3,6 +3,7 @@ import Online from "./Assets/online.svg";
 import Hiring from "./Assets/hiring-partner.svg";
 import "./Jobs.css";
 import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 function JobsType() {
   const nav = useNavigate();
   return (
@@ -26,6 +27,11 @@ function JobsType() {
             <div className="job-type-label">From our Hiring Partners</div>
           </div>
         </div>
+      </div>
+      <div className="back-btn-inno">
+        <Button sx={{ fontSize: "1.5rem" }} onClick={() => nav(-1)}>
+          BACK
+        </Button>
       </div>
     </>
   );

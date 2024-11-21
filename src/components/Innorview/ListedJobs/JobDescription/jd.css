@@ -9,7 +9,11 @@
     text-align: center;
     padding: 35px 0px;
 }
-
+.jd-buttons{
+    font-size: 14px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
 .status2-detail-section {
     border: 1px solid lightgray;
     background: white;

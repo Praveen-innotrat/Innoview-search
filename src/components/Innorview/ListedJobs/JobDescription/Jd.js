@@ -44,6 +44,7 @@ function Jd() {
       <div className="status2-detail-section">
         <div className="jd-header-section">
           <Button
+            className="jd-buttons"
             onClick={() => {
               nav(-1);
             }}
@@ -93,6 +94,7 @@ function Jd() {
         <div className="status-list">
           <div className="status-one-details">Current status</div>
           <Button
+            className="jd-buttons"
             onClick={() => {
               handleApply();
             }}

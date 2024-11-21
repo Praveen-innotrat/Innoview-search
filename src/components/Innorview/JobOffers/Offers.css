@@ -8,6 +8,10 @@
     background: #ececff;
     width: 100%;
 }
+.back-btn-inno{
+   display: flex;
+   justify-content: flex-start;
+}
 .offers-container{
     height: 100%;
     margin: 25px;

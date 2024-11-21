@@ -95,6 +95,11 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
     <div className="interview-details">
       <Header />
       <div className="heading-container">
+        <div className="back-btn-inno">
+          <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+            BACK
+          </Button>
+        </div>
         <h1>Interview Details</h1>
         <Button
           variant="outlined"

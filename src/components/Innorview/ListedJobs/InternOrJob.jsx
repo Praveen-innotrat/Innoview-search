@@ -2,8 +2,8 @@ import React from "react";
 import "./Jobs.css";
 import Intern from "./Assets/intern.svg";
 import Job from "./Assets/job.svg";
-
 import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 function InternOrJob() {
   const nav = useNavigate();
   return (
@@ -29,6 +29,11 @@ function InternOrJob() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="back-btn-inno">
+        <Button sx={{ fontSize: "1.5rem" }} onClick={() => nav(-1)}>
+          BACK
+        </Button>
       </div>
     </>
   );

@@ -111,7 +111,7 @@ const Jobs = () => {
       <Header />
       <div className="jobs-container">
         <>
-          <JobPageHeader />
+          {/* <JobPageHeader /> */}
           <Typography
             variant="h3"
             color="#18304B"

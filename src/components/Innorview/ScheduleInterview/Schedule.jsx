@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import API_URLS from "../../../config";
+import { Button } from "@mui/material";
 
 const Schedule = ({ interviews, setInterviews }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -174,10 +175,11 @@ const Schedule = ({ interviews, setInterviews }) => {
           {isLoggedIn ? (
             <div className="container-schedule-interview">
               <h4 style={{ textAlign: "center" }}>Interview Scheduler</h4>
-              <label>
-                Email(Optional)
+              <div className="label-for-email">
+                <label>Email(Optional)</label>
                 <input
                   type="email"
+                  className="email-input"
                   onChange={handleEmailChange}
                   style={{
                     border:
@@ -189,7 +191,7 @@ const Schedule = ({ interviews, setInterviews }) => {
                 {formSubmitted && emailError && (
                   <span className="error-message">{emailError}</span>
                 )}
-              </label>
+              </div>
               <label>
                 Select Date<span className="required">*</span>
                 <input
@@ -230,6 +232,7 @@ const Schedule = ({ interviews, setInterviews }) => {
                 <input
                   type="file"
                   required
+                  className="input-file-type"
                   onChange={handleResumeFileChange}
                   accept=".pdf, .doc, .docx"
                   style={{
@@ -265,6 +268,11 @@ const Schedule = ({ interviews, setInterviews }) => {
             <p>Please log in to schedule an interview.</p>
           )}
         </div>
+      </div>
+      <div className="back-btn-inno">
+        <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+          BACK
+        </Button>
       </div>
     </div>
   );

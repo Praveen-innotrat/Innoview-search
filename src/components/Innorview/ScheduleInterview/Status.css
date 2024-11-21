@@ -1,3 +1,13 @@
 .question-tab{
     padding: 10px 0px;
 }
+
+.status-header-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.download-pdf{
+    font-size: 16px;
+    cursor: pointer;
+}

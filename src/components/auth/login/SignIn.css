@@ -1,0 +1,40 @@
+.login-image{
+    width: 100%;
+}
+.login-container-tab{
+    display: flex;
+    /* font-size: 16px; */
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid lightgray;
+    background: white;
+    border-radius: 16px;
+}
+.login-image-wrapper{
+    width: 50%;
+}
+.signup-indicator{
+font-size: 14px;
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-button-inno{
+    width: fit-content;
+    font-size: 14px;
+}
+.signup-button{
+    width: fit-content;
+}
+.form-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0px;
+}
+.login-innoview-wrapper{
+    width: 50%;
+}

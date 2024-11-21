@@ -32,7 +32,7 @@ import Swal from "sweetalert2";
 export default function AsyncInterview() {
   const [meeting, initMeeting] = useDyteClient();
   const { id } = useParams();
-  console.log(id, "auth id");
+  console.log(id, "auth_id");
   useEffect(() => {
     const authToken = id;
 
@@ -51,8 +51,14 @@ export default function AsyncInterview() {
   }, []);
 
   useEffect(() => {
-    console.log({ initMeeting });
-  }, [initMeeting]);
+    // console.log({ initMeeting });
+    console.log(meeting, "meeting");
+    if (!meeting) {
+      return;
+    }
+    meeting.join();
+    window.meeting = meeting;
+  }, [meeting]);
 
   return (
     <>
@@ -93,17 +99,16 @@ function Interview() {
     "https://res.cloudinary.com/dpfcfb009/video/upload/v1725512137/gapVideo_niuxd1.mp4";
 
   const { meeting } = useDyteMeeting();
-
-  console.log(gapFillerVideo, "gapfiller");
   const mobile_number = Cookies.get("mobile_number");
 
   const interviewId = localStorage.getItem("interviewId");
 
-  console.log(interviewId, "meeting id");
+  // console.log(interviewId, "meeting id");673efbaba91cc4b83ad7424e
 
   useEffect(() => {
     meeting.recording.start();
   }, []);
+
   useEffect(() => {
     const get = async () => {
       try {
@@ -120,28 +125,6 @@ function Interview() {
           navigate("/interview-details");
           window.location.reload();
         }
-        // await meeting.recording.start();
-
-        // const getRandomElement = (array) =>
-        //   array[Math.floor(Math.random() * array.length)];
-
-        // const getUniqueRandomValues = (values, num) => {
-        //   // Shuffle the values array
-        //   const shuffled = values.sort(() => 0.5 - Math.random());
-
-        //   // Return the first 'num' unique values
-        //   return shuffled.slice(0, num);
-        // };
-
-        // const values = Object.values(response.data.QuestionText).flat();
-        // console.log(values, "values");
-        // // Get 5 unique random values
-        // const randomValues = getUniqueRandomValues(values, 5);
-        // // const randomValues = Object.values(response.data. QuestionText).map(getRandomElement);
-        // console.log(randomValues);
-
-        // setVideo(randomValues);
-        // console.log(video);
 
         const excludeValues = new Set([499, 386, 387]);
         const excludeRanges = [
@@ -226,11 +209,39 @@ function Interview() {
   }, [interviewId]);
 
   useEffect(() => {
+    // Initialize the socket connection
+    socket.current = io(`${API_URLS.InnoviewBaseUrl}`); // Adjust the URL if needed
+
+    // Listen for browser navigation (back/forward)
+    const handleNavigation = async () => {
+      if (socket.current) {
+        socket.current.disconnect();
+        stopMeeting();
+      }
+    };
+
+    // Listen to `popstate` (browser back/forward)
+    window.addEventListener("popstate", handleNavigation);
+
+    // Listen to `beforeunload` (page refresh or close)
+    window.addEventListener("beforeunload", handleNavigation);
+
+    // Cleanup on component unmount
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+        console.log("Socket disconnected on unmount");
+      }
+      window.removeEventListener("popstate", handleNavigation);
+      window.removeEventListener("beforeunload", handleNavigation);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         // Tab is switched (hidden)
         setTabSwitchCount((prevCount) => prevCount + 1);
-        console.log(tabSwitchCount, "count of tab swirching");
 
         Swal.fire({
           title: "Warning!",
@@ -245,6 +256,8 @@ function Interview() {
     };
     if (tabSwitchCount > 1) {
       navigate("/interview-details");
+      // socket.current.disconnect();
+
       window.location.reload();
     }
 
@@ -385,7 +398,7 @@ function Interview() {
       data,
       headers
     );
-    console.log(response.data);
+    // console.log(response.data);
 
     if (note) {
       setSavedNotes((prevNotes) => [...prevNotes, note]);
@@ -430,6 +443,7 @@ function Interview() {
   const handleVideoEnded = () => {
     startAnsweringTime();
   };
+
   const stopMeeting = () => {
     if (meeting && meeting.self) {
       // Stop audio and video tracks
@@ -468,7 +482,7 @@ function Interview() {
     console.log(response.data);
     meeting.self.disableVideo();
     meeting.self.disableAudio();
-    // await meeting.recording.stop();
+    meeting.recording.stop();
     // const authToken = id;
 
     const handleBeforeUnload = (event) => {
@@ -591,44 +605,6 @@ function Interview() {
               </div>
             </main>
           </>
-
-          <div className="container">
-            {/* <div className="box">
-              <p>{note}</p>
-            </div> */}
-            {/* <div className="box">
-              <h2>Your answers are recording </h2>
-              {savedNotes.map((n, index) => (
-                <p key={index}>
-                  {index + 1} : {n}
-                </p>
-              ))}
-            </div> */}
-          </div>
-          {/* 
-          <div className="card-container">
-            <div
-              className={`card ${active ? "active" : ""}`}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                width: "100px",
-                height: "100px",
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                position: "relative",
-              }}
-            >
-              <p>
-                {active
-                  ? "Page Activated"
-                  : "Please keep your mouse on the box to activate the page."}
-              </p>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

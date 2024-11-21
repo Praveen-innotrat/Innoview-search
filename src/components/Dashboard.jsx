@@ -15,6 +15,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { Button } from "@mui/material";
 
 // Styled component for the Grid container
 const StyledGrid = styled(Grid)(({ theme }) => ({
@@ -87,17 +88,16 @@ const Dashboard = () => {
 
   return (
     <div>
-      <StyledGrid
-        container
-        // spacing={0.5} // Reduce the gap between grid items to 0
-        // justifyContent="space-between"
-      >
+      <div className="dash-board-tab">
         {/* <Navbar /> */}
-
         <Header />
-        {/* <div className="flex w-[441px] flex-wrap mt-[70x]   justify-start items-center h-[100vh]"> */}
-        <div className="h-[100vh] flex flex-wrap justify-center">
-          <div className="sm:flex-col items-center justify-center">
+        <div className="back-btn-inno">
+          <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+            BACK
+          </Button>
+        </div>{" "}
+        <div className="h-[50vh] flex items-center justify-center">
+          <div className="dashboard-wrapper">
             <StyledGridItem
               className="hover:scale-95 duration-500 ease-in-out cursor-pointer"
               onClick={nav}
@@ -115,7 +115,7 @@ const Dashboard = () => {
             </StyledGridItem>
           </div>
         </div>
-      </StyledGrid>
+      </div>
       {/* Add the Footer component below the grid */}
       <></>
       {/* <Footer /> */}

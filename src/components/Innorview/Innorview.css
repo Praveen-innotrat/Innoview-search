@@ -4,12 +4,11 @@
     justify-content: center;
     flex-direction: column;
     /* height: 100vh; */
-    height:auto;
+    height:68vh;
     background: hsl(240, 100%, 96%);
     width: 100%;
 }
 .innorview{
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

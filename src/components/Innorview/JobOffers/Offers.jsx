@@ -2,6 +2,17 @@ import React from "react";
 import Header from "../../Header/Header";
 import "./Offers.css";
 import { useNavigate } from "react-router";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Button,
+} from "@mui/material";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import PriceCard from "./PriceCard";
 
@@ -89,59 +100,93 @@ const Offers = () => {
   return (
     <div className="offers">
       <Header />
+      <div className="back-btn-inno">
+        <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+          BACK
+        </Button>
+      </div>
       <div className="offers-container">
         <h1>Job Offers</h1>
-        <table className="job-offer-wrapper" style={{ width: "70%" }}>
-          <thead>
-            <tr className="offer-table-row">
-              <th>Interview ID</th>
-              <th>Offer Status</th>
-              <th>Download Offer Letter</th>
-              <th>My Response</th>
-            </tr>
-          </thead>
-          <tbody>
-            {offers.map((interview) => (
-              <tr>
-                <td className="job-offer-table-body">
-                  {interview.interviewId}
-                </td>
-                <td className="job-offer-table-body">
-                  {interview.OfferStatus[2]}
-                </td>
-
-                <td
-                  className="job-offer-table-body"
-                  onClick={handleStatus}
-                  style={{ cursor: "pointer" }}
+        <TableContainer
+          component={Paper}
+          sx={{
+            width: "70%",
+            margin: "auto", // Centers the table
+            mt: 4, // Adds margin at the top
+          }}
+        >
+          <Table
+            sx={{
+              "& .MuiTableCell-root": {
+                fontSize: "14px", // Font size for all cells
+              },
+            }}
+            aria-label="job offers table"
+          >
+            <TableHead>
+              <TableRow
+                sx={{
+                  backgroundColor: "#3f51b5", // Header background color
+                }}
+              >
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
                 >
-                  <span className="">
-                    <FolderCopyIcon
-                      sx={{
-                        fontSize: 30,
-                        color: "white",
-                        marginRight: "10px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </span>
-                </td>
-
-                {/* {status && <Status close={handleClose} />} */}
-
-                <td
-                  className="job-offer-table-body"
-                  style={{
-                    cursor: "pointer",
-                    color: interview.myResponse == "Accepted" ? "Green" : "Red",
-                  }}
+                  Interview ID
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
                 >
-                  {interview.myResponse}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  Offer Status
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                >
+                  Download Offer Letter
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                >
+                  My Response
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {offers.map((interview, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{interview.interviewId}</TableCell>
+                  <TableCell align="center">
+                    {interview.OfferStatus[2]}
+                  </TableCell>
+                  <TableCell align="center">
+                    <IconButton onClick={handleStatus}>
+                      <FolderCopyIcon
+                        sx={{
+                          fontSize: 30,
+                          color: "black",
+                        }}
+                      />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      cursor: "pointer",
+                      color:
+                        interview.myResponse === "Accepted" ? "green" : "red",
+                    }}
+                  >
+                    {interview.myResponse}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       <div className="price-card">
         <PriceCard />

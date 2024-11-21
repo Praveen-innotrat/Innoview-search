@@ -202,7 +202,7 @@ const JobCard = ({ job }) => {
             </div>
             <div className="duration">{job.stipend}</div>
           </div>
-          <Link to={job["Data-Href"]} target="_blank">
+          <Link to={job["data_href"]} target="_blank">
             <Button
               sx={{
                 color: "grey",

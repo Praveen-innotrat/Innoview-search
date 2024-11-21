@@ -28,6 +28,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
+import Login from "../../../assets/Logins/login.svg";
+import "./SignIn.css";
 
 const SectionContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -251,144 +253,126 @@ export default function SignInSide() {
   };
 
   return (
-    <SectionContainer>
-      <Grid container component="main">
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
+    <div className="login-container-tab">
+      <div className="login-image-wrapper">
+        <img className="login-image" src={Login} alt="login-image" />
+      </div>
+      <div className="login-innoview-wrapper">
+        <Box
           sx={{
-            backgroundImage: "url(/images/login/login.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            my: 8,
+            mx: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-              <LockOutlinedIcon
-                sx={{
-                  color: "white",
-                }}
-              />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Login
-            </Typography>
-            <Box component="form" sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                select
+        >
+          <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            <LockOutlinedIcon
+              sx={{
+                color: "white",
+              }}
+            />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <Box component="form" sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              select
+              required
+              fullWidth
+              name="countryCode"
+              label="Country Code"
+              value={countryCode}
+              onChange={(e) => setCountryCode(e.target.value)}
+            >
+              <MenuItem value="+91">+91 (India)</MenuItem>
+              <MenuItem value="+1">+1 (USA)</MenuItem>
+              {/* Add more country codes as needed */}
+            </TextField>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="phone number"
+              label="Phone Number"
+              id="phone number"
+              type="text"
+              value={phone}
+              onChange={(e) => {
+                handlePhoneChange(e);
+              }}
+            />
+            <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+              <InputLabel htmlFor="password">Password *</InputLabel>
+              <OutlinedInput
+                id="password"
                 required
-                fullWidth
-                name="countryCode"
-                label="Country Code"
-                value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
-              >
-                <MenuItem value="+91">+91 (India)</MenuItem>
-                <MenuItem value="+1">+1 (USA)</MenuItem>
-                {/* Add more country codes as needed */}
-              </TextField>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="phone number"
-                label="Phone Number"
-                id="phone number"
-                type="text"
-                value={phone}
-                onChange={(e) => {
-                  handlePhoneChange(e);
-                }}
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
               />
-              <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
-                <InputLabel htmlFor="password">Password *</InputLabel>
-                <OutlinedInput
-                  id="password"
-                  required
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                />
-              </FormControl>
-              {/* <Typography
-                variant="body2"
-                textAlign="center"
-                mt={2}
-                sx={{ color: "#757575" }}
-              >
-                {message}
-              </Typography> */}
-              {/* <Button
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={submitLogin}
-              >
-                Login
-              </Button> */}
-              <LoadingButton
-                size="large"
+            </FormControl>
+            <div className="form-wrapper">
+              <div>
+                <Link
+                  href="/reset-password"
+                  variant="body2"
+                  style={{ fontSize: "14px" }}
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <div>
+                <span className="signup-indicator">Don't have an account?</span>
+                <Link
+                  href="/sign-up"
+                  variant="body2"
+                  style={{ fontSize: "14px" }}
+                >
+                  {" Sign Up"}
+                </Link>
+              </div>
+            </div>
+            <div className="button-container">
+              <Button
+                className="login-button-inno"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={submitLogin}
                 loading={loading}
                 loadingPosition="center"
                 variant="contained"
-                fullWidth
                 disabled={loading}
               >
-                <span> Login</span>
-              </LoadingButton>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                    href="/reset-password"
-                    variant="body2"
-                    style={{ fontSize: "1.1rem" }}
-                  >
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link
-                    href="/sign-up"
-                    variant="body2"
-                    style={{ fontSize: "1.1rem" }}
-                  >
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
+                Login
+              </Button>
+              <div className="back-btn-inno">
+                <Button
+                  sx={{ fontSize: "1.5rem" }}
+                  onClick={() => navigate(-1)}
+                >
+                  BACK
+                </Button>
+              </div>
+            </div>
           </Box>
-        </Grid>
-      </Grid>
-    </SectionContainer>
+        </Box>
+      </div>
+    </div>
   );
 }

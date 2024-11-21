@@ -30,8 +30,7 @@ import { MessageContext } from "../context/MessageContext";
 import Cookies from "js-cookie";
 
 export default function Innorview() {
-
-  const {menu, setMenu} = useContext(MessageContext);
+  const { menu, setMenu } = useContext(MessageContext);
 
   const navigate = useNavigate();
 
@@ -89,34 +88,34 @@ export default function Innorview() {
   };
 
   const schedule = () => {
-    
-if (profession === "common") {
-  toast.error(<p style={{width:"500px"}}>"You have to update your profile"</p>, {position: "top-center", setTimeout: 5, length:5})
-  setMenu(true)
-} else {
-  navigate("/interview-details")
-}
-  }
+    if (profession === "common") {
+      toast.error(
+        <p style={{ width: "500px" }}>"You have to update your profile"</p>,
+        { position: "top-center", setTimeout: 5, length: 5 }
+      );
+      setMenu(true);
+    } else {
+      navigate("/interview-details");
+    }
+  };
   return (
     <div className="innorview-container">
       <Header />
 
       <div className="innorview">
         <div className="innorview-card-container">
-          <div
-            className="innorview-card"
-            onClick={schedule}
-          >
+          <div className="innorview-card" onClick={schedule}>
             <PunchClockIcon sx={{ fontSize: 40 }} />
             <span>Scheduled Interviews</span>
           </div>
+
           <div
             className="innorview-card"
             // onClick={() => {
             //   profession === "normal" ? navigate("/innorview/joboffer") : handleOpenModal();
             // }}
 
-             onClick={() =>  navigate("/innorview/joboffer") }
+            onClick={() => navigate("/innorview/joboffer")}
           >
             <LocalOfferIcon sx={{ fontSize: 40 }} />
             <span>My Account</span>
@@ -136,12 +135,18 @@ if (profession === "common") {
             //   profession === "normal" ? navigate("/innorview/applications") : handleOpenModal();
             // }}
 
-               onClick={() => navigate("/innorview/applications") }
+            onClick={() => navigate("/innorview/applications")}
           >
             <WebAssetIcon sx={{ fontSize: 40 }} />
             <span>Applications Status</span>
           </div>
         </div>
+      </div>
+
+      <div className="back-btn-inno">
+        <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+          BACK
+        </Button>
       </div>
 
       <Modal open={isModalOpen} onClose={handleCloseModal}>
@@ -242,9 +247,8 @@ if (profession === "common") {
 }
 
 function Fresher({ close }) {
-
   const [open, setOpen] = useState(false);
-  
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -260,8 +264,8 @@ function Fresher({ close }) {
     phone: yup.number().required(),
     dateOfBirth: yup.number().required(),
     email: yup.string().required().email(),
-    qualification: yup.string().required(), 
-    department: yup.string().required()
+    qualification: yup.string().required(),
+    department: yup.string().required(),
   });
 
   const formik = useFormik({
@@ -296,7 +300,7 @@ function Fresher({ close }) {
       >
         <div className="d-flex w-100 justify-content-between gap-6 experience-sub-container1">
           <TextField
-          className="w-100"
+            className="w-100"
             id="outlined-basic"
             label="First Name"
             variant="outlined"
@@ -313,7 +317,7 @@ function Fresher({ close }) {
             }
           />
 
-          <TextField      
+          <TextField
             className="w-100"
             id="outlined-basic"
             label="Last Name"
@@ -333,11 +337,8 @@ function Fresher({ close }) {
         </div>
 
         <div className="d-flex w-100 justify-content-between gap-6 experience-sub-container2">
-
-       
-
           <TextField
-             className="w-100"
+            className="w-100"
             id="outlined-basic"
             label="Date of birth"
             type="date"
@@ -356,7 +357,7 @@ function Fresher({ close }) {
           />
 
           <TextField
-             className="w-100"
+            className="w-100"
             id="outlined-basic"
             label="Phone Number"
             variant="outlined"

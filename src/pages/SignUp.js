@@ -7,14 +7,14 @@ import Header from "../components/Header/Header";
 
 const Signup = () => {
   return (
-    <React.Fragment>
+    <div className="login-container">
       {/* <Navbar /> */}
-      <Header/>
+      <Header />
       <InnotratContainer>
         <SignUpSide />
       </InnotratContainer>
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };
 
