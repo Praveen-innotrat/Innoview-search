@@ -40,7 +40,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         `${API_URLS.InnoviewBaseUrl}/api/meetings/schedule`,
         headers
       );
-      setInterviewData(response.data);
+      setInterviewData(response.data.reverse());
     } catch (error) {
       console.error("Error fetching interview data:", error);
     }
@@ -70,6 +70,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
 
       if (response.data.success) {
         navigate(`/interview/${response.data.token}`);
+        // navigate(`/mic-checking`);
       } else {
         toast.warning(response.data.message || "An error occurred");
       }
@@ -111,10 +112,24 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         </Button>
       </div>
 
-      <TableContainer className="table-container">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer
+        className="table-container"
+        sx={{
+          borderRadius: "8px", // Optional rounded corners
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow
+          overflow: "scroll", // To handle border radius for scrollable tables
+        }}
+      >
+        <Table
+          sx={{
+            backgroundColor: "#f9f9f9", // Light background color for the table
+          }}
+          aria-label="styled table"
+        >
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ backgroundColor: "#1976d2" }}>
+              {" "}
+              {/* Header background color */}
               {[
                 "Interview ID",
                 "Job ID",
@@ -127,9 +142,14 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
               ].map((heading) => (
                 <TableCell
                   key={heading}
-                  sx={{ fontSize: "14px", textAlign: "center" }} // Set text to 14px and center-align
+                  sx={{
+                    fontSize: "14px",
+                    textAlign: "center",
+                    color: "#fff", // White text color for header
+                    fontWeight: "bold", // Bold text
+                  }}
                 >
-                  <b>{heading}</b>
+                  {heading}
                 </TableCell>
               ))}
             </TableRow>
@@ -137,7 +157,15 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
           <TableBody>
             {interviewData.length > 0 ? (
               interviewData.map((interview, i) => (
-                <TableRow key={i}>
+                <TableRow
+                  key={i}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#f1f1f1", // Row hover effect
+                      cursor: "pointer", // Pointer on hover
+                    },
+                  }}
+                >
                   <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
                     {i + 1}
                   </TableCell>

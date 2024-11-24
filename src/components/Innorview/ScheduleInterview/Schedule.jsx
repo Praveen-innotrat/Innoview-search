@@ -252,6 +252,9 @@ const Schedule = ({ interviews, setInterviews }) => {
                   onClick={scheduleInterview}
                   disabled={loading || (formSubmitted && !isFormValid)}
                   className="schedule-button"
+                  style={{
+                    color: loading ? "white" : "",
+                  }}
                 >
                   {loading ? (
                     <>

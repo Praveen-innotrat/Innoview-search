@@ -79,21 +79,30 @@ mic.lang = "en-IN";
 
 function Interview() {
   const socket = useRef(null);
+  const socketRef = useRef(null);
+  const timeoutRef = useRef(null); // To hold the debounce timer
   const navigate = useNavigate();
   const [video, setVideo] = useState([]);
   const [videoLink, setVideoLink] = useState({ width: "50%", height: "auto" });
   const [mute, setMute] = useState(true);
+
   const [isListening, setIsListening] = useState(false);
+  const [isListeningSocket, setIsListeningSocket] = useState(false);
   const [note, setNote] = useState(null);
+  const [noteSocket, setNoteSocket] = useState(null);
   const [questionId, setQuestionId] = useState();
   const [savedNotes, setSavedNotes] = useState([]);
   const [timer, setTimer] = useState(0);
   const [count, setcount] = useState(0);
   const [isAnsweringTime, setIsAnsweringTime] = useState(false);
   const timerRef = useRef(null);
+  const intervalRef = useRef(null); // Interval reference for periodic updates
+  const isSilentRef = useRef(true); // Tracks whether the user is silent
+  let audioContext, stream;
   const [active, setActive] = useState(false);
   const { id } = useParams();
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
+  console.log(isListeningSocket, noteSocket, "note");
 
   const gapFillerVideo =
     "https://res.cloudinary.com/dpfcfb009/video/upload/v1725512137/gapVideo_niuxd1.mp4";
@@ -109,6 +118,84 @@ function Interview() {
     meeting.recording.start();
   }, []);
 
+  // useEffect(() => {
+  //   if (isListeningSocket) {
+  //     // Assuming noteSocket contains an array of objects like:
+  //     // [{ word: "hello", timestamp: "2024-11-24T10:51:12.002Z" }, ...]
+
+  //     const sendDataToServer = () => {
+  //       const socket = new WebSocket("ws://localhost:8765");
+
+  //       socket.onopen = () => {
+  //         console.log("Connected to WebSocket server.");
+  //         if (noteSocket) {
+  //           const message = JSON.stringify(noteSocket); // Properly stringify the array of objects
+  //           socket.send(message); // Send the message as a string
+  //           console.log("Message sent:", message);
+  //         }
+  //         setNoteSocket(null); // Clear the noteSocket after sending
+  //       };
+
+  //       socket.onmessage = (event) => {
+  //         console.log("Message from server:", event.data);
+  //       };
+
+  //       socket.onerror = (error) => {
+  //         console.error("WebSocket Error:", error);
+  //       };
+
+  //       socket.onclose = () => {
+  //         console.log("WebSocket connection closed.");
+  //       };
+  //     };
+  //   }
+  // });
+  useEffect(() => {
+    let intervalId;
+
+    if (isListeningSocket) {
+      // Function to send data to the WebSocket server
+      const sendDataToServer = () => {
+        if (!noteSocket || noteSocket.length === 0) {
+          console.log("No data to send.");
+          return; // Do nothing if there's no data
+        }
+
+        const socket = new WebSocket("ws://localhost:8765");
+
+        socket.onopen = () => {
+          console.log("Connected to WebSocket server.");
+          const message = JSON.stringify(noteSocket); // Properly stringify the array of objects
+          socket.send(message); // Send the message as a string
+          console.log("Message sent:", message);
+        };
+
+        socket.onmessage = (event) => {
+          console.log("Message from server:", event.data);
+        };
+
+        socket.onerror = (error) => {
+          console.error("WebSocket Error:", error);
+        };
+
+        socket.onclose = () => {
+          console.log("WebSocket connection closed.");
+        };
+      };
+
+      // Set an interval to send data every 1 second (1000ms)
+      intervalId = setInterval(() => {
+        sendDataToServer();
+      }, 1000);
+    } else {
+      // Clear the interval when `isListeningSocket` becomes false
+      clearInterval(intervalId);
+    }
+
+    // Cleanup function to clear the interval when the component unmounts or when `isListeningSocket` changes
+    return () => clearInterval(intervalId);
+  }, [isListeningSocket, noteSocket]); // Dependency array ensures effect runs when `isListeningSocket` or `noteSocket` changes
+
   useEffect(() => {
     const get = async () => {
       try {
@@ -119,7 +206,7 @@ function Interview() {
           headers
         );
 
-        console.log(response.data);
+        // console.log(response.data);
 
         if (response.data.attended || !response.data.token) {
           navigate("/interview-details");
@@ -191,17 +278,17 @@ function Interview() {
           endVideo,
         ];
 
-        console.log(videoArray); // Output array with introVideo, random values, and endVideo
+        // console.log(videoArray); // Output array with introVideo, random values, and endVideo
 
         // Save the values to the video state
         setVideo(videoArray);
-        console.log(video);
+        // console.log(video);
       } catch (error) {
         // Show an error toast message if something goes wrong
         toast.error("Failed to retrieve random values. Please try again.", {
           autoClose: 5000,
         });
-        console.error(error);
+        // console.error(error);
       }
     };
 
@@ -230,7 +317,7 @@ function Interview() {
     return () => {
       if (socket.current) {
         socket.current.disconnect();
-        console.log("Socket disconnected on unmount");
+        // console.log("Socket disconnected on unmount");
       }
       window.removeEventListener("popstate", handleNavigation);
       window.removeEventListener("beforeunload", handleNavigation);
@@ -251,10 +338,10 @@ function Interview() {
           allowOutsideClick: false,
         });
       } else {
-        console.log("Tab is visible again");
+        // console.log("Tab is visible again");
       }
     };
-    if (tabSwitchCount > 1) {
+    if (tabSwitchCount > 3) {
       navigate("/interview-details");
       // socket.current.disconnect();
 
@@ -262,7 +349,7 @@ function Interview() {
     }
 
     const handleBeforeUnload = (event) => {
-      console.log("sxdcfgvhujikoljh");
+      // console.log("sxdcfgvhujikoljh");
       const message =
         "You have unsaved changes. Are you sure you want to leave?";
       event.preventDefault(); // Standard for modern browsers
@@ -285,11 +372,11 @@ function Interview() {
   }, [isListening]);
 
   useEffect(() => {
-    console.log("chk the video is null ");
+    // console.log("chk the video is null ");
 
     const v = async () => {
       if (count == 8 && timer == 0) {
-        console.log("no videos", count);
+        // console.log("no videos", count);
 
         await setSavedNotes((prevNotes) => [...prevNotes, note]);
 
@@ -330,22 +417,114 @@ function Interview() {
     };
   }, [video]);
 
+  // // Create the WebSocket connection once
+  // useEffect(() => {
+  //   const socket = new WebSocket("ws://localhost:8765");
+
+  //   socket.onopen = () => {
+  //     console.log("WebSocket connected.");
+  //   };
+
+  //   socket.onmessage = (event) => {
+  //     console.log("Server message:", event.data);
+  //   };
+
+  //   socket.onerror = (error) => {
+  //     console.error("WebSocket error:", error);
+  //   };
+
+  //   socket.onclose = () => {
+  //     console.log("WebSocket connection closed.");
+  //   };
+
+  //   // Store the socket reference
+  //   socketRef.current = socket;
+
+  //   return () => {
+  //     // Cleanup on unmount
+  //     if (socket) socket.close();
+  //   };
+  // }, []); // Run once when the component mounts
+
+  // // Function to send data through the persistent WebSocket
+  // const sendDataToServer = () => {
+  //   if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+  //     if (noteSocket) {
+  //       socketRef.current.send(noteSocket);
+  //       console.log("Message sent:", noteSocket);
+  //       setNoteSocket(null); // Clear the noteSocket after sending
+  //     }
+  //   } else {
+  //     console.error("WebSocket not open.");
+  //   }
+  // };
+
+  // Trigger data sending based on isListeningSocket
+  // useEffect(() => {
+  //   if (isListeningSocket) {
+  //     const intervalId = setInterval(() => {
+  //       sendDataToServer();
+  //     }, 1000); // Call every second
+
+  //     return () => clearInterval(intervalId); // Cleanup the interval
+  //   }
+  // }, [isListeningSocket]); // Dependency on isListeningSocket
+
+  // Function to start answering timer and manage state updates
+  const startAnsweringTime = () => {
+    setIsAnsweringTime(true, () => {
+      setSavedNotes((prevNotes) => [...prevNotes, note]); // Save the current note
+      setNote(""); // Reset the input note
+      setNoteSocket(null);
+    });
+
+    // Activate listening states
+    setIsListening(true);
+    setIsListeningSocket(true);
+    setMute(false);
+    setTimer(60); // Initialize the timer to 60 seconds
+
+    const updatedCount = count + 1;
+    setcount(updatedCount);
+
+    // Timer logic
+    timerRef.current = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 1) {
+          clearInterval(timerRef.current); // Stop the timer
+          setIsListening(false); // End listening
+          setIsListeningSocket(false);
+
+          // Emit a request for the next video link based on the updated count
+          const requestVideoLink = (key) => {
+            if (socket.current) {
+              socket.current.emit("requestVideo", key);
+            }
+          };
+
+          requestVideoLink(video[updatedCount]); // Request the next video
+          return 0; // Ensure timer stops at 0
+        }
+        return prevTimer - 1; // Decrement timer
+      });
+    }, 1000); // Update every second
+  };
+
   const handleListen = () => {
     if (isListening) {
       mic.start();
       mic.onend = () => {
-        // console.log("continue..");
         mic.start();
       };
     } else {
       mic.stop();
       mic.onend = () => {
         handleSaveNote();
-        // console.log("Stopped Mic on Click");
       };
     }
+
     mic.onstart = () => {
-      // console.log("Mics on");
+      console.log("Microphone started");
     };
 
     mic.onresult = (event) => {
@@ -353,26 +532,41 @@ function Interview() {
         .map((result) => result[0])
         .map((result) => result.transcript)
         .join("");
-      console.log(transcript);
+
+      // For plain transcript without timestamps
       setNote(transcript);
+
+      // For transcript with timer value for each word
+      const wordsWithTimer = transcript.split(" ").map((word, index) => {
+        return {
+          word,
+          timerValue: timer - index, // Dynamically adjust timer for each word
+        };
+      });
+      setNoteSocket(wordsWithTimer);
+
       mic.onerror = (event) => {
-        console.log(event.error);
+        console.error(event.error);
       };
     };
   };
 
+  // ws://localhost:8765
+
   const handleSaveNote = async () => {
     setQuestionId(video[count]);
+    // sendDataToServer();
+
     var data1 = {
       question_id: questionId,
     };
-    console.log(data1);
+    // console.log(data1);
 
     const getdata = await axios.post(
       "https://api2.innotrat.in/api/question",
       data1
     );
-    console.log(getdata.data);
+    // console.log(getdata.data);
 
     var data = {
       user_response: note,
@@ -383,8 +577,7 @@ function Interview() {
       "https://api2.innotrat.in/api/evaluate",
       data
     );
-    console.log(get1.data);
-
+    // console.log(get1.data);
     var data = {
       question_id: questionId,
       question_text: getdata.data.question_text,
@@ -403,41 +596,8 @@ function Interview() {
     if (note) {
       setSavedNotes((prevNotes) => [...prevNotes, note]);
       setNote("");
+      setNoteSocket(null);
     }
-  };
-
-  const startAnsweringTime = () => {
-    setIsAnsweringTime(true, () => {
-      setSavedNotes([...savedNotes, note]);
-      setNote("");
-    });
-    setIsListening(true);
-    setMute(false);
-    setTimer(60);
-
-    var c = count;
-    setcount(c + 1);
-    console.log(count);
-
-    timerRef.current = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer <= 1) {
-          clearInterval(timerRef.current);
-          setIsListening(false);
-          // socket.current.emit(video[count]);
-          console.log(count, "count");
-
-          function requestVideoLink(key) {
-            socket.current.emit("requestVideo", key);
-          }
-          requestVideoLink(video[count + 1]);
-
-          // socket.current.emit(count);
-          return 0;
-        }
-        return prevTimer - 1;
-      });
-    }, 1000);
   };
 
   const handleVideoEnded = () => {
@@ -460,33 +620,33 @@ function Interview() {
     headers: { authorization: `${usertoken}` },
   };
 
-  console.log(interviewId, "interview id");
-  console.log(videoLink, "Video link");
+  // console.log(interviewId, "interview id");
+  // console.log(videoLink, "Video link");
 
   const mediaStreamRef = useRef(null);
 
   const pageBack = async () => {
     // console.log("i m from pageback ");
-    console.log(savedNotes, "savednotes");
+    // console.log(savedNotes, "savednotes");
     const data = {
       interviewId: interviewId,
       answers: savedNotes,
     };
 
-    console.log(data);
+    // console.log(data);
     const response = await axios.post(
       `${API_URLS.InnoviewBaseUrl}/api/interview/answers`,
       data,
       headers
     );
-    console.log(response.data);
+    // console.log(response.data);
     meeting.self.disableVideo();
     meeting.self.disableAudio();
     meeting.recording.stop();
     // const authToken = id;
 
     const handleBeforeUnload = (event) => {
-      console.log("sxdcfgvhujikoljh");
+      // console.log("sxdcfgvhujikoljh");
       const message =
         "You have unsaved changes. Are you sure you want to leave?";
       event.preventDefault(); // Standard for modern browsers
@@ -503,20 +663,19 @@ function Interview() {
     <div className="interview">
       <Header />
 
-      <div className="container-fluid  min-vh-100">
-        <div className="row">
-          {isAnsweringTime && (
-            <div className="timer">
-              <h2>Answer Time Remaining: {timer}s</h2>
-              <CountdownTimer duration={60} />
-            </div>
-          )}
+      <div className="meeting-wrapper">
+        {isAnsweringTime && (
+          <div className="timer">
+            <h2>Answer Time Remaining: {timer}s</h2>
+            <CountdownTimer duration={60} />
+          </div>
+        )}
 
+        <div className="interview-cards-recording">
           <>
             <div
               className="card"
               style={{
-                marginLeft: "10%",
                 width: "500px",
                 height: "280px",
                 top: "130px",
@@ -605,6 +764,11 @@ function Interview() {
               </div>
             </main>
           </>
+        </div>
+
+        <div className="response-wrapper">
+          <div className="title-for-response">Your response Speech to Text</div>
+          <div className="response-ans">{note}</div>
         </div>
       </div>
     </div>

@@ -8,56 +8,18 @@ import Chat from "./pages/Chat";
 import "react-toastify/dist/ReactToastify.css";
 import VerifyOtp from "./pages/VerifyOtp";
 import VerifyResetOtp from "./pages/VerifyResetPassword";
-import Course1 from "./components/services/courses/course1";
-import Course2 from "./components/services/courses/course2";
-import Course3 from "./components/services/courses/course3";
-import Course4 from "./components/services/courses/course4";
-import Cart from "./pages/Cart";
 import { ThemeProvider } from "@emotion/react";
 import TermsAndConditions from "./components/terms/TermsAndConditions";
 import PrivacyPolicy from "./components/terms/PrivacyPolicy";
 import ContactUs from "./components/ContactUs";
 import RefundPolicies from "./components/terms/RefundPolicies";
-import Service from "./components/Services";
-import UserRegistration from "./components/Registration";
-import OrderSection from "./components/OrderSection";
-import Quotation from "./components/Quotation";
-import ProformaInvoice from "./components/Payment";
-import TaxInvoice from "./components/TaxInvoice";
-import Exception from "./components/Exception";
-import LogisticDetails from "./components/LogisticDetails";
-import UserRequirementPage from "./pages/userRequirmentPage";
-import EnquiryForm from "./components/EnquiryForm";
-import OrderDetailsPage from "./pages/OrderId";
-import Dashboard from "./components/Dashboard";
-import SubmitSection from "./components/submitSection";
-import OrderHistory from "./components/OrderHistory";
-// import Footer from "./components/layout-components/superfooter";
-import TransactionDetails from "./pages/Transactions";
-import Admin from "./components/adminDashboard/Admin";
-// import { MessageProvider } from "./components/context/MessageContext";
-// import TopSection from "./components/innomart/TopSection";
 import { ToastContainer } from "react-toastify";
-// import InnobatorService from "./components/innomart/pages/innobator/InnobatorService";
-// import InnoLegalService from "./components/innomart/pages/innoLegal/InnoLegalService";
-// import MechanicalServices from "./components/innomart/pages/innoMechanical/MechanicalServices";
-// import Innodesign from "./components/innomart/pages/innoDesign/Innodesign";
-// import Subscription from "./components/Subscription";
+import Dashboard from "./components/Dashboard";
 import "react-toastify/dist/ReactToastify.css";
-import Elearning from "./components/Elearning/Elearning";
-import Programs from "./components/Programs/Programs";
 import Footer from "./components/Footer/Footer";
-import Program from "./components/Programs/Program";
-import StickyFooter from "./components/layout-components/StickyFooter";
 
 import Subscription from "./components/Subscription";
-import InnoMartHome from "./components/innomart/InnoMartHome";
-import Innobator from "./components/innomart/pages/innoBator/Innobator";
-import InnoDesign from "./components/innomart/pages/innoDesign/InnoDesign";
-import InnoLegal from "./components/innomart/pages/innoLegal/InnoLegal";
-import InnoMechanical from "./components/innomart/pages/innoMechanical/InnoMechanical";
 import { Support } from "./pages/Support/Support";
-import Courses from "./components/Courses/Courses";
 import Innorview from "./components/Innorview/Innorview";
 import Schedule from "./components/Innorview/ScheduleInterview/Schedule";
 import Offers from "./components/Innorview/JobOffers/Offers";
@@ -83,6 +45,7 @@ import InternOrJob from "./components/Innorview/ListedJobs/InternOrJob";
 import PostedJobs from "./components/Innorview/ListedJobs/PostedJobs";
 import PostedInternships from "./components/Innorview/ListedJobs/PostedInternships";
 import Jd from "./components/Innorview/ListedJobs/JobDescription/Jd";
+import VoiceActivityMonitor from "./components/Innorview/ScheduleInterview/MicChecking";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const hasCookies =
@@ -173,17 +136,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/" element={<Home />} />
-          {/* <Route path="/services" element={<Service />} /> */}
-          <Route path="/elearning" element={<Elearning />} />
-          <Route path="/programs/:id" element={<Program />} />
-          <Route path="/programs" element={<Programs />} />
           <Route path="/verifyResetOtp" element={<VerifyResetOtp />} />
-          <Route exact path="/cart" element={<Cart />} />
-          {/* <Route exact path="/course1" element={<Course1 />} />
-          <Route exact path="/course2" element={<Course2 />} />
-          <Route exact path="/course3" element={<Course3 />} />
-          <Route exact path="/course4" element={<Course4 />} /> */}
-          <Route exact path="/course" element={<Courses />} />
           <Route
             path="/terms-and-conditions"
             element={<TermsAndConditions />}
@@ -191,44 +144,12 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/refund-policies" element={<RefundPolicies />} />
-          {/* <Route path="/registration" element={<UserRegistration />} /> */}
-          <Route path="/submit" element={<UserRequirementPage />} />
-          <Route
-            path="/ordersection"
-            element={<PrivateRoute component={OrderSection} />}
-          />
-          <Route path="/orderhistory" element={<OrderHistory />} />
-          <Route path="/vieworder" element={<OrderDetailsPage />} />
-          <Route path="/quotation" element={<Quotation />} />
-          <Route path="/proformainvoice" element={<ProformaInvoice />} />
-          <Route path="/Taxinvoice" element={<TaxInvoice />} />
-          <Route path="/exception" element={<Exception />} />
-          <Route path="/logisticdetails" element={<LogisticDetails />} />
-          <Route path="/enquiryform" element={<EnquiryForm />} />
-          {/* <Route path="/innomart" element={<TopSection />} />
-          <Route path="/innobator" element={<InnobatorService />} />
-          <Route path="/innolegal" element={<InnoLegalService />} />
-          <Route path="/innomechanical" element={<MechanicalServices />} />
-          <Route path="/innodesign" element={<InnoDesign />} /> */}
           <Route path="/chat" element={<Chat />} />
           <Route path="/eureka-portal" element={<EurekaPortal />} />
           <Route path="/innorview" element={<Innorview />} />
           <Route path="/subscription" element={<Subscription />} />
-          <Route path="/innomart" element={<InnoMartHome />} />
-          <Route path="/innobator" element={<Innobator />} />
-          <Route path="/innolegal" element={<InnoLegal />} />
-          <Route path="/innomechanical" element={<InnoMechanical />} />
-          <Route path="/innodesign" element={<InnoDesign />} />
-          {/* <Route
-            path="/dashboard"
-            element={<PrivateRoute component={Dashboard} />}
-          /> */}
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/admin" element={<Admin />} /> */}
-          <Route path="/innofab" element={<SubmitSection />} />
           <Route path="/terms_policies" element={<Footer />} />
-          <Route path="/payment" element={<TransactionDetails />} />
-          <Route path="/registration" element={<UserRegistration />} />
           <Route path="/support" element={<Support />} />
           {/* Innorview */}
           <Route
@@ -261,7 +182,7 @@ function App() {
               />
             }
           />
-
+          <Route path="/mic-checking" element={<VoiceActivityMonitor />} />
           <Route path="/choose-type" element={<JobsType />} />
           <Route path="/from-our-hiringpartners" element={<InternOrJob />} />
           <Route path="/posted-jobs" element={<PostedJobs />} />

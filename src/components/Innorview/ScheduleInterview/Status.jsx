@@ -222,7 +222,9 @@ const Status = ({ close, Interview_id, open }) => {
                         >
                           {i + 1}
                         </TableCell>
-                        <TableCell style={{ fontSize: "1.3rem" }}>
+                        <TableCell
+                          style={{ fontSize: "1.3rem", textAlign: "left" }}
+                        >
                           <div className="question-tab">
                             Q{i + 1} {d["question_text"]}
                           </div>

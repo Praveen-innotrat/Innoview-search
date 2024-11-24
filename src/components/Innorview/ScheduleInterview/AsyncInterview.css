@@ -8,3 +8,20 @@
     background: #ececff;
     width: 100%;
 }
+.interview-cards-recording{
+    display:flex;
+    flex-direction: row;
+    gap: 50px;
+}
+.meeting-wrapper{
+ display: flex;
+ flex-direction: column;
+ gap: 30px;
+ height: 70vh;   
+}
+
+.response-wrapper{
+    position: absolute;
+    top: 22rem;
+    left: 2rem;
+}
