@@ -39,13 +39,12 @@ import AdminMeeting from "./components/Innorview/ScheduleInterview/AdminMeeting"
 import AsyncMeeting from "./components/Innorview/ScheduleInterview/AsyncMeeting";
 import Cookies from "js-cookie";
 import EurekaPortal from "./pages/EurekaPortal";
-
+// import AsyncInterview from "./components/Innorview/ScheduleInterview/AsyncInterview1";
 import JobsType from "./components/Innorview/ListedJobs/JobsType";
 import InternOrJob from "./components/Innorview/ListedJobs/InternOrJob";
 import PostedJobs from "./components/Innorview/ListedJobs/PostedJobs";
 import PostedInternships from "./components/Innorview/ListedJobs/PostedInternships";
 import Jd from "./components/Innorview/ListedJobs/JobDescription/Jd";
-import VoiceActivityMonitor from "./components/Innorview/ScheduleInterview/MicChecking";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const hasCookies =
@@ -182,7 +181,6 @@ function App() {
               />
             }
           />
-          <Route path="/mic-checking" element={<VoiceActivityMonitor />} />
           <Route path="/choose-type" element={<JobsType />} />
           <Route path="/from-our-hiringpartners" element={<InternOrJob />} />
           <Route path="/posted-jobs" element={<PostedJobs />} />
@@ -191,6 +189,8 @@ function App() {
 
           <Route path="/interview" element={<Interview />} />
           <Route path="/interview/:id" element={<AsyncInterview />} />
+          {/* <Route path="/interview/:id" element={<AsyncInterview />} /> */}
+
           <Route path="/interview/async" element={<AsyncMeeting />} />
           <Route path="/interview/meeting" element={<Meeting />} />
           <Route path="/interview/admin" element={<AdminMeeting />} />

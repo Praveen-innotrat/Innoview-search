@@ -31,8 +31,10 @@ import Swal from "sweetalert2";
 
 export default function AsyncInterview() {
   const [meeting, initMeeting] = useDyteClient();
+  const [direction, setDirection] = useState(null); // 0 = Rewind, 1 = Forward
+  const [seconds, setSeconds] = useState(0); // Time to adjust playback
   const { id } = useParams();
-  console.log(id, "auth_id");
+  console.log(id, "auth id");
   useEffect(() => {
     const authToken = id;
 
@@ -51,14 +53,8 @@ export default function AsyncInterview() {
   }, []);
 
   useEffect(() => {
-    // console.log({ initMeeting });
-    // console.log(meeting, "meeting");
-    if (!meeting) {
-      return;
-    }
-    meeting.join();
-    window.meeting = meeting;
-  }, [meeting]);
+    console.log({ initMeeting });
+  }, [initMeeting]);
 
   return (
     <>
@@ -79,15 +75,13 @@ mic.lang = "en-IN";
 
 function Interview() {
   const socket = useRef(null);
+  const videoRef = useRef(null);
   const navigate = useNavigate();
   const [video, setVideo] = useState([]);
   const [videoLink, setVideoLink] = useState({ width: "50%", height: "auto" });
   const [mute, setMute] = useState(true);
-
   const [isListening, setIsListening] = useState(false);
-  const [isListeningSocket, setIsListeningSocket] = useState(false);
   const [note, setNote] = useState(null);
-  const [noteSocket, setNoteSocket] = useState(null);
   const [questionId, setQuestionId] = useState();
   const [savedNotes, setSavedNotes] = useState([]);
   const [timer, setTimer] = useState(0);
@@ -97,97 +91,26 @@ function Interview() {
   const [active, setActive] = useState(false);
   const { id } = useParams();
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
-  // console.log(isListeningSocket, noteSocket, "note");
-  const socketRef = useRef(null); // Use useRef to keep WebSocket persistent
-
-  const [isRepeat, setIsRepeat] = useState(false);
-  console.log(isRepeat, "repeat");
-
-  //Aarthi's changes
-  const videoRef = useRef(null);
   const [customRange, setCustomRange] = useState(null);
   const [isDefaultLoop, setIsDefaultLoop] = useState(false);
-  //
-  console.log(videoLink, "videoLink");
+
+  // const gapFillerVideo =
+  //   "https://res.cloudinary.com/dpfcfb009/video/upload/v1725512137/gapVideo_niuxd1.mp4";
   const gapFillerVideo =
     "https://res.cloudinary.com/dpfcfb009/video/upload/v1732165590/Interviewer_Live_Response_n6rlf0.mp4";
 
   const { meeting } = useDyteMeeting();
+
+  console.log(gapFillerVideo, "gapfiller");
   const mobile_number = Cookies.get("mobile_number");
 
   const interviewId = localStorage.getItem("interviewId");
 
-  // console.log(interviewId, "meeting id");673efbaba91cc4b83ad7424e
+  console.log(interviewId, "meeting id");
 
   useEffect(() => {
     meeting.recording.start();
   }, []);
-
-  //Aarthi's changes
-  useEffect(() => {
-    // Connect to WebSocket server
-    const ws = new WebSocket("ws://localhost:8765");
-
-    ws.onopen = () => {
-      // console.log("Connected to the WebSocket server");
-    };
-
-    // Listen for messages from the WebSocket
-    // console.log("BEfore listen:::");
-    ws.onmessage = ({ data }) => {
-      // console.log("After listen:::");
-      try {
-        // Check if data is valid and parse it
-        if (!data || typeof data !== "string") {
-          console.error("Invalid data received from socket:", data);
-          return;
-        }
-
-        const parsedData = JSON.parse(data); // Parse the JSON string
-        const { start, stop } = parsedData;
-
-        if (start === 29 && stop === 31) {
-          console.log("Setting isRepeat to true");
-          setIsRepeat(true); // Trigger restart
-        }
-
-        if (start === undefined || stop === undefined) {
-          console.error("Missing start or stop in received data:", parsedData);
-          return;
-        }
-
-        const newStartTime = parseFloat(start); // Convert start time to a number
-        const newEndTime = parseFloat(stop) + 1; // Convert stop time to a number
-
-        if (!isNaN(newStartTime) || !isNaN(newEndTime)) {
-          setCustomRange({ start: newStartTime, stop: newEndTime });
-          console.log("Newstart:::", newStartTime);
-          console.log("EndTime:::", newEndTime);
-          setIsDefaultLoop(false);
-          //console.error("Invalid start or stop values:", { start, stop });
-          //return;
-        }
-
-        // Update state with the new range
-        // Ensure default loop is off for custom range
-        console.log("videos", videoRef.current);
-        if (videoRef.current && videoRef.current.src === gapFillerVideo) {
-          console.log("update start time");
-          videoRef.current.currentTime = newStartTime; // Jump to the new start time
-          videoRef.current.play(); // Ensure playback starts
-        }
-      } catch (error) {
-        console.error("Error parsing data from socket:", data, error);
-      }
-    };
-
-    // Clean up WebSocket connection on component unmount
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
-  //
-
   useEffect(() => {
     const get = async () => {
       try {
@@ -204,6 +127,28 @@ function Interview() {
           navigate("/interview-details");
           window.location.reload();
         }
+        // await meeting.recording.start();
+
+        // const getRandomElement = (array) =>
+        //   array[Math.floor(Math.random() * array.length)];
+
+        // const getUniqueRandomValues = (values, num) => {
+        //   // Shuffle the values array
+        //   const shuffled = values.sort(() => 0.5 - Math.random());
+
+        //   // Return the first 'num' unique values
+        //   return shuffled.slice(0, num);
+        // };
+
+        // const values = Object.values(response.data.QuestionText).flat();
+        // console.log(values, "values");
+        // // Get 5 unique random values
+        // const randomValues = getUniqueRandomValues(values, 5);
+        // // const randomValues = Object.values(response.data. QuestionText).map(getRandomElement);
+        // console.log(randomValues);
+
+        // setVideo(randomValues);
+        // console.log(video);
 
         const excludeValues = new Set([499, 386, 387]);
         const excludeRanges = [
@@ -270,7 +215,7 @@ function Interview() {
           endVideo,
         ];
 
-        console.log(videoArray, "videos"); // Output array with introVideo, random values, and endVideo
+        console.log(videoArray); // Output array with introVideo, random values, and endVideo
 
         // Save the values to the video state
         setVideo(videoArray);
@@ -288,39 +233,11 @@ function Interview() {
   }, [interviewId]);
 
   useEffect(() => {
-    // Initialize the socket connection
-    socket.current = io(`${API_URLS.InnoviewBaseUrl}`); // Adjust the URL if needed
-
-    // Listen for browser navigation (back/forward)
-    const handleNavigation = async () => {
-      if (socket.current) {
-        socket.current.disconnect();
-        stopMeeting();
-      }
-    };
-
-    // Listen to `popstate` (browser back/forward)
-    window.addEventListener("popstate", handleNavigation);
-
-    // Listen to `beforeunload` (page refresh or close)
-    window.addEventListener("beforeunload", handleNavigation);
-
-    // Cleanup on component unmount
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-        // console.log("Socket disconnected on unmount");
-      }
-      window.removeEventListener("popstate", handleNavigation);
-      window.removeEventListener("beforeunload", handleNavigation);
-    };
-  }, []);
-
-  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         // Tab is switched (hidden)
         setTabSwitchCount((prevCount) => prevCount + 1);
+        console.log(tabSwitchCount, "count of tab swirching");
 
         Swal.fire({
           title: "Warning!",
@@ -330,18 +247,16 @@ function Interview() {
           allowOutsideClick: false,
         });
       } else {
-        // console.log("Tab is visible again");
+        console.log("Tab is visible again");
       }
     };
-    if (tabSwitchCount > 3) {
+    if (tabSwitchCount > 1) {
       navigate("/interview-details");
-      // socket.current.disconnect();
-
       window.location.reload();
     }
 
     const handleBeforeUnload = (event) => {
-      // console.log("sxdcfgvhujikoljh");
+      console.log("sxdcfgvhujikoljh");
       const message =
         "You have unsaved changes. Are you sure you want to leave?";
       event.preventDefault(); // Standard for modern browsers
@@ -364,9 +279,11 @@ function Interview() {
   }, [isListening]);
 
   useEffect(() => {
+    console.log("chk the video is null ");
+
     const v = async () => {
       if (count == 8 && timer == 0) {
-        // console.log("no videos", count);
+        console.log("no videos", count);
 
         await setSavedNotes((prevNotes) => [...prevNotes, note]);
 
@@ -377,34 +294,9 @@ function Interview() {
   }, [count, timer]);
 
   useEffect(() => {
-    console.log("repeat:", isRepeat);
-    console.log("videoLink:", videoLink);
-
-    if (isRepeat && videoRef.current) {
-      try {
-        // Set the video source and reset the time
-        videoRef.current.src = videoLink;
-        videoRef.current.currentTime = 0;
-
-        // Wait for the video to be ready to play
-        videoRef.current.oncanplay = () => {
-          videoRef.current.play();
-          console.log("Video restarted successfully");
-
-          // Optionally, reset isRepeat to false after video restarts to avoid continuous restarts
-          setIsRepeat(false);
-        };
-      } catch (error) {
-        console.error("Error restarting video:", error);
-      }
-    }
-  }, [isRepeat, videoLink]); // Dependencies to trigger on changes
-
-  useEffect(() => {
     socket.current = io(`${API_URLS.InnoviewBaseUrl}`); // Adjust the URL if needed
 
     function requestVideoLink(key) {
-      console.log(key, "video");
       socket.current.emit("requestVideo", key);
     }
     requestVideoLink(video[count]);
@@ -434,174 +326,122 @@ function Interview() {
     };
   }, [video]);
 
-  const startAnsweringTime = () => {
-    setIsAnsweringTime(true, () => {
-      setSavedNotes((prevNotes) => [...prevNotes, note]); // Save the current note
-      setNote(""); // Reset the input note
-      setNoteSocket(null);
-    });
-
-    // Activate listening states
-    setIsListening(true);
-    setIsListeningSocket(true);
-    setMute(false);
-    setTimer(60); // Initialize the timer to 60 seconds
-
-    const updatedCount = count + 1;
-    setcount(updatedCount);
-
-    // Timer logic
-    timerRef.current = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer <= 1) {
-          clearInterval(timerRef.current); // Stop the timer
-          setIsListening(false); // End listening
-          setIsListeningSocket(false);
-
-          // Emit a request for the next video link based on the updated count
-          const requestVideoLink = (key) => {
-            console.log(key, "videos");
-            if (socket.current) {
-              socket.current.emit("requestVideo", key);
-            }
-          };
-
-          requestVideoLink(video[updatedCount]); // Request the next video
-          return 0; // Ensure timer stops at 0
-        }
-        return prevTimer - 1; // Decrement timer
-      });
-    }, 1000); // Update every second
-  };
-
-  // WebSocket connection setup
-  // WebSocket connection setup
   useEffect(() => {
-    if (isListeningSocket) {
-      // Establish WebSocket connection
-      socketRef.current = new WebSocket("ws://localhost:8765");
+    // Connect to WebSocket server
+    const ws = new WebSocket("ws://localhost:8765");
 
-      socketRef.current.onopen = () => {
-        // console.log("Connected to WebSocket server.");
-      };
+    ws.onopen = () => {
+      console.log("Connected to the WebSocket server");
+    };
 
-      socketRef.current.onmessage = (event) => {
-        console.log("Message from server:", event.data);
-        const parsedData = JSON.parse(event.data); // Parse the JSON string
-        console.log(parsedData, "repeat");
-        if (parsedData.start == 29 && parsedData.stop == 31) {
-          console.log("Setting isRepeat to true");
-          setIsRepeat(true); // Trigger restart
-          setIsListening(false);
-          setTimer(60); // Set the timer to 60 (or whatever your logic is for the restart)
-          setNote(null); // Clear previous note
-          setNoteSocket(null); // Clear socket note if needed
-          setMute(true);
-          setIsAnsweringTime(false);
-          clearInterval(timerRef.current);
-          setTimer(0);
-          setCustomRange(null);
+    // Listen for messages from the WebSocket
+    console.log("BEfore listen:::");
+    ws.onmessage = ({ data }) => {
+      console.log("After listen:::");
+      try {
+        // Check if data is valid and parse it
+        if (!data || typeof data !== "string") {
+          console.error("Invalid data received from socket:", data);
+          return;
+        }
+
+        const parsedData = JSON.parse(data); // Parse the JSON string
+        console.log("parsedData", parsedData);
+        const { start, stop } = parsedData;
+
+        if (start === undefined || stop === undefined) {
+          console.error("Missing start or stop in received data:", parsedData);
+          return;
+        }
+
+        const newStartTime = parseFloat(start); // Convert start time to a number
+        const newEndTime = parseFloat(stop) + 1; // Convert stop time to a number
+
+        if (!isNaN(newStartTime) || !isNaN(newEndTime)) {
+          setCustomRange({ start: newStartTime, stop: newEndTime });
+          console.log("Newstart:::", newStartTime);
+          console.log("EndTime:::", newEndTime);
           setIsDefaultLoop(false);
+          //console.error("Invalid start or stop values:", { start, stop });
+          //return;
         }
-      };
 
-      socketRef.current.onerror = (error) => {
-        console.error("WebSocket Error:", error);
-      };
-
-      socketRef.current.onclose = () => {
-        console.log("WebSocket connection closed.");
-      };
-
-      // Cleanup on unmount or when WebSocket disconnects
-      return () => {
-        if (socketRef.current) {
-          socketRef.current.close();
+        // Update state with the new range
+        // Ensure default loop is off for custom range
+        console.log("videoRef.current::", videoRef.current);
+        if (videoRef.current && videoRef.current.src === gapFillerVideo) {
+          console.log("update start time");
+          videoRef.current.currentTime = newStartTime; // Jump to the new start time
+          videoRef.current.play(); // Ensure playback starts
         }
-      };
-    }
-  }, [isListeningSocket]);
+      } catch (error) {
+        console.error("Error parsing data from socket:", data, error);
+      }
+    };
 
-  // Handle microphone listening and sending data
+    // Clean up WebSocket connection on component unmount
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   if (videoRef.current && direction !== null && seconds > 0) {
+  //     const currentTime = videoRef.current.currentTime;
+
+  //     if (direction === 1) {
+  //       // Forward the video
+  //       videoRef.current.currentTime = currentTime + seconds;
+  //     } else if (direction === 0) {
+  //       // Rewind the video
+  //       videoRef.current.currentTime = Math.max(0, currentTime - seconds); // Avoid negative time
+  //     }
+  //   }
+  // }, [seconds, direction]);
+
   const handleListen = () => {
     if (isListening) {
       mic.start();
       mic.onend = () => {
-        mic.start(); // Keep the microphone running for continuous recognition
+        // console.log("continue..");
+        mic.start();
       };
     } else {
       mic.stop();
       mic.onend = () => {
-        handleSaveNote(); // Stop and save the note
+        handleSaveNote();
+        // console.log("Stopped Mic on Click");
       };
     }
-
     mic.onstart = () => {
-      console.log("Microphone started");
+      // console.log("Mics on");
     };
 
     mic.onresult = (event) => {
       const transcript = Array.from(event.results)
         .map((result) => result[0])
         .map((result) => result.transcript)
-        .join(" ");
-
-      // Update the transcript state (plain transcript without timestamps)
+        .join("");
+      console.log(transcript);
       setNote(transcript);
-
-      // Send each word with its timestamp to WebSocket server
-      const wordsWithTimer = transcript.split(" ").map((word, index) => {
-        return {
-          word,
-          timerValue: timer - index, // Adjust this based on your actual logic for 'timer'
-        };
-      });
-
-      // Send each word with timer as a JSON object to the WebSocket server
-      wordsWithTimer.forEach((wordWithTimer, idx) => {
-        if (
-          socketRef.current &&
-          socketRef.current.readyState === WebSocket.OPEN
-        ) {
-          socketRef.current.send(JSON.stringify(wordWithTimer)); // Send the word and its timer as a JSON object
-          console.log("Sent word:", wordWithTimer);
-
-          // Clear `noteSocket` after sending the last word
-          if (idx === wordsWithTimer.length - 1) {
-            setTimeout(() => {
-              setNoteSocket(null); // Clear after all words are sent
-            }, 100);
-          }
-        } else {
-          console.error(
-            "WebSocket is not open. Failed to send word:",
-            wordWithTimer
-          );
-        }
-      });
-    };
-
-    mic.onerror = (event) => {
-      console.error(event.error);
+      mic.onerror = (event) => {
+        console.log(event.error);
+      };
     };
   };
 
-  // ws://localhost:8765
-
   const handleSaveNote = async () => {
     setQuestionId(video[count]);
-    // sendDataToServer();
-
     var data1 = {
       question_id: questionId,
     };
-    // console.log(data1);
+    console.log(data1);
 
     const getdata = await axios.post(
       "https://api2.innotrat.in/api/question",
       data1
     );
-    // console.log(getdata.data);
+    console.log(getdata.data);
 
     var data = {
       user_response: note,
@@ -612,7 +452,8 @@ function Interview() {
       "https://api2.innotrat.in/api/evaluate",
       data
     );
-    // console.log(get1.data);
+    console.log(get1.data);
+
     var data = {
       question_id: questionId,
       question_text: getdata.data.question_text,
@@ -626,13 +467,46 @@ function Interview() {
       data,
       headers
     );
-    // console.log(response.data);
+    console.log(response.data);
 
     if (note) {
       setSavedNotes((prevNotes) => [...prevNotes, note]);
       setNote("");
-      setNoteSocket(null);
     }
+  };
+
+  const startAnsweringTime = () => {
+    setIsAnsweringTime(true, () => {
+      setSavedNotes([...savedNotes, note]);
+      setNote("");
+    });
+    setIsListening(true);
+    setMute(false);
+    setTimer(60);
+
+    var c = count;
+    setcount(c + 1);
+    console.log(count);
+
+    timerRef.current = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 1) {
+          clearInterval(timerRef.current);
+          setIsListening(false);
+          // socket.current.emit(video[count]);
+          console.log(count, "count");
+
+          function requestVideoLink(key) {
+            socket.current.emit("requestVideo", key);
+          }
+          requestVideoLink(video[count + 1]);
+
+          // socket.current.emit(count);
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
   };
 
   const handleVideoEnded = () => {
@@ -661,7 +535,79 @@ function Interview() {
     headers: { authorization: `${usertoken}` },
   };
 
-  //Aarthi's change
+  console.log(interviewId, "interview id");
+  console.log(videoLink, "Video link");
+
+  const mediaStreamRef = useRef(null);
+
+  const pageBack = async () => {
+    // console.log("i m from pageback ");
+    console.log(savedNotes, "savednotes");
+    const data = {
+      interviewId: interviewId,
+      answers: savedNotes,
+    };
+
+    console.log(data);
+    const response = await axios.post(
+      `${API_URLS.InnoviewBaseUrl}/api/interview/answers`,
+      data,
+      headers
+    );
+    console.log(response.data);
+    meeting.self.disableVideo();
+    meeting.self.disableAudio();
+    // await meeting.recording.stop();
+    // const authToken = id;
+
+    const handleBeforeUnload = (event) => {
+      console.log("sxdcfgvhujikoljh");
+      const message =
+        "You have unsaved changes. Are you sure you want to leave?";
+      event.preventDefault(); // Standard for modern browsers
+      event.returnValue = message; // Required for most browsers
+      return message; // For some older browsers
+    };
+
+    window.removeEventListener("beforeunload", handleBeforeUnload);
+    navigate("/interview-details");
+    window.location.reload();
+  };
+  // const active = useDyteSelector((m) => m.participants.active).toArray();
+
+  // useEffect(() => {
+  //   const handleMouseMove = () => {
+  //     if (!active) {
+  //       alert("Please keep your mouse on the box to activate the page.");
+  //     }
+  //   };
+
+  //   const handleKeyDown = () => {
+  //     if (!active) {
+  //       alert("Please keep your mouse on the box to activate the page.");
+  //     }
+  //   };
+
+  //   document.addEventListener("mousemove", handleMouseMove);
+  //   document.addEventListener("keydown", handleKeyDown);
+
+  //   return () => {
+  //     document.removeEventListener("mousemove", handleMouseMove);
+  //     document.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [active]);
+
+  // const handleMouseEnter = () => {
+  //   setActive(true);
+  // };
+
+  // const handleMouseLeave = () => {
+  //   if (active) {
+  //     setActive(false);
+  //     alert("Please keep your mouse on the box to activate the page.");
+  //   }
+  // };
+
   const handleTimeUpdate = () => {
     if (videoRef.current && videoRef.current.src === gapFillerVideo) {
       const currentTime = videoRef.current.currentTime;
@@ -698,59 +644,24 @@ function Interview() {
       }
     }
   };
-  const mediaStreamRef = useRef(null);
-
-  const pageBack = async () => {
-    // console.log("i m from pageback ");
-    // console.log(savedNotes, "savednotes");
-    const data = {
-      interviewId: interviewId,
-      answers: savedNotes,
-    };
-
-    // console.log(data);
-    const response = await axios.post(
-      `${API_URLS.InnoviewBaseUrl}/api/interview/answers`,
-      data,
-      headers
-    );
-    // console.log(response.data);
-    meeting.self.disableVideo();
-    meeting.self.disableAudio();
-    meeting.recording.stop();
-    // const authToken = id;
-
-    const handleBeforeUnload = (event) => {
-      // console.log("sxdcfgvhujikoljh");
-      const message =
-        "You have unsaved changes. Are you sure you want to leave?";
-      event.preventDefault(); // Standard for modern browsers
-      event.returnValue = message; // Required for most browsers
-      return message; // For some older browsers
-    };
-
-    window.removeEventListener("beforeunload", handleBeforeUnload);
-    navigate("/interview-details");
-    window.location.reload();
-  };
-
   return (
     <div className="interview">
       <Header />
 
-      <div className="meeting-wrapper">
-        {isAnsweringTime && (
-          <div className="timer">
-            <h2>Answer Time Remaining: {timer}s</h2>
-            <CountdownTimer duration={60} />
-          </div>
-        )}
+      <div className="container-fluid  min-vh-100">
+        <div className="row">
+          {isAnsweringTime && (
+            <div className="timer">
+              <h2>Answer Time Remaining: {timer}s</h2>
+              <CountdownTimer duration={60} />
+            </div>
+          )}
 
-        <div className="interview-cards-recording">
           <>
             <div
               className="card"
               style={{
+                marginLeft: "10%",
                 width: "500px",
                 height: "280px",
                 top: "130px",
@@ -843,11 +754,44 @@ function Interview() {
               </div>
             </main>
           </>
-        </div>
 
-        <div className="response-wrapper">
-          <div className="title-for-response">Your response Speech to Text</div>
-          <div className="response-ans">{note}</div>
+          <div className="container">
+            {/* <div className="box">
+              <p>{note}</p>
+            </div> */}
+            {/* <div className="box">
+              <h2>Your answers are recording </h2>
+              {savedNotes.map((n, index) => (
+                <p key={index}>
+                  {index + 1} : {n}
+                </p>
+              ))}
+            </div> */}
+          </div>
+          {/* 
+          <div className="card-container">
+            <div
+              className={`card ${active ? "active" : ""}`}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              <p>
+                {active
+                  ? "Page Activated"
+                  : "Please keep your mouse on the box to activate the page."}
+              </p>
+            </div>
+          </div> */}
         </div>
       </div>
     </div>
