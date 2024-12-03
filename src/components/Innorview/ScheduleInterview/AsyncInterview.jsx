@@ -120,8 +120,59 @@ function Interview() {
   // console.log(interviewId, "meeting id");673efbaba91cc4b83ad7424e
 
   useEffect(() => {
-    meeting.recording.start();
-  }, []);
+    if (meeting && meeting.recording) {
+      const recordingState = meeting.recording.state;
+
+      console.log("Recording State:", recordingState);
+
+      if (recordingState === "NOT_RECORDING") {
+        meeting.recording
+          .start()
+          .then(() => console.log("Recording started successfully"))
+          .catch((error) => console.error("Error starting recording:", error));
+      } else {
+        console.warn("Cannot start recording: Current state:", recordingState);
+      }
+    }
+  }, [meeting]);
+
+  //Aarthi's change
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.src === gapFillerVideo) {
+      const currentTime = videoRef.current.currentTime;
+
+      console.log("currentTime:::::", currentTime);
+      console.log("customRange:::::", customRange);
+      console.log("IsDefaultLoop", isDefaultLoop);
+
+      if (customRange) {
+        console.log("CAme in to custom range:::");
+        const { start, stop } = customRange;
+
+        // Custom range logic
+        if (currentTime >= stop) {
+          setCustomRange(null); // Clear custom range
+          setIsDefaultLoop(true); // Resume default loop
+          videoRef.current.currentTime = 0; // Reset to start of default loop
+          videoRef.current.play();
+        }
+        return; // Exit to avoid executing default/free logic
+      }
+
+      if (currentTime > 32 && !isDefaultLoop) {
+        // Activate default loop after 31 seconds
+        setIsDefaultLoop(true);
+      }
+
+      if (isDefaultLoop) {
+        // Default loop logic: Loop between 0 and 27 seconds
+        if (currentTime > 27) {
+          videoRef.current.currentTime = 0; // Reset to start of default loop
+          videoRef.current.play();
+        }
+      }
+    }
+  };
 
   //Aarthi's changes
   useEffect(() => {
@@ -145,11 +196,6 @@ function Interview() {
 
         const parsedData = JSON.parse(data); // Parse the JSON string
         const { start, stop } = parsedData;
-
-        if (start === 29 && stop === 31) {
-          console.log("Setting isRepeat to true");
-          setIsRepeat(true); // Trigger restart
-        }
 
         if (start === undefined || stop === undefined) {
           console.error("Missing start or stop in received data:", parsedData);
@@ -377,34 +423,29 @@ function Interview() {
   }, [count, timer]);
 
   useEffect(() => {
-    console.log("repeat:", isRepeat);
-    console.log("videoLink:", videoLink);
-
-    if (isRepeat && videoRef.current) {
+    if (isRepeat && videoRef.current && videoRef.current.src !== videoLink) {
       try {
-        // Set the video source and reset the time
         videoRef.current.src = videoLink;
-        videoRef.current.currentTime = 0;
+        videoRef.current.load();
 
-        // Wait for the video to be ready to play
         videoRef.current.oncanplay = () => {
-          videoRef.current.play();
-          console.log("Video restarted successfully");
-
-          // Optionally, reset isRepeat to false after video restarts to avoid continuous restarts
+          videoRef.current
+            .play()
+            .then(() => console.log("Video restarted successfully"))
+            .catch((error) => console.error("Error playing video:", error));
           setIsRepeat(false);
         };
       } catch (error) {
         console.error("Error restarting video:", error);
       }
     }
-  }, [isRepeat, videoLink]); // Dependencies to trigger on changes
+  }, [isRepeat, videoLink]);
 
   useEffect(() => {
     socket.current = io(`${API_URLS.InnoviewBaseUrl}`); // Adjust the URL if needed
 
     function requestVideoLink(key) {
-      console.log(key, "video");
+      console.log(key, "key");
       socket.current.emit("requestVideo", key);
     }
     requestVideoLink(video[count]);
@@ -486,22 +527,55 @@ function Interview() {
       };
 
       socketRef.current.onmessage = (event) => {
-        console.log("Message from server:", event.data);
-        const parsedData = JSON.parse(event.data); // Parse the JSON string
-        console.log(parsedData, "repeat");
-        if (parsedData.start == 29 && parsedData.stop == 31) {
-          console.log("Setting isRepeat to true");
-          setIsRepeat(true); // Trigger restart
-          setIsListening(false);
-          setTimer(60); // Set the timer to 60 (or whatever your logic is for the restart)
-          setNote(null); // Clear previous note
-          setNoteSocket(null); // Clear socket note if needed
-          setMute(true);
-          setIsAnsweringTime(false);
-          clearInterval(timerRef.current);
-          setTimer(0);
-          setCustomRange(null);
-          setIsDefaultLoop(false);
+        try {
+          // Parse the incoming WebSocket message
+          const parsedData = JSON.parse(event.data); // Parse the JSON string
+          console.log(parsedData, "repeat");
+
+          const { start, stop } = parsedData;
+
+          if (start === undefined || stop === undefined) {
+            console.error(
+              "Missing start or stop in received data:",
+              parsedData
+            );
+            return;
+          }
+
+          const newStartTime = parseFloat(start); // Convert start time to a number
+          const newEndTime = parseFloat(stop) + 1; // Convert stop time to a number
+
+          if (!isNaN(newStartTime) && !isNaN(newEndTime)) {
+            setCustomRange({ start: newStartTime, stop: newEndTime });
+            console.log("New start:", newStartTime);
+            console.log("EndTime:", newEndTime);
+            setIsDefaultLoop(false); // Turn off loop for custom range
+          }
+
+          // Update video playback if necessary
+          if (videoRef.current && videoRef.current.src === gapFillerVideo) {
+            console.log("Update start time");
+            videoRef.current.currentTime = newStartTime; // Jump to the new start time
+            videoRef.current.play(); // Ensure playback starts
+          }
+
+          // Check for specific start and stop times
+          if (parsedData.start === 29 && parsedData.stop === 31) {
+            console.log("Setting isRepeat to true");
+            setIsRepeat(true); // Trigger video restart
+            setIsListening(false); // Stop listening for WebSocket messages
+            setTimer(60); // Set the timer to 60 (or whatever your logic is for the restart)
+            setNote(null); // Clear previous note
+            setNoteSocket(null); // Clear socket-related note if needed
+            setMute(true); // Set mute state if necessary
+            setIsAnsweringTime(false); // Reset answering time state
+            clearInterval(timerRef.current); // Clear previous timer
+            setTimer(0); // Reset timer to 0
+            setCustomRange(null); // Clear any custom range
+            setIsDefaultLoop(false); // Reset loop setting
+          }
+        } catch (error) {
+          console.error("Error parsing data from socket:", event.data, error);
         }
       };
 
@@ -550,10 +624,11 @@ function Interview() {
       setNote(transcript);
 
       // Send each word with its timestamp to WebSocket server
+      const currentTime = videoRef.current.currentTime;
       const wordsWithTimer = transcript.split(" ").map((word, index) => {
         return {
           word,
-          timerValue: timer - index, // Adjust this based on your actual logic for 'timer'
+          timerValue: currentTime, // Adjust this based on your actual logic for 'timer'
         };
       });
 
@@ -589,49 +664,61 @@ function Interview() {
   // ws://localhost:8765
 
   const handleSaveNote = async () => {
-    setQuestionId(video[count]);
-    // sendDataToServer();
+    try {
+      setQuestionId(video[count]);
 
-    var data1 = {
-      question_id: questionId,
-    };
-    // console.log(data1);
+      const data1 = {
+        question_id: questionId,
+      };
 
-    const getdata = await axios.post(
-      "https://api2.innotrat.in/api/question",
-      data1
-    );
-    // console.log(getdata.data);
+      // Check for introVideo or endVideo
+      if (
+        data1.question_id === "introVideo" ||
+        data1.question_id === "endVideo"
+      ) {
+        return; // Exit early for introVideo or endVideo
+      }
 
-    var data = {
-      user_response: note,
-      question_id: questionId,
-    };
+      // First API call: Fetch question details
+      const getdata = await axios.post(
+        "https://api2.innotrat.in/api/question",
+        data1
+      );
 
-    const get1 = await axios.post(
-      "https://api2.innotrat.in/api/evaluate",
-      data
-    );
-    // console.log(get1.data);
-    var data = {
-      question_id: questionId,
-      question_text: getdata.data.question_text,
-      similarity_percentage: get1.data.similarity_percentage,
-      interviewId: interviewId,
-      answers: note,
-    };
+      // Second API call: Evaluate the user response
+      const data2 = {
+        user_response: note,
+        question_id: questionId,
+      };
 
-    const response = await axios.post(
-      `${API_URLS.InnoviewBaseUrl}/api/interview/update`,
-      data,
-      headers
-    );
-    // console.log(response.data);
+      const get1 = await axios.post(
+        "https://api2.innotrat.in/api/evaluate",
+        data2
+      );
 
-    if (note) {
-      setSavedNotes((prevNotes) => [...prevNotes, note]);
-      setNote("");
-      setNoteSocket(null);
+      // Third API call: Update the interview data
+      const data3 = {
+        question_id: questionId,
+        question_text: getdata.data.question_text,
+        similarity_percentage: get1.data.similarity_percentage,
+        interviewId: interviewId,
+        answers: note,
+      };
+
+      const response = await axios.post(
+        `${API_URLS.InnoviewBaseUrl}/api/interview/update`,
+        data3,
+        headers
+      );
+
+      // Save note locally if it exists
+      if (note) {
+        setSavedNotes((prevNotes) => [...prevNotes, note]);
+        setNote("");
+        setNoteSocket(null);
+      }
+    } catch (error) {
+      console.error("Error in handleSaveNote:", error);
     }
   };
 
@@ -661,43 +748,6 @@ function Interview() {
     headers: { authorization: `${usertoken}` },
   };
 
-  //Aarthi's change
-  const handleTimeUpdate = () => {
-    if (videoRef.current && videoRef.current.src === gapFillerVideo) {
-      const currentTime = videoRef.current.currentTime;
-
-      console.log("currentTime:::::", currentTime);
-      console.log("customRange:::::", customRange);
-      console.log("IsDefaultLoop", isDefaultLoop);
-
-      if (customRange) {
-        console.log("CAme in to custom range:::");
-        const { start, stop } = customRange;
-
-        // Custom range logic
-        if (currentTime >= stop) {
-          setCustomRange(null); // Clear custom range
-          setIsDefaultLoop(true); // Resume default loop
-          videoRef.current.currentTime = 0; // Reset to start of default loop
-          videoRef.current.play();
-        }
-        return; // Exit to avoid executing default/free logic
-      }
-
-      if (currentTime > 32 && !isDefaultLoop) {
-        // Activate default loop after 31 seconds
-        setIsDefaultLoop(true);
-      }
-
-      if (isDefaultLoop) {
-        // Default loop logic: Loop between 0 and 27 seconds
-        if (currentTime > 27) {
-          videoRef.current.currentTime = 0; // Reset to start of default loop
-          videoRef.current.play();
-        }
-      }
-    }
-  };
   const mediaStreamRef = useRef(null);
 
   const pageBack = async () => {
@@ -735,119 +785,88 @@ function Interview() {
   };
 
   return (
-    <div className="interview">
+    <div className="async-interview">
       <Header />
 
-      <div className="meeting-wrapper">
+      <div className="async-interview-content">
+        {/* Timer Section */}
         {isAnsweringTime && (
-          <div className="timer">
-            <h2>Answer Time Remaining: {timer}s</h2>
+          <div className="async-timer-wrapper">
+            <h2 className="async-timer-title">
+              Answer Time Remaining: {timer}s
+            </h2>
             <CountdownTimer duration={60} />
           </div>
         )}
 
-        <div className="interview-cards-recording">
-          <>
-            <div
-              className="card"
-              style={{
-                width: "500px",
-                height: "280px",
-                top: "130px",
-                background: "none",
-                border: "none",
-                // position: "absolute",
-              }}
-            >
-              <img
-                src={innoview_bot_bg}
-                style={{
-                  marginLeft: "10%",
-                  width: "500px",
-                  height: "280px",
-                  // top: "130px",
-                  position: "absolute",
-                  borderRadius: "10px",
-                }}
-              />
-              <aside
-                style={{
-                  width: "500px",
-                  height: "300px",
-                  top: "0px",
-                  padding: 0,
-                  position: "absolute",
-                }}
-                className="col-lg-6 h-100 d-flex align-items-center"
-              >
-                <video
-                  ref={videoRef}
-                  controls={false}
-                  autoPlay
-                  playsInline
-                  style={{
-                    marginLeft: "10%",
-                    width: "500px",
-                    height: "280px",
-                    position: "absolute",
-                  }}
-                  loop={
-                    timer > 0
-                      ? videoLink == "null"
-                        ? false
-                        : true
-                      : videoLink
-                      ? false
-                      : false
-                  }
-                  src={
-                    timer > 0
-                      ? videoLink == null
-                        ? " "
-                        : //: "https://res.cloudinary.com/dpfcfb009/video/upload/v1725512137/gapVideo_niuxd1.mp4"
-                          "https://res.cloudinary.com/dpfcfb009/video/upload/v1732165590/Interviewer_Live_Response_n6rlf0.mp4"
-                      : videoLink == null
-                      ? ""
-                      : videoLink
-                  }
-                  //src={gapFillerVideo}
-                  onEnded={handleVideoEnded}
-                  onTimeUpdate={handleTimeUpdate}
-                />
-              </aside>
-            </div>
+        {/* Interview Cards */}
+        <div className="async-card-section">
+          <div className="async-video-card">
+            <img
+              src={innoview_bot_bg}
+              alt="Bot Background"
+              className="async-video-bg"
+            />
+            <video
+              className="async-video-player"
+              ref={videoRef}
+              controls={false}
+              autoPlay
+              playsInline
+              loop={
+                timer > 0
+                  ? videoLink == "null"
+                    ? false
+                    : true
+                  : videoLink
+                  ? false
+                  : false
+              }
+              src={
+                timer > 0
+                  ? videoLink == null
+                    ? " "
+                    : //: "https://res.cloudinary.com/dpfcfb009/video/upload/v1725512137/gapVideo_niuxd1.mp4"
+                      gapFillerVideo
+                  : videoLink == null
+                  ? ""
+                  : videoLink
+              }
+              //src={gapFillerVideo}
+              onEnded={handleVideoEnded}
+              onTimeUpdate={handleTimeUpdate}
+            />
+          </div>
 
-            <main
-              style={{ width: "50%" }}
-              className="col-lg-6 h-100  d-flex align-items-center justify-content-center flex-column gap-2 mt-5"
-            >
-              <div
-                className="position-relative aspect-ratio-4/3 w-60 max-w-540px h-100"
-                style={{ marginright: "250px", width: "500px", top: "100px" }}
+          <main className="async-participant-section">
+            <div className="async-participant-tile">
+              <DyteParticipantTile
+                className="DyteParticipantTile"
+                participant={meeting.self}
               >
-                <DyteParticipantTile
+                <DyteRecordingIndicator
+                  meeting={meeting}
+                  className="async-recording-indicator"
+                />
+                <DyteAudioVisualizer
                   participant={meeting.self}
-                  className="position-relative aspect-ratio-4/3 w-100 max-w-540px h-100"
-                >
-                  <DyteRecordingIndicator
-                    meeting={meeting}
-                    className="position-absolute left-0 top-0 start-0"
-                  />
-                  <DyteAudioVisualizer
-                    participant={meeting.self}
-                    size="lg"
-                    className="position-absolute top-0 end-0"
-                  />
-                  <DyteAvatar participant={meeting.self} />
-                </DyteParticipantTile>
-              </div>
-            </main>
-          </>
+                  size="lg"
+                  className="async-audio-visualizer"
+                />
+                <DyteAvatar participant={meeting.self} />
+              </DyteParticipantTile>
+            </div>
+          </main>
         </div>
 
-        <div className="response-wrapper">
-          <div className="title-for-response">Your response Speech to Text</div>
-          <div className="response-ans">{note}</div>
+        {/* Response Section */}
+        <div className="async-response-section">
+          <div className="async-response-title">
+            <strong>Your Response Speech to Text</strong>
+          </div>
+          <div className="async-response-content">
+            <div className="response-ans">{note}</div>
+          </div>
         </div>
       </div>
     </div>

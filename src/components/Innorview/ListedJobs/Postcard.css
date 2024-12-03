@@ -1,0 +1,126 @@
+/* Main Wrapper */
+.post-card-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .post-card-container {
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    /* max-width: 800px; */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .header-row {
+    display: flex
+    ;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+  }
+  
+  .post-jobcard-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .view-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #0073e6;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  /* .view-button:hover {
+    color: #005bb5;
+  } */
+  
+  .post-company-name {
+    font-size: 1.1rem;
+    color: #0073e6;
+    text-transform: capitalize;
+  }
+  
+  .post-company-name a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .post-job-location {
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .body-section {
+    margin-bottom: 20px;
+  }
+  
+  .post-job-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .post-job-deadline {
+    font-size: 1rem;
+    color: #0073e6;
+    font-weight: bold;
+  }
+  
+  .footer-job-card-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .job-type,
+  .job-status {
+    font-size: 1rem;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  .footer-job-card {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+  }
+  
+  .salary {
+    font-size: 1.2rem;
+    color: #0073e6;
+    display: flex;
+    align-items: center;
+  }
+  
+  .applicants-applied {
+    font-size: 1.1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .salary svg,
+  .applicants-applied svg {
+    margin-right: 5px;
+  }
+  

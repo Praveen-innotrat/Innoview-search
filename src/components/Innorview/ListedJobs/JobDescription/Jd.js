@@ -24,6 +24,7 @@ function Jd() {
   };
 
   const handleApply = async () => {
+    localStorage.setItem("jobId", descriptionData.job_id);
     // try {
     //   let response = await axios.get(`${HOSTED_API}/${jobId}/description`);
     //   if (response.status === 200 || response.status === 201) {
@@ -41,10 +42,14 @@ function Jd() {
 
   return (
     <>
-      <div className="status2-detail-section">
-        <div className="jd-header-section">
+      <div className="job-details-container">
+        <div className="job-header-section">
           <Button
-            className="jd-buttons"
+            variant="contained"
+            className="back-button"
+            sx={{
+              width: "fit-content",
+            }}
             onClick={() => {
               nav(-1);
             }}
@@ -52,56 +57,57 @@ function Jd() {
             Back to Jobs
           </Button>
         </div>
-        <div className="status-list">
-          <div className="status-one-details">Job ID</div>
-          <div className="status-results">{descriptionData.job_id}</div>
+        <div className="job-detail">
+          <div className="detail-title">Job ID</div>
+          <div className="detail-value">{descriptionData.job_id}</div>
         </div>
-        <div className="status-list">
-          <div className="status-one-details">Job Location</div>
-          <div className="status-results">Chennai</div>
+        <div className="job-detail">
+          <div className="detail-title">Job Location</div>
+          <div className="detail-value">Chennai</div>
         </div>
-        <div className="status-list">
-          <div className="status-one-details">Salary</div>
-          <div className="status-results">{descriptionData.salary}</div>
+        <div className="job-detail">
+          <div className="detail-title">Salary</div>
+          <div className="detail-value">{descriptionData.salary}</div>
         </div>
-
-        <div className="status-list">
-          <div className="status-one-details">Job Description</div>
-          <div className="status-results">
+        <div className="job-detail">
+          <div className="detail-title">Job Description</div>
+          <div className="detail-value">
             {descriptionData.job_description_text}
           </div>
         </div>
-
-        <div className="status-list">
-          <div className="status-one-details">Job Posted on</div>
-          <div className="status-results">{descriptionData.created_at}</div>
+        <div className="job-detail">
+          <div className="detail-title">Job Posted on</div>
+          <div className="detail-value">{descriptionData.created_at}</div>
         </div>
-        <div className="status-list">
-          <div className="status-one-details">Notice Period</div>
-          <div className="status-results">{descriptionData.notice_period}</div>
+        <div className="job-detail">
+          <div className="detail-title">Notice Period</div>
+          <div className="detail-value">{descriptionData.notice_period}</div>
         </div>
-        <div className="status-list">
-          <div className="status-one-details">No of Openings</div>
-          <div className="status-results">{descriptionData.no_of_openings}</div>
+        <div className="job-detail">
+          <div className="detail-title">No of Openings</div>
+          <div className="detail-value">{descriptionData.no_of_openings}</div>
         </div>
-        <div className="status-list">
-          <div className="status-one-details">Experience</div>
-          <div className="status-results">
+        <div className="job-detail">
+          <div className="detail-title">Experience</div>
+          <div className="detail-value">
             {`${descriptionData.exp_min} - ${descriptionData.exp_max} of Experience`}
           </div>
         </div>
-
-        <div className="status-list">
-          <div className="status-one-details">Current status</div>
-          <Button
-            className="jd-buttons"
-            onClick={() => {
-              handleApply();
-            }}
-          >
-            APPLY NOW
-          </Button>
+        <div className="job-detail">
+          <div className="detail-title">Current status</div>
+          <div className="detail-value">None</div>
         </div>
+        <Button
+          className="apply-button"
+          sx={{
+            fontSize: 14,
+          }}
+          onClick={() => {
+            handleApply();
+          }}
+        >
+          APPLY NOW
+        </Button>
       </div>
     </>
   );

@@ -17,6 +17,7 @@ import "./Applications.css";
 import Status from "../ScheduleInterview/Status";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
+import { formatDate, formatPhoneNumber } from "../../../Utils";
 
 const interviewData = [
   {
@@ -106,82 +107,86 @@ const Applications = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="application">
+    <div className="applications-page">
       <Header />
-      <div className="application-container">
-        <div className="back-btn-inno">
-          <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+      <div className="applications-container">
+        <div className="back-button-container">
+          <Button
+            variant="contained"
+            sx={{ fontSize: "1.5rem", width: "fit-content" }}
+            onClick={() => navigate(-1)}
+          >
             BACK
           </Button>
         </div>
-        <h1>Applications</h1>
-        <TableContainer component={Paper}>
+        <h1 className="applications-title">Applications</h1>
+        <TableContainer
+          component={Paper}
+          className="applications-table-container"
+        >
           <Table
             sx={{
               minWidth: 650,
               "& .MuiTableCell-root": {
                 fontSize: "14px", // Set font size for all cells
+                textAlign: "center", // Align text to center
               },
             }}
             aria-label="applications table"
           >
             <TableHead>
-              <TableRow
-                sx={{
-                  backgroundColor: "#3f51b5", // Set header background color
-                }}
-              >
+              <TableRow className="table-header-row">
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }} // Header font style
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Interview ID
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Job ID
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Applied On
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Contact Details
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Interview Result
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Job Status
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Offer Status
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   Download Offer Letter
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
+                  sx={{ color: "white" }}
+                  className="table-header-cell"
                 >
                   My Response
                 </TableCell>
@@ -189,39 +194,27 @@ const Applications = () => {
             </TableHead>
             <TableBody>
               {interviews.map((interview) => (
-                <TableRow key={interview.id}>
-                  <TableCell align="center">{interview.interviewId}</TableCell>
-                  <TableCell align="center">{interview.jobId}</TableCell>
-                  <TableCell align="center">{interview.date}</TableCell>
-                  <TableCell align="center">{interview.token}</TableCell>
-                  <TableCell align="center">
-                    <IconButton onClick={handleStatus}>
-                      <FolderCopyIcon
-                        sx={{
-                          fontSize: 30,
-                          color: "black",
-                        }}
-                      />
+                <TableRow key={interview.id} className="table-body-row">
+                  <TableCell>{interview.interviewId}</TableCell>
+                  <TableCell>{interview.jobId}</TableCell>
+                  <TableCell>{formatDate(interview.date)}</TableCell>
+                  <TableCell>{formatPhoneNumber(interview.token)}</TableCell>
+                  <TableCell>
+                    <IconButton onClick={handleStatus} className="action-icon">
+                      <FolderCopyIcon sx={{ fontSize: 30, color: "black" }} />
                     </IconButton>
                     {status && <Status close={handleClose} />}
                   </TableCell>
-                  <TableCell align="center" style={{ cursor: "pointer" }}>
+                  <TableCell className="status-cell">
                     {interview.status[4]}
                   </TableCell>
-                  <TableCell align="center">
-                    {interview.OfferStatus[2]}
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton onClick={handleStatus}>
-                      <FolderCopyIcon
-                        sx={{
-                          fontSize: 30,
-                          color: "black",
-                        }}
-                      />
+                  <TableCell>{interview.OfferStatus[2]}</TableCell>
+                  <TableCell>
+                    <IconButton onClick={handleStatus} className="action-icon">
+                      <FolderCopyIcon sx={{ fontSize: 30, color: "black" }} />
                     </IconButton>
                   </TableCell>
-                  <TableCell align="center" style={{ cursor: "pointer" }}>
+                  <TableCell className="response-cell">
                     {interview.myResponse}
                   </TableCell>
                 </TableRow>

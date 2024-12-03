@@ -14,3 +14,18 @@ export function formatPhoneNumber(phoneNumber) {
     return "Invalid phone number";
   }
 }
+
+export function formatDate(date) {
+  const options = {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+  };
+
+  return new Date(date).toLocaleString("en-IN", options);
+}

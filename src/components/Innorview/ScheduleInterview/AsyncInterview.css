@@ -25,3 +25,114 @@
     top: 22rem;
     left: 2rem;
 }
+
+.async-interview {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    font-family: "Roboto", sans-serif;
+    color: #333;
+  }
+  
+  .async-interview-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .async-timer-wrapper {
+    background-color: #fff;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .async-timer-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0073e6;
+  }
+  
+  .async-card-section {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .async-video-card {
+    position: relative;
+    width: 500px;
+    height: 280px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .async-video-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  .async-video-player {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+  
+  .async-participant-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .async-participant-tile {
+    width: 397px;
+    height: 290px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  .DyteParticipantTile{
+    height:inherit ;
+  }
+  .async-recording-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  
+  .async-audio-visualizer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .async-response-section {
+    width: 80%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .async-response-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  .async-response-content {
+    font-size: 1rem;
+    color: #555;
+  }
+  

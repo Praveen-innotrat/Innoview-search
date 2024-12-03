@@ -16,6 +16,7 @@ import Footer from "./Footer/Footer";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Button } from "@mui/material";
+import "./Dashboard.css";
 
 // Styled component for the Grid container
 const StyledGrid = styled(Grid)(({ theme }) => ({
@@ -88,24 +89,39 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="dash-board-tab">
+      <div className="dashboard-container">
         {/* <Navbar /> */}
         <Header />
-        <div className="back-btn-inno">
-          <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+        <div className="dashboard-back-button">
+          <Button
+            variant="contained"
+            sx={{
+              fontSize: "1.5rem",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              width: "fit-content", // Corrected property
+              backgroundColor: "#0073e6",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#005bb5",
+              },
+            }}
+            onClick={() => navigate(-1)}
+          >
             BACK
           </Button>
-        </div>{" "}
-        <div className="h-[50vh] flex items-center justify-center">
+        </div>
+
+        <div className="dashboard-content">
           <div className="dashboard-wrapper">
             <StyledGridItem
-              className="hover:scale-95 duration-500 ease-in-out cursor-pointer"
+              className="dashboard-card hover:scale-95 duration-500 ease-in-out cursor-pointer"
               onClick={nav}
             >
               <StyledCard>
                 <CurrencyExchangeIcon style={cardIconStyle} />
                 <CardContent>
-                  <Typography variant="h6" style={cardTextStyle}>
+                  <Typography variant="h6" className="dashboard-card-text">
                     <span style={{ textDecoration: "none", color: "inherit" }}>
                       InnoView
                     </span>
@@ -116,9 +132,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {/* Add the Footer component below the grid */}
+      {/* Footer can be added here */}
       <></>
-      {/* <Footer /> */}
     </div>
   );
 };

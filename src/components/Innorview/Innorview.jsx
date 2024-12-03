@@ -102,39 +102,24 @@ export default function Innorview() {
     <div className="innorview-container">
       <Header />
 
-      <div className="innorview">
-        <div className="innorview-card-container">
-          <div className="innorview-card" onClick={schedule}>
+      <div className="dashboard">
+        <div className="card-grid">
+          <div className="card" onClick={schedule}>
             <PunchClockIcon sx={{ fontSize: 40 }} />
             <span>Scheduled Interviews</span>
           </div>
-
-          <div
-            className="innorview-card"
-            // onClick={() => {
-            //   profession === "normal" ? navigate("/innorview/joboffer") : handleOpenModal();
-            // }}
-
-            onClick={() => navigate("/innorview/joboffer")}
-          >
+          <div className="card" onClick={() => navigate("/innorview/joboffer")}>
             <LocalOfferIcon sx={{ fontSize: 40 }} />
             <span>My Account</span>
           </div>
         </div>
-        <div className="innorview-card-container">
-          <div
-            className="innorview-card"
-            onClick={() => navigate("/choose-type")}
-          >
+        <div className="card-grid">
+          <div className="card" onClick={() => navigate("/choose-type")}>
             <WorkIcon sx={{ fontSize: 40 }} />
             <span>Listed Jobs</span>
           </div>
           <div
-            className="innorview-card"
-            // onClick={() => {
-            //   profession === "normal" ? navigate("/innorview/applications") : handleOpenModal();
-            // }}
-
+            className="card"
             onClick={() => navigate("/innorview/applications")}
           >
             <WebAssetIcon sx={{ fontSize: 40 }} />
@@ -143,33 +128,29 @@ export default function Innorview() {
         </div>
       </div>
 
-      <div className="back-btn-inno">
-        <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+      <div className="back-button-container">
+        <Button
+          variant="contained"
+          sx={{
+            fontSize: "1.2rem",
+            padding: "10px 20px",
+            backgroundColor: "#0073e6",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#005bb5" },
+          }}
+          onClick={() => navigate(-1)}
+        >
           BACK
         </Button>
       </div>
 
       <Modal open={isModalOpen} onClose={handleCloseModal}>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            background: "#ececff",
-            border: "1px solid #034aac",
-            padding: "2rem",
-            width: "80%",
-            maxWidth: "600px",
-          }}
-        >
-          <h4 style={{ textAlign: "center" }}>
-            Are you Fresher or Experienced ?
-          </h4>
+        <div className="modal-container">
+          <h4 className="modal-title">Are you Fresher or Experienced?</h4>
           <FormControl component="fieldset">
             <RadioGroup
-              aria-label="Checking"
-              name="check"
+              aria-label="fresher-or-experience"
+              name="experienceCheck"
               value={value}
               onChange={handleChange}
             >
@@ -178,7 +159,6 @@ export default function Innorview() {
                 control={<Radio />}
                 label="Students / Fresher"
               />
-
               <FormControlLabel
                 value="experience"
                 control={<Radio />}
@@ -186,11 +166,10 @@ export default function Innorview() {
               />
             </RadioGroup>
           </FormControl>
-          <div className="d-flex">
+          <div className="modal-actions">
             <Button onClick={checkHandle} color="primary">
               Next
             </Button>
-
             <Button onClick={handleCloseModal} color="error">
               Close
             </Button>
@@ -199,19 +178,7 @@ export default function Innorview() {
       </Modal>
 
       <Modal open={fresherModal} onClose={fresherCloseModal}>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            background: "#ececff",
-            border: "1px solid #034aac",
-            padding: "2rem",
-            width: "80%",
-            maxWidth: "600px",
-          }}
-        >
+        <div className="modal-container">
           <Fresher
             close={
               <Button onClick={fresherCloseModal} color="error">
@@ -223,19 +190,7 @@ export default function Innorview() {
       </Modal>
 
       <Modal open={experienceModal} onClose={experienceCloseModal}>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            background: "#ececff",
-            border: "1px solid #034aac",
-            padding: "2rem",
-            width: "80%",
-            maxWidth: "600px",
-          }}
-        >
+        <div className="modal-container">
           <h1>Experience</h1>
           <Button onClick={experienceCloseModal} color="error">
             Close

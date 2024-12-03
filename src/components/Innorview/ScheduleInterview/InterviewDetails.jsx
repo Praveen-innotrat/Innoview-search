@@ -26,6 +26,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
   const navigate = useNavigate();
   const [interviewData, setInterviewData] = useState([]);
   const [status, setStatus] = useState({ open: false, interviewId: null });
+  const [array, setArray] = useState([]);
 
   const usertoken = Cookies.get("token");
   const headers = {
@@ -49,7 +50,6 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
   useEffect(() => {
     getInterviews();
   }, []);
-
   const handleStatus = (interviewId) => {
     setStatus({ open: !status.open, interviewId });
   };
@@ -95,17 +95,42 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
   return (
     <div className="interview-details">
       <Header />
-      <div className="heading-container">
-        <div className="back-btn-inno">
-          <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+      <div className="interview-header">
+        <div className="interview-back-button">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              fontSize: "1.2rem",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              backgroundColor: "#0073e6",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#005bb5",
+              },
+            }}
+            onClick={() => navigate("/innorview")}
+          >
             BACK
           </Button>
         </div>
-        <h1>Interview Details</h1>
+        <h1 className="interview-title">Interview Details</h1>
         <Button
           variant="outlined"
           startIcon={<AddIcon fontSize="large" />}
-          sx={{ maxWidth: "100px" }}
+          sx={{
+            fontSize: "1rem",
+            padding: "8px 16px",
+            borderRadius: "8px",
+            borderColor: "#0073e6",
+            color: "#0073e6",
+            width: "fit-content" /* Ensures button width fits the content */,
+            "&:hover": {
+              backgroundColor: "#f0f8ff",
+              borderColor: "#005bb5",
+            },
+          }}
           onClick={() => navigate("/innorview/schedule")}
         >
           Create

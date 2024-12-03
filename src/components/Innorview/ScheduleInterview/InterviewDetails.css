@@ -17,3 +17,26 @@ h4{
     flex-direction: row;
     max-width: 100px;
 }
+.interview-header {
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 91%;
+        border-radius: 13px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #e0e0e0;
+}
+  
+  .interview-back-button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .interview-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  

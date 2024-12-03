@@ -98,27 +98,40 @@ const Offers = () => {
   };
 
   return (
-    <div className="offers">
+    <div className="offers-page">
       <Header />
-      <div className="back-btn-inno">
-        <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
+      <div className="navigation-btn">
+        <Button
+          variant="contained"
+          sx={{
+            fontSize: "1.2rem",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            backgroundColor: "#0073e6",
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#005bb5",
+            },
+          }}
+          onClick={() => navigate(-1)}
+        >
           BACK
         </Button>
       </div>
-      <div className="offers-container">
-        <h1>Job Offers</h1>
+      <div className="offers-content">
+        <h1 className="offers-title">Job Offers</h1>
         <TableContainer
           component={Paper}
           sx={{
             width: "70%",
-            margin: "auto", // Centers the table
-            mt: 4, // Adds margin at the top
+            margin: "auto",
+            marginTop: 4,
           }}
         >
           <Table
             sx={{
               "& .MuiTableCell-root": {
-                fontSize: "14px", // Font size for all cells
+                fontSize: "14px",
               },
             }}
             aria-label="job offers table"
@@ -126,38 +139,32 @@ const Offers = () => {
             <TableHead>
               <TableRow
                 sx={{
-                  backgroundColor: "#3f51b5", // Header background color
+                  backgroundColor: "#3f51b5",
                 }}
               >
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
-                >
-                  Interview ID
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
-                >
-                  Offer Status
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
-                >
-                  Download Offer Letter
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bold", fontSize: "16px" }}
-                >
-                  My Response
-                </TableCell>
+                {[
+                  "Interview ID",
+                  "Offer Status",
+                  "Download Offer Letter",
+                  "My Response",
+                ].map((header, index) => (
+                  <TableCell
+                    key={index}
+                    align="center"
+                    sx={{
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {offers.map((interview, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className="table-row">
                   <TableCell align="center">{interview.interviewId}</TableCell>
                   <TableCell align="center">
                     {interview.OfferStatus[2]}
@@ -188,7 +195,7 @@ const Offers = () => {
           </Table>
         </TableContainer>
       </div>
-      <div className="price-card">
+      <div className="offers-price-card">
         <PriceCard />
       </div>
     </div>
