@@ -14,17 +14,37 @@ function PostedJobs() {
   const [searchQuery, setSearchQuery] = useState(""); // State to store search input
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState(null); // State to manage error
-  const [userData, setUserData] = useState([]);
-  const userId = sessionStorage.getItem("user_id");
 
   const fetchJobData = async () => {
     try {
       const response = await axios.get(`${HOSTED_API}/all_jobs`);
-      console.log(response, "response");
-      if (response.status === 200 || response.status == 201) {
-        setJobData(response.data); // Set the fetched job data
-        setFilteredJobs(response.data); // Initialize filtered jobs with all jobs
-        toast.success("Jobs Fetched Successfully");
+      if (response.status === 200 || response.status === 201) {
+        const jobs = response.data.reverse();
+
+        // Fetch user data for each job
+        const jobsWithUserData = await Promise.all(
+          jobs.map(async (job) => {
+            const payload = { user_id: job.user_id };
+            try {
+              const userResponse = await axios.post(
+                `${HOSTED_API}/get_user_details`,
+                payload
+              );
+              if (userResponse.status === 200 || userResponse.status === 201) {
+                return { ...job, userData: userResponse.data }; // Merge job and user data
+              }
+            } catch (userErr) {
+              console.error(
+                `Failed to fetch user data for job ${job.job_id}:`,
+                userErr.message
+              );
+              return { ...job, userData: null }; // Handle case where user data fetch fails
+            }
+          })
+        );
+        setJobData(jobsWithUserData); // Set the job data with user details
+        setFilteredJobs(jobsWithUserData); // Initialize filtered jobs with all jobs
+        toast.success("Jobs fetched successfully");
       }
     } catch (err) {
       setError(err.message); // Set error message if the request fails
@@ -90,7 +110,7 @@ function PostedJobs() {
       <div className="posted-job-container">
         {filteredJobs.length > 0 ? (
           filteredJobs.map((job) => (
-            <PostJobCard key={job.id} userData={userData} job={job} /> // Pass job details as props
+            <PostJobCard key={job.id} userData={job.userData} job={job} /> // Pass job details as props
           ))
         ) : (
           <div className="no-data-found">

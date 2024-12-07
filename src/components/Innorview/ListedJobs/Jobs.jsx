@@ -109,7 +109,7 @@ const Jobs = () => {
   return (
     <div className="jobs">
       <Header />
-      <div className="jobs-container">
+      <div className="jobs-container-tab">
         <>
           {/* <JobPageHeader /> */}
           <Typography
@@ -131,6 +131,7 @@ const Jobs = () => {
               Jobs
             </span>
           </Typography>
+          <div className="result-page">Results found {jobs.length}</div>
 
           <div className="search-bar-container">
             <input

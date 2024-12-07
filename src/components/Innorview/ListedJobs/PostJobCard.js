@@ -6,9 +6,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./Postcard.css";
+import { formatRupees } from "../../../Utils";
+// import { formatRupees } from "../../../Global";
 
 function PostJobCard({ userData, job }) {
-  // console.log(job, "post");
+  console.log(userData, job, "post");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,16 +35,16 @@ function PostJobCard({ userData, job }) {
           </div>
           <div className="post-company-name">
             <a
-              href={userData.company_website}
+              href={userData?.company_website}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {userData.company_name || "Company Name"}
+              {userData?.company_name || "Company Name"}
             </a>
           </div>
           <div className="post-job-location">
             <LocationOnIcon />
-            {userData.location || "Location"}
+            {userData?.location || "Location"}
           </div>
         </div>
 
@@ -63,7 +65,7 @@ function PostJobCard({ userData, job }) {
         <div className="footer-job-card">
           <div className="salary">
             <CurrencyRupeeIcon />
-            {job.salary || 25000}
+            {formatRupees(job.salary) || 25000}
           </div>
           <div className="applicants-applied">
             <Groups2Icon />

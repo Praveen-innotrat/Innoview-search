@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./jd.css";
 import { HOSTED_API } from "../../../../Global";
+import { formatRupees } from "../../../../Utils";
 
 function Jd() {
   const jobId = sessionStorage.getItem("jobId");
@@ -52,6 +53,7 @@ function Jd() {
             }}
             onClick={() => {
               nav(-1);
+              localStorage.clear();
             }}
           >
             Back to Jobs
@@ -67,7 +69,9 @@ function Jd() {
         </div>
         <div className="job-detail">
           <div className="detail-title">Salary</div>
-          <div className="detail-value">{descriptionData.salary}</div>
+          <div className="detail-value">
+            {formatRupees(descriptionData.salary)}
+          </div>
         </div>
         <div className="job-detail">
           <div className="detail-title">Job Description</div>

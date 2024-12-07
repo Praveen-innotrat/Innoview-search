@@ -29,3 +29,7 @@ export function formatDate(date) {
 
   return new Date(date).toLocaleString("en-IN", options);
 }
+
+export function formatRupees(amount) {
+  return amount.toLocaleString("en-IN");
+}

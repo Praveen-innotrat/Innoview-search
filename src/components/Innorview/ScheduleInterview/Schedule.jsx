@@ -96,7 +96,7 @@ const Schedule = ({ interviews, setInterviews }) => {
     setLoading(true);
 
     const interviewData = {
-      job_id: jobId,
+      jobId: jobId,
       email: email,
       date: selectedDate,
       time: selectedTime,
@@ -145,7 +145,7 @@ const Schedule = ({ interviews, setInterviews }) => {
         headers: { authorization: `${usertoken}` },
       };
       const postMeet = {
-        job_id: jobId,
+        jobId: jobId,
         email: email,
         date: selectedDate,
         time: selectedTime,
@@ -161,6 +161,7 @@ const Schedule = ({ interviews, setInterviews }) => {
       );
 
       navigate(`/interview-details`);
+      localStorage.clear();
     } catch (error) {
       console.error("Error scheduling meeting:", error);
       toast.error("Error scheduling meeting. Please try again.");
