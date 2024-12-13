@@ -113,7 +113,7 @@ const Header = () => {
     // console.log("token: " , Cookies.get("token"));
     Cookies.remove("mobile_number");
     Cookies.remove("token"); // Remove the token from cookies
-
+    localStorage.clear();
     setIsLoggedIn(false); // Set the login status to false
     // navigate("/");
   };

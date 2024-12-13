@@ -54,6 +54,27 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   return hasCookies ? <Component {...rest} /> : <Navigate to="/eureka" />;
 };
 
+const customToastStyle = {
+  width: "100%", // Make the toast width 100%
+};
+
+// Custom close button style
+const CustomCloseButton = ({ closeToast }) => (
+  <button
+    style={{
+      width: "max-content", // Close icon width
+      background: "transparent",
+      color: "grey",
+      border: "none",
+      cursor: "pointer",
+      fontSize: "16px",
+    }}
+    onClick={closeToast}
+  >
+    ✖
+  </button>
+);
+
 function App() {
   const location = useLocation();
   const [interviews, setInterviews] = useState([
@@ -115,16 +136,9 @@ function App() {
   return (
     <>
       <ToastContainer
-        position="top-left"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        // rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+        autoClose={1400}
+        toastStyle={customToastStyle} // Apply the custom toast style
+        closeButton={<CustomCloseButton />} // Use the custom close button
       />
       <ThemeProvider theme={theme}>
         {/* <Header /> */}

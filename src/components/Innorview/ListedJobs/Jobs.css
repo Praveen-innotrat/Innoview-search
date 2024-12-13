@@ -13,6 +13,7 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
 .jobtypes-wrapper{
   height: 70vh;
   display: flex;
@@ -70,6 +71,11 @@
 .job-title{
     font-size: 18px;
     font-weight: 500;
+}
+.result-page{
+  font-size: large;
+  font-weight: 500;
+  padding-bottom: 15px;
 }
 .company-name{
     font-size: 24px;
@@ -132,9 +138,9 @@
   }
 
   .dropdown-list {
-    position: absolute;
-    top: 100%;
-    left: 10%;
+    position: relative;
+    /* top: 100%; */
+    /* left: 10%; */
     width: 30rem;
     background-color: #fff;
     list-style-type: none;
@@ -232,7 +238,7 @@ cursor: pointer;
 }
 
 .job-card-title {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #333;
 }

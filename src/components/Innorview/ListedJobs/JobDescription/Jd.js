@@ -13,7 +13,11 @@ function Jd() {
   const nav = useNavigate();
   const fetchData = async () => {
     try {
-      let response = await axios.get(`${HOSTED_API}/${jobId}/description`);
+      let response = await axios.get(`${HOSTED_API}/${jobId}/description`, {
+        headers: {
+          Role: "candidate",
+        },
+      });
       // console.log(response, "response"); // You can process or store the response data here
 
       if (response.status === 200 || response.status === 201) {

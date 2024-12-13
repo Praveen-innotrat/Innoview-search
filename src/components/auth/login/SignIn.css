@@ -17,10 +17,11 @@
 .signup-indicator{
 font-size: 14px;
 }
-.button-container{
+.signin-button-container{
     display: flex;
-    justify-content: center;
-    align-items: center;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
 .login-button-inno{
     width: fit-content;

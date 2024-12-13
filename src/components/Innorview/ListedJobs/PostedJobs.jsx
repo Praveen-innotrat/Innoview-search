@@ -17,7 +17,11 @@ function PostedJobs() {
 
   const fetchJobData = async () => {
     try {
-      const response = await axios.get(`${HOSTED_API}/all_jobs`);
+      const response = await axios.get(`${HOSTED_API}/all_jobs`, {
+        headers: {
+          Role: "candidate",
+        },
+      });
       if (response.status === 200 || response.status === 201) {
         const jobs = response.data.reverse();
 
@@ -28,7 +32,12 @@ function PostedJobs() {
             try {
               const userResponse = await axios.post(
                 `${HOSTED_API}/get_user_details`,
-                payload
+                payload,
+                {
+                  headers: {
+                    Role: "candidate",
+                  },
+                }
               );
               if (userResponse.status === 200 || userResponse.status === 201) {
                 return { ...job, userData: userResponse.data }; // Merge job and user data

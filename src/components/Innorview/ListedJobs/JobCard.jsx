@@ -14,11 +14,11 @@ import { Link, useNavigate } from "react-router-dom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Groups2Icon from "@mui/icons-material/Groups2";
 import HistoryIcon from "@mui/icons-material/History";
-import { fontSize } from "@mui/system";
+
 const JobCard = ({ job }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(job, "jobcards");
+  // console.log(job, "jobcards");
   const navigate = useNavigate();
 
   const handleOpenModal = () => {

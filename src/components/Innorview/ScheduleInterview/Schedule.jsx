@@ -26,7 +26,7 @@ const Schedule = ({ interviews, setInterviews }) => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  let jobId = localStorage.getItem("jobId");
+  let jobId = localStorage.getItem("jobId")?.trim() || "mock-interview";
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];

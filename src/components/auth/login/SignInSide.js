@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { styled } from "@mui/system";
 import API_URLS from "../../../config";
-// import PhoneInput from 'react-phone-number-input'
 import {
   Avatar,
   Button,
   CssBaseline,
   TextField,
   Link,
-  Paper,
   Box,
-  Grid,
   Typography,
   IconButton,
   OutlinedInput,
@@ -26,8 +23,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
-import { LoadingButton } from "@mui/lab";
 import Login from "../../../assets/Logins/login.svg";
 import "./SignIn.css";
 
@@ -36,221 +34,75 @@ const SectionContainer = styled("div")(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
-  // height: "100vh",
   maxWidth: "100%",
   background: "#ececff",
 }));
 
 export default function SignInSide() {
   const [loading, setLoading] = useState(false);
-  const [phone, setPhone] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [message, setMessage] = React.useState("");
-  const [countryCode, setCountryCode] = React.useState("+91");
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const navigate = useNavigate({ forceRefresh: true });
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const baseUrl = API_URLS.base;
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const handlePhoneChange = (e) => {
-    const regex = /^[+0-9\b]+$/;
-    if (e.target.value === "" || regex.test(e.target.value)) {
-      setPhone(e.target.value);
-    }
-  };
+  // Formik and Yup Setup
+  const formik = useFormik({
+    initialValues: {
+      countryCode: "+91",
+      phone: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      countryCode: Yup.string().required("Country code is required"),
+      phone: Yup.string()
+        .matches(/^[0-9]+$/, "Only numbers are allowed")
+        .min(10, "Phone number must be at least 10 digits")
+        .required("Phone number is required"),
+      password: Yup.string()
+        .min(3, "Password must be at least 6 characters")
+        .required("Password is required"),
+    }),
+    onSubmit: async (values) => {
+      const reqURL = `${API_URLS.InnoviewBaseUrl}/login`;
+      try {
+        setLoading(true);
+        const response = await axios.post(reqURL, {
+          mobile_number: values.countryCode + values.phone,
+          password: values.password,
+        });
+        const data = response.data;
 
-  //   const reqURL = `${baseUrl}/login`;
-
-  //   fetch(reqURL, {
-  //     cache: "no-store",
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-  //       Pragma: "no-cache",
-  //       Expires: "0",
-  //     },
-  //     body: JSON.stringify({
-  //       mobile_number: countryCode + phone,
-  //       password: password,
-  //     }),
-  //   })
-  //     .then((res) => {
-  //       res
-  //         .json()
-  //         .then((data) => {
-  //           {
-  //             console.log(data);
-  //           }
-  //           if (data.success === true) {
-  //             console.log(data);
-  //             setMessage(data.message);
-
-  //             toast.success(data.message);
-  //             Cookies.set("mobile_number", data.mobile_number, {
-  //               secure: true,
-  //               expires: 7,
-  //               path: "/",
-  //             });
-  //             Cookies.set("token", data.token, {
-  //               secure: true,
-  //               expires: 7,
-  //               path: "/",
-  //             });
-  //             // window.location.href = "/chat";
-  //             navigate("/dashboard");
-  //             // window.location.reload()
-  //           } else if (data.success === false) {
-  //             setMessage(data.message);
-  //             toast.error(data.message);
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // const submitLogin = async () => {
-  //   const reqURL = `${baseUrl}/login`;
-
-  //   try {
-  //     setLoading(true);
-  //     const response = await axios.post(
-  //       reqURL,
-  //       {
-  //         mobile_number: countryCode + phone,
-  //         password: password,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-  //           Pragma: "no-cache",
-  //           Expires: "0",
-  //         },
-  //       }
-  //     );
-
-  //     const data = response.data;
-
-  //     console.log(data);
-
-  //     if (data.success === true) {
-  //       console.log(data);
-  //       setMessage(data.message);
-  //       toast.success(data.message);
-
-  //       Cookies.set("mobile_number", data.mobile_number, {
-  //         secure: true,
-  //         expires: 7,
-  //         path: "/",
-  //       });
-
-  //       Cookies.set("token", data.token, {
-  //         secure: true,
-  //         expires: 7,
-  //         path: "/",
-  //       });
-
-  //       // window.location.href = '/chat';
-  //       navigate("/dashboard");
-  //       // window.location.reload();
-  //     } else if (data.success === false) {
-  //       setMessage(data.message);
-  //       toast.error(data.message);
-  //     }
-  //     setLoading(false);
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-
-  //   // .catch(error => {
-  //   //   console.log(error);
-  //   // });
-  // };
-
-  const submitLogin = async () => {
-    // const reqURL = `${baseUrl}/login`;
-    // const reqURL = `http://localhost:4000/user/login`;
-    const reqURL = `${API_URLS.InnoviewBaseUrl}/login`;
-
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        reqURL,
-        {
-          mobile_number: countryCode + phone,
-          password: password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
+        if (data.success) {
+          localStorage.setItem("auth-token", data.token);
+          Cookies.set("mobile_number", data.mobile_number, {
+            secure: true,
+            expires: 7,
+            path: "/",
+          });
+          Cookies.set("user_name", data.username, {
+            secure: true,
+            expires: 7,
+            path: "/",
+          });
+          Cookies.set("token", data.token, {
+            secure: true,
+            expires: 7,
+            path: "/",
+          });
+          toast.success(data.message);
+          navigate("/dashboard");
+        } else {
+          toast.error(data.message);
         }
-      );
-
-      const data = response.data;
-
-      console.log(data);
-
-      if (data.success === true) {
-        console.log(data);
-        setMessage(data.message);
-        toast.success(data.message);
-
-        Cookies.set("mobile_number", data.mobile_number, {
-          secure: true,
-          expires: 7,
-          path: "/",
-        });
-        Cookies.set("user_name", data.username, {
-          secure: true,
-          expires: 7,
-          path: "/",
-        });
-
-        Cookies.set("token", data.token, {
-          secure: true,
-          expires: 7,
-          path: "/",
-        });
-        Cookies.set("mobile_number", data.mobile_number, {
-          secure: true,
-          expires: 7,
-          path: "/",
-        });
-        Cookies.set("mobile_number", data.mobile_number, {
-          secure: true,
-          expires: 7,
-          path: "/",
-        });
-        // window.location.href = '/chat';
-        navigate("/dashboard");
-        // window.location.reload();
-      } else if (data.success === false) {
-        setMessage(data.message);
-        toast.error(data.message);
+      } catch (error) {
+        toast.error("Login failed. Please try again.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    } catch (error) {
-      toast.error(error.message);
-    }
-
-    // .catch(error => {
-    //   console.log(error);
-    // });
-  };
+    },
+  });
 
   return (
     <div className="login-container-tab">
@@ -268,16 +120,17 @@ export default function SignInSide() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <LockOutlinedIcon
-              sx={{
-                color: "white",
-              }}
-            />
+            <LockOutlinedIcon sx={{ color: "white" }} />
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box component="form" sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={formik.handleSubmit}
+            sx={{ mt: 1 }}
+            noValidate
+          >
             <TextField
               margin="normal"
               select
@@ -285,8 +138,14 @@ export default function SignInSide() {
               fullWidth
               name="countryCode"
               label="Country Code"
-              value={countryCode}
-              onChange={(e) => setCountryCode(e.target.value)}
+              value={formik.values.countryCode}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.countryCode && Boolean(formik.errors.countryCode)
+              }
+              helperText={
+                formik.touched.countryCode && formik.errors.countryCode
+              }
             >
               <MenuItem value="+91">+91 (India)</MenuItem>
               <MenuItem value="+1">+1 (USA)</MenuItem>
@@ -296,14 +155,14 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              name="phone number"
+              name="phone"
               label="Phone Number"
-              id="phone number"
+              id="phone"
               type="text"
-              value={phone}
-              onChange={(e) => {
-                handlePhoneChange(e);
-              }}
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              error={formik.touched.phone && Boolean(formik.errors.phone)}
+              helperText={formik.touched.phone && formik.errors.phone}
             />
             <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
               <InputLabel htmlFor="password">Password *</InputLabel>
@@ -311,8 +170,11 @@ export default function SignInSide() {
                 id="password"
                 required
                 type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -329,15 +191,13 @@ export default function SignInSide() {
               />
             </FormControl>
             <div className="form-wrapper">
-              <div>
-                <Link
-                  href="/reset-password"
-                  variant="body2"
-                  style={{ fontSize: "14px" }}
-                >
-                  Forgot password?
-                </Link>
-              </div>
+              <Link
+                href="/reset-password"
+                variant="body2"
+                style={{ fontSize: "14px" }}
+              >
+                Forgot password?
+              </Link>
               <div>
                 <span className="signup-indicator">Don't have an account?</span>
                 <Link
@@ -349,26 +209,22 @@ export default function SignInSide() {
                 </Link>
               </div>
             </div>
-            <div className="button-container">
+            <div className="signin-button-container">
               <Button
                 className="login-button-inno"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={submitLogin}
-                loading={loading}
-                loadingPosition="center"
+                sx={{ mt: 3, mb: 2, fontSize: 14 }}
+                type="submit"
                 variant="contained"
                 disabled={loading}
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
               </Button>
-              <div className="back-btn-inno">
-                <Button
-                  sx={{ fontSize: "1.5rem" }}
-                  onClick={() => navigate(-1)}
-                >
-                  BACK
-                </Button>
-              </div>
+              <Button
+                sx={{ fontSize: 14, width: "max-content" }}
+                onClick={() => navigate(-1)}
+              >
+                BACK
+              </Button>
             </div>
           </Box>
         </Box>

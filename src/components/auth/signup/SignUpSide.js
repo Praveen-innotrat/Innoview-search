@@ -3,21 +3,19 @@ import { styled } from "@mui/system";
 import Cookies from "js-cookie";
 import {
   Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  MenuItem,
-  Link,
-  Paper,
   Box,
-  Grid,
-  Typography,
-  IconButton,
-  OutlinedInput,
+  TextField,
   InputLabel,
-  InputAdornment,
+  MenuItem,
   FormControl,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Typography,
+  Button,
+  Link,
 } from "@mui/material";
+import "./Signup.css";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -26,6 +24,7 @@ import API_URLS from "../../../config";
 import axios from "axios";
 import { Label } from "@mui/icons-material";
 import Signup from "../../../assets/Logins/signup.svg";
+import { toast } from "react-toastify";
 
 const SectionContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -82,6 +81,7 @@ export default function SignUpSide() {
 
       if (response.data.success === true) {
         setMessage(response.data.message);
+        toast.success("Account created successfully");
 
         localStorage.setItem("mobile_number", mobile_number);
         navigate("/eureka");
@@ -92,6 +92,7 @@ export default function SignUpSide() {
       if (error.response) {
         // The request was made and the server responded with a status code that falls out of the range of 2xx
         console.log(error.response.data);
+        toast.error(error.response.data.message);
         setMessage(error.response.data.message);
       } else if (error.request) {
         // The request was made but no response was received
@@ -131,134 +132,153 @@ export default function SignUpSide() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <InputLabel htmlFor="name">Name</InputLabel>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="name"
-              name="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              select
-              required
-              fullWidth
-              name="countryCode"
-              label="Country Code"
-              value={countryCode}
-              onChange={(e) => setcountryCode(e.target.value)}
-            >
-              <MenuItem value="+91">+91 (India)</MenuItem>
-              <MenuItem value="+1">+1 (USA)</MenuItem>
-              {/* Add more country codes as needed */}
-            </TextField>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="phone number"
-              label="Phone Number"
-              id="phone number"
-              type="text"
-              value={phone}
-              onChange={(e) => {
-                handlePhoneChange(e);
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="file"
-              label="Upload File"
-              id="file"
-              type="file"
-              onChange={(e) => {
-                // handleFileChange(e); // Update this function to handle file input
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="video"
-              label="Upload Video"
-              id="video"
-              type="file"
-              accept="video/*" // This restricts file selection to video types
-              onChange={(e) => {
-                // handleVideoChange(e); // Update this function to handle video input
-              }}
-            />
-
-            <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="password">Password *</InputLabel>
-              <OutlinedInput
-                id="password"
+          <Box
+            component="form"
+            noValidate
+            className="signup-form"
+            sx={{ mt: 1 }}
+          >
+            <div className="form-group">
+              <InputLabel htmlFor="name" className="form-label">
+                Name
+              </InputLabel>
+              <TextField
+                className="form-input"
                 required
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
+                fullWidth
+                id="name"
+                name="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoFocus
               />
-            </FormControl>
-            <Typography
-              variant="body2"
-              textAlign="center"
-              mt={2}
-              sx={{ color: "#757575", fontSize: "1.2rem" }}
-            >
+            </div>
+
+            <div className="form-group">
+              <InputLabel htmlFor="countryCode" className="form-label">
+                Country Code
+              </InputLabel>
+              <TextField
+                className="form-input"
+                select
+                required
+                fullWidth
+                name="countryCode"
+                value={countryCode}
+                onChange={(e) => setcountryCode(e.target.value)}
+              >
+                <MenuItem value="+91">+91 (India)</MenuItem>
+                <MenuItem value="+1">+1 (USA)</MenuItem>
+              </TextField>
+            </div>
+
+            <div className="form-group">
+              <InputLabel htmlFor="phone" className="form-label">
+                Phone Number
+              </InputLabel>
+              <TextField
+                className="form-input"
+                required
+                fullWidth
+                name="phone"
+                id="phone"
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <InputLabel htmlFor="file" className="form-label">
+                Upload File
+              </InputLabel>
+              <TextField
+                className="form-input"
+                required
+                fullWidth
+                name="file"
+                id="file"
+                type="file"
+              />
+            </div>
+
+            <div className="form-group">
+              <InputLabel htmlFor="video" className="form-label">
+                Upload Video
+              </InputLabel>
+              <TextField
+                className="form-input"
+                required
+                fullWidth
+                name="video"
+                id="video"
+                type="file"
+                accept="video/*"
+              />
+            </div>
+
+            <div className="form-group">
+              <FormControl
+                className="form-input"
+                variant="outlined"
+                required
+                fullWidth
+              >
+                <InputLabel htmlFor="password" className="form-label">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
+            </div>
+
+            <Typography variant="body2" className="form-message">
               {message}
             </Typography>
+
             <div className="button-container">
-              <div className="back-btn-inno">
-                <Button
-                  sx={{ fontSize: "1.5rem" }}
-                  onClick={() => navigate(-1)}
-                >
-                  BACK
-                </Button>
-              </div>
               <Button
-                // fullWidth
-                variant="contained"
+                sx={{
+                  width: "max-content", // Correct syntax
+                  fontSize: 16,
+                }}
+                className="back-button"
+                onClick={() => navigate(-1)}
+              >
+                Back
+              </Button>
+              <Button
+                sx={{
+                  fontSize: 16,
+                }}
                 className="signup-button"
-                sx={{ mt: 3, mb: 2, fontSize: "1.2rem" }}
+                variant="contained"
                 onClick={submitSignup}
               >
                 Sign Up
               </Button>
             </div>
 
-            <Link
-              href="/eureka"
-              variant="body2"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "1.2rem",
-              }}
-            >
-              {"Already have an account? Login"}
+            <Link href="/eureka" className="login-link">
+              Already have an account? Login
             </Link>
           </Box>
         </Box>

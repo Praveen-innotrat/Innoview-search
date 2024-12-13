@@ -27,7 +27,13 @@ function JobsType() {
         </div>
       </div>
       <div className="back-button-container">
-        <Button className="back-button" onClick={() => nav(-1)}>
+        <Button
+          sx={{
+            fontSize: 18,
+          }}
+          className="back-button"
+          onClick={() => nav(-1)}
+        >
           BACK
         </Button>
       </div>
