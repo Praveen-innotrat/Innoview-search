@@ -312,28 +312,40 @@ const Status = ({ close, Interview_id, open }) => {
           </>
         )}
       </DialogContent>
-      <DialogActions style={{ justifyContent: "center" }}>
+      <DialogActions style={{ justifyContent: "space-around" }}>
         {!showTotalTable ? (
           <>
             <Button
               variant="contained"
               color="primary"
               onClick={() => navigate("/profile")}
-              style={{ fontSize: "1rem", margin: "0 8px" }}
+              style={{
+                fontSize: "1rem",
+                width: "max-content",
+                margin: "0 8px",
+              }}
             >
               View Updated Profile
             </Button>
             <Button
               variant="contained"
               onClick={() => setShowTotalTable(true)}
-              style={{ fontSize: "1rem", margin: "0 8px" }}
+              style={{
+                fontSize: "1rem",
+                width: "max-content",
+                margin: "0 8px",
+              }}
             >
               Total
             </Button>
             <Button
               variant="contained"
               onClick={close}
-              style={{ fontSize: "1rem", margin: "0 8px" }}
+              style={{
+                fontSize: "1rem",
+                width: "max-content",
+                margin: "0 8px",
+              }}
             >
               Close
             </Button>
@@ -343,7 +355,12 @@ const Status = ({ close, Interview_id, open }) => {
             variant="contained"
             className="m-4"
             onClick={() => setShowTotalTable(false)}
-            style={{ marginBottom: "1rem", fontSize: "1rem", margin: "0 8px" }}
+            style={{
+              marginBottom: "1rem",
+              width: "max-content",
+              fontSize: "1rem",
+              margin: "0 8px",
+            }}
           >
             Back
           </Button>

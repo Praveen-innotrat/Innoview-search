@@ -32,7 +32,13 @@ function LandingScreen() {
               Empower Your Hardware Dreams with Innotrat Labs: Your Gateway to
               Cutting-edge IoT, Medical Electronics, and Automation Solutions
             </div>
-            <Link to="eureka">
+            <Link
+              to={
+                localStorage.getItem("auth-token")
+                  ? "/innorview/schedule"
+                  : "/eureka"
+              }
+            >
               <div className="scheldule-button">Schedule now</div>
             </Link>
           </div>

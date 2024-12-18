@@ -19,7 +19,11 @@ function PostedJobs() {
 
   const fetchJobData = async () => {
     try {
-      const response = await axios.get(`${HOSTED_API}/all_internships`);
+      const response = await axios.get(`${HOSTED_API}/all_internships`, {
+        headers: {
+          Role: "candidate",
+        },
+      });
       console.log(response, "response");
       if (response.status === 200 || response.status == 201) {
         setJobData(response.data); // Set the fetched job data

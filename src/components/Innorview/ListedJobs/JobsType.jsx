@@ -10,7 +10,10 @@ function JobsType() {
   return (
     <div className="jobs-container">
       <div className="job-cards-container">
-        <div className="job-card" onClick={() => nav("/innorview/listedjob")}>
+        <div
+          className="job-card"
+          onClick={() => nav("/from-our-online-source")}
+        >
           <img className="job-card-image" src={Online} alt="Online Jobs" />
           <div className="job-card-content">
             <div className="job-card-title">From online sources</div>

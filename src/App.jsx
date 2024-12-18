@@ -45,6 +45,8 @@ import InternOrJob from "./components/Innorview/ListedJobs/InternOrJob";
 import PostedJobs from "./components/Innorview/ListedJobs/PostedJobs";
 import PostedInternships from "./components/Innorview/ListedJobs/PostedInternships";
 import Jd from "./components/Innorview/ListedJobs/JobDescription/Jd";
+import InternJob from "./components/Innorview/ListedJobs/InternJob";
+import Interns from "./components/Innorview/ListedJobs/Interns";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const hasCookies =
@@ -173,7 +175,8 @@ function App() {
           />
           <Route path="/innorview/update-profile" element={<UpdateProfile />} />
           <Route path="/innorview/joboffer" element={<Offers />} />
-          <Route path="/innorview/listedjob" element={<Jobs />} />
+          <Route path="/innorview/listedInterns" element={<Jobs />} />
+          <Route path="/innorview/listedjob" element={<Interns />} />
           <Route path="/innorview/applications" element={<Applications />} />
           <Route
             path="/innorview/subscriptions"
@@ -185,7 +188,7 @@ function App() {
           />
           <Route path="/innorview/experience" element={<Experience />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/myaccount" element={<MyAccount />} />
+          {/* <Route path="/myaccount" element={<MyAccount />} /> */}
           <Route
             path="/interview-details"
             element={
@@ -197,6 +200,7 @@ function App() {
           />
           <Route path="/choose-type" element={<JobsType />} />
           <Route path="/from-our-hiringpartners" element={<InternOrJob />} />
+          <Route path="/from-our-online-source" element={<InternJob />} />
           <Route path="/posted-jobs" element={<PostedJobs />} />
           <Route path="/posted-internships" element={<PostedInternships />} />
           <Route path="/jobs-description" element={<Jd />} />

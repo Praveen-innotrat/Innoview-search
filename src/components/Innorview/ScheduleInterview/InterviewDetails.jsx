@@ -13,27 +13,27 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import Pagination from "@mui/material/Pagination";
 import moment from "moment";
 import axios from "axios";
 import { toast } from "react-toastify";
 import API_URLS from "../../../config";
-
 import "./InterviewDetails.css";
 import { formatPhoneNumber } from "../../../Utils";
-import { fontSize } from "@mui/system";
 
 const InterviewDetails = ({ interviews, setInterviews }) => {
   const navigate = useNavigate();
   const [interviewData, setInterviewData] = useState([]);
   const [status, setStatus] = useState({ open: false, interviewId: null });
-  const [array, setArray] = useState([]);
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const usertoken = Cookies.get("token");
   const headers = {
     headers: { authorization: `${usertoken}` },
   };
-
-  console.log(status, "status");
 
   const getInterviews = async () => {
     try {
@@ -50,6 +50,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
   useEffect(() => {
     getInterviews();
   }, []);
+
   const handleStatus = (interviewId) => {
     setStatus({ open: !status.open, interviewId });
   };
@@ -70,7 +71,6 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
 
       if (response.data.success) {
         navigate(`/interview/${response.data.token}`);
-        // navigate(`/mic-checking`);
       } else {
         toast.warning(response.data.message || "An error occurred");
       }
@@ -87,49 +87,58 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
       `${scheduledDate} ${scheduledTime}`,
       "YYYY-MM-DD HH:mm"
     );
-
-    // Disable the button if current time is more than an hour after scheduled time or if interview has been attended
     return currentTime.isAfter(interviewTime.add(1, "hours")) || attended;
   };
+
+  // Pagination logic
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = interviewData.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const totalEntries = interviewData.length;
+  const endIndex =
+    startIndex + paginatedData.length > totalEntries
+      ? totalEntries
+      : startIndex + itemsPerPage;
 
   return (
     <div className="interview-details">
       <Header />
       <div className="interview-header">
-        <div className="interview-back-button">
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              fontSize: "1.2rem",
-              padding: "10px 20px",
-              borderRadius: "8px",
-              backgroundColor: "#0073e6",
-              color: "#fff",
-              "&:hover": {
-                backgroundColor: "#005bb5",
-              },
-            }}
-            onClick={() => navigate("/innorview")}
-          >
-            BACK
-          </Button>
-        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            fontSize: "1.2rem",
+            width: "max-content",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            backgroundColor: "#0073e6",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#005bb5" },
+          }}
+          onClick={() => navigate("/innorview")}
+        >
+          BACK
+        </Button>
         <h1 className="interview-title">Interview Details</h1>
         <Button
           variant="outlined"
           startIcon={<AddIcon fontSize="large" />}
           sx={{
             fontSize: "1rem",
+            width: "max-content",
             padding: "8px 16px",
             borderRadius: "8px",
             borderColor: "#0073e6",
             color: "#0073e6",
-            width: "fit-content" /* Ensures button width fits the content */,
-            "&:hover": {
-              backgroundColor: "#f0f8ff",
-              borderColor: "#005bb5",
-            },
+            "&:hover": { backgroundColor: "#f0f8ff", borderColor: "#005bb5" },
           }}
           onClick={() => navigate("/innorview/schedule")}
         >
@@ -137,24 +146,10 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         </Button>
       </div>
 
-      <TableContainer
-        className="table-container"
-        sx={{
-          borderRadius: "8px", // Optional rounded corners
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow
-          overflow: "scroll", // To handle border radius for scrollable tables
-        }}
-      >
-        <Table
-          sx={{
-            backgroundColor: "#f9f9f9", // Light background color for the table
-          }}
-          aria-label="styled table"
-        >
+      <TableContainer className="table-container" sx={{ borderRadius: "8px" }}>
+        <Table sx={{ backgroundColor: "#f9f9f9" }} aria-label="styled table">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#1976d2" }}>
-              {" "}
-              {/* Header background color */}
               {[
                 "Interview ID",
                 "Job ID",
@@ -170,8 +165,8 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
                   sx={{
                     fontSize: "14px",
                     textAlign: "center",
-                    color: "#fff", // White text color for header
-                    fontWeight: "bold", // Bold text
+                    color: "#fff",
+                    fontWeight: "bold",
                   }}
                 >
                   {heading}
@@ -180,22 +175,17 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {interviewData.length > 0 ? (
-              interviewData.map((interview, i) => (
+            {paginatedData.length > 0 ? (
+              paginatedData.map((interview, i) => (
                 <TableRow
                   key={i}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#f1f1f1", // Row hover effect
-                      cursor: "pointer", // Pointer on hover
-                    },
-                  }}
+                  sx={{ "&:hover": { backgroundColor: "#f1f1f1" } }}
                 >
                   <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
-                    {i + 1}
+                    {startIndex + i + 1}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
-                    {i + 1}
+                    {interview.jobId || startIndex + i + 1}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
                     {interview.scheduledDate}
@@ -210,17 +200,10 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
                     {formatPhoneNumber(interview.mobile_number)}
                   </TableCell>
                   <TableCell
-                    sx={{
-                      fontSize: "14px",
-                      textAlign: "center",
-                      cursor: "pointer",
-                    }}
+                    sx={{ fontSize: "14px", textAlign: "center" }}
                     onClick={() => handleStatus(interview._id)}
                   >
-                    <FolderCopyIcon
-                      sx={{ fontSize: 30, cursor: "pointer" }}
-                      color="warning"
-                    />
+                    <FolderCopyIcon sx={{ fontSize: 30 }} color="warning" />
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", textAlign: "center" }}>
                     {interview.status === false ? (
@@ -244,13 +227,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
             ) : (
               <TableRow>
                 <TableCell colSpan={8} align="center">
-                  <div>
-                    <h2>No Data Found</h2>
-                    <h4>
-                      Do you want to schedule an interview?{" "}
-                      <Link to="/innorview/schedule">Click here</Link>
-                    </h4>
-                  </div>
+                  <h2>No Data Found</h2>
                 </TableCell>
               </TableRow>
             )}
@@ -258,7 +235,27 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
         </Table>
       </TableContainer>
 
-      {/* Status Component - Only display when status is toggled */}
+      {totalEntries > 0 && (
+        <div className="pagination-info">
+          <p>
+            Showing {startIndex + 1}–{endIndex} of {totalEntries} entries
+          </p>
+        </div>
+      )}
+
+      {interviewData.length > itemsPerPage && (
+        <Pagination
+          count={Math.ceil(interviewData.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handleChangePage}
+          sx={{
+            margin: "20px auto",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        />
+      )}
+
       {status.open && (
         <Status
           close={handleClose}

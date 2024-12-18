@@ -108,7 +108,7 @@ export default function Innorview() {
             <PunchClockIcon sx={{ fontSize: 40 }} />
             <span>Scheduled Interviews</span>
           </div>
-          <div className="card" onClick={() => navigate("/innorview/joboffer")}>
+          <div className="card" onClick={() => navigate("/myaccount")}>
             <LocalOfferIcon sx={{ fontSize: 40 }} />
             <span>My Account</span>
           </div>

@@ -1,0 +1,109 @@
+.myaccount-container-tab{
+    height: 86vh;
+    background: #ececff;
+}
+.about-me-wrapper{
+    background-color: white;
+    margin: 15px;
+    height: 22vh;
+    border-radius: 5px;
+}
+.acheivement-skill-wrapper {
+    background-color: white;
+    margin: 15px;
+    /* height: 22vh; */
+    border-radius: 5px;
+}
+.my-account-title{
+    padding: 11px 0px 0px 20px;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.myaccount-profile-img-wrapper{
+    width: 12rem;
+}
+.myaccount-profile-img{
+    width: 100%;
+    border-radius: 5px;
+}
+.img-content-wrapper{
+    display: flex;
+        flex-direction: row;
+        gap: 33px;
+}
+.myaccount-body-content-wrapper{
+    padding: 20px;
+    display: flex;
+    height: 18vh;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.myaccount-details{
+    display: flex
+    ;
+        flex-direction: column;
+        gap: 5px;
+}
+.welcome-note{
+    font-size: medium;
+    font-weight: 500;
+    color: cadetblue;
+}
+.myaccout-name{
+    font-size: large;
+    letter-spacing: 0.5px;
+}
+.myaccount-role{
+    font-size: 14px;
+    color: gray;
+    font-weight: 600;
+}
+.myaccount-location{
+    font-size: 12px;
+}
+.all-wrappers{
+    display: flex;
+        flex-direction: column;
+        gap: 24px;
+}
+.cards-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+}
+.cards{
+    width: 100%;
+}
+.profile-sub-title{
+    font-size: 15px;
+}
+.refer-link{
+    font-size: 12px;
+}
+.profile-description, .links{
+    font-size: 12px;
+
+}
+
+.lists{
+    border: 1px solid lightgray;
+    font-size: 12px;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.lists-group{
+    display: flex;
+        flex-direction: row;
+        gap: 11px;
+}
+.cards-groups{
+    display: flex;
+        flex-direction: column;
+        gap: 33px;
+}
