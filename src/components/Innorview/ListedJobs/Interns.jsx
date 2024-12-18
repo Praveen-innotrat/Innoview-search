@@ -12,6 +12,7 @@ import { setDefaultKey } from "../../../Store/JoblistingSlice";
 import axios from "axios";
 import API_URLS from "../../../config";
 import InternCard from "./InternCard";
+import { useNavigate } from "react-router";
 
 const Interns = () => {
   const [jobName, setJobName] = useState("");
