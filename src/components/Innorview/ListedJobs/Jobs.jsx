@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./Jobs.css";
 import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import JobCard from "./JobCard";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
@@ -11,13 +11,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDefaultKey } from "../../../Store/JoblistingSlice";
 import axios from "axios";
 import API_URLS from "../../../config";
+import { useNavigate } from "react-router";
 
 const Jobs = () => {
-  const [jobName, setJobName] = useState("");
-  const [matchedKeywords, setMatchedKeywords] = useState([]); // State to hold matched keywords
+  const [jobName, setJobName] = useState("iot");
+  const [matchedKeywords, setMatchedKeywords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [jobs, setJobs] = useState([]);
+  const [city, setCity] = useState("iot");
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const keywords = [
     "iot",
@@ -31,50 +34,48 @@ const Jobs = () => {
     "biotechnology",
   ];
 
-  const key = useSelector((state) => state.job.defaultKey);
-
-  const fetchJobData = async () => {
-    setLoading(true); // Set loading to true before fetching
-
+  const fetchJobData = async (value) => {
+    setLoading(true);
     try {
-      const payload = { keyword: key.trim() };
+      const payload = { keyword: value }; // Construct payload dynamically
+      console.log("Sending payload:", payload); // Debug the payload
       const response = await axios.post(
         `${API_URLS.InnoviewResumeUrl}/get_internships`,
         payload
       );
-
-      if (response.data) {
-        setJobs(response.data); // Update the jobs state with fetched data
-      }
+      setJobs(response.data || []); // Handle response
     } catch (error) {
-      console.error("Error fetching jobs:", error);
+      console.error("Error fetching jobs:", error); // Log errors for debugging
     } finally {
-      setLoading(false); // Always set loading to false after the request
+      setLoading(false);
     }
   };
 
   const handleInputChange = (value) => {
     setJobName(value);
     dispatch(setDefaultKey(value));
-
-    // Check for matches with the keywords array
-    const matches = keywords.filter((keyword) =>
-      keyword.toLowerCase().includes(value.toLowerCase())
+    setMatchedKeywords(
+      keywords.filter((keyword) =>
+        keyword.toLowerCase().includes(value.toLowerCase())
+      )
     );
-
-    setMatchedKeywords(matches); // Update the state with matched keywords
   };
 
   const handleCancelButton = () => {
     setJobName("");
-    setMatchedKeywords([]); // Clear matched keywords on cancel
+    setMatchedKeywords([]);
   };
 
   const handleKeywordSelect = (keyword) => {
-    setJobName(keyword); // Clear search bar after selection
+    setJobName(keyword);
     dispatch(setDefaultKey(keyword));
     fetchJobData();
-    setMatchedKeywords([]); // Clear dropdown after selection
+    setMatchedKeywords([]);
+  };
+
+  const handleCityChange = (value) => {
+    setCity(value);
+    fetchJobData(value);
   };
 
   useEffect(() => {
@@ -84,13 +85,22 @@ const Jobs = () => {
   }, [jobName]);
 
   useEffect(() => {
-    fetchJobData(); // Initial data fetch
-  }, []); // Dependency array ensures this runs only once
+    fetchJobData();
+  }, []);
 
   return (
     <div className="jobs">
       <Header />
       <div className="jobs-container-tab">
+        <Button
+          sx={{
+            width: "max-content",
+          }}
+          variant="contained"
+          onClick={() => nav(-1)}
+        >
+          Back
+        </Button>
         <Typography
           variant="h3"
           color="#18304B"
@@ -101,17 +111,23 @@ const Jobs = () => {
             fontWeight: "bold",
           }}
         >
-          Featured{" "}
-          <span
-            style={{
-              color: "#3399ff",
-            }}
-          >
-            Jobs
-          </span>
+          Featured <span style={{ color: "#3399ff" }}>Jobs</span>
         </Typography>
 
-        {/* Show loading state */}
+        <div className="city-buttons">
+          {["All", ...keywords].map((cityName, index) => (
+            <Button
+              key={index}
+              variant={city === cityName ? "contained" : "outlined"}
+              color="primary"
+              onClick={() => handleCityChange(cityName)}
+              sx={{ margin: "0.5rem", width: "max-content" }}
+            >
+              {cityName}
+            </Button>
+          ))}
+        </div>
+
         {loading ? (
           <div className="loading-container">
             <CircularProgress />
@@ -127,34 +143,25 @@ const Jobs = () => {
               <input
                 className="search-input"
                 type="text"
-                name="search-jobs"
                 value={jobName}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder="Search Jobs Here"
               />
               <div
                 className="cancel-button"
-                style={{
-                  display: jobName.length !== 0 ? "block" : "none",
-                }}
+                style={{ display: jobName.length ? "block" : "none" }}
               >
                 <CancelIcon
                   onClick={handleCancelButton}
-                  sx={{
-                    fontSize: 24,
-                  }}
+                  sx={{ fontSize: 24 }}
                 />
               </div>
               <div className="search-button">
-                <SearchIcon
-                  sx={{
-                    fontSize: 24,
-                  }}
-                  onClick={fetchJobData}
-                />
+                <SearchIcon sx={{ fontSize: 24 }} onClick={fetchJobData} />
               </div>
             </div>
-            {matchedKeywords.length !== 0 && (
+
+            {matchedKeywords.length > 0 && (
               <div className="drop-down-parent">
                 <ul className="dropdown-list">
                   {matchedKeywords.map((keyword, index) => (
@@ -168,6 +175,7 @@ const Jobs = () => {
                 </ul>
               </div>
             )}
+
             <Box
               sx={{
                 paddingX: "2rem",

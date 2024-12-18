@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./Jobs.css";
 import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import JobCard from "./JobCard";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
@@ -11,28 +11,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDefaultKey } from "../../../Store/JoblistingSlice";
 import axios from "axios";
 import API_URLS from "../../../config";
+import InternCard from "./InternCard";
 
 const Interns = () => {
   const [jobName, setJobName] = useState("");
   const [matchedKeywords, setMatchedKeywords] = useState([]); // State to hold matched keywords
   const [loading, setLoading] = useState(false);
+  const [city, setCity] = useState("");
   const [jobs, setJobs] = useState([]);
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const keywords = ["chennai", "bangalore", "hyderabad", "kolkata", "pune"];
 
-  const key = useSelector((state) => state.job.defaultKey);
-
-  const fetchJobData = async () => {
+  const fetchJobData = async (city = "chennai") => {
     setLoading(true); // Set loading to true before fetching
 
     try {
-      const payload = { city: "chennai" };
+      const payload = { city };
       const response = await axios.post(
         `${API_URLS.InnoviewResumeUrl}/get_jobs`,
         payload
       );
 
+      console.log(response, "response");
       if (response.data) {
         setJobs(response.data); // Update the jobs state with fetched data
       }
@@ -60,11 +62,9 @@ const Interns = () => {
     setMatchedKeywords([]); // Clear matched keywords on cancel
   };
 
-  const handleKeywordSelect = (keyword) => {
-    setJobName(keyword); // Clear search bar after selection
-    dispatch(setDefaultKey(keyword));
-    fetchJobData();
-    setMatchedKeywords([]); // Clear dropdown after selection
+  const handleCityChange = (selectedCity) => {
+    setCity(selectedCity); // Correctly set the city
+    fetchJobData(selectedCity); // Fetch job data for the selected city
   };
 
   useEffect(() => {
@@ -81,6 +81,15 @@ const Interns = () => {
     <div className="jobs">
       <Header />
       <div className="jobs-container-tab">
+        <Button
+          sx={{
+            width: "max-content",
+          }}
+          variant="contained"
+          onClick={() => nav(-1)}
+        >
+          Back
+        </Button>
         <Typography
           variant="h3"
           color="#18304B"
@@ -100,6 +109,22 @@ const Interns = () => {
             Jobs
           </span>
         </Typography>
+
+        {/* Keyword Buttons */}
+        {/* Keyword Buttons */}
+        <div className="keyword-buttons-container">
+          {keywords.map((keyword, index) => (
+            <Button
+              key={index}
+              variant={city === keyword ? "contained" : "outlined"} // Fixed comparison
+              color="primary"
+              sx={{ margin: "0.5rem", width: "max-content" }}
+              onClick={() => handleCityChange(keyword)}
+            >
+              {keyword}
+            </Button>
+          ))}
+        </div>
 
         {/* Show loading state */}
         {loading ? (
@@ -144,20 +169,6 @@ const Interns = () => {
                 />
               </div>
             </div>
-            {matchedKeywords.length !== 0 && (
-              <div className="drop-down-parent">
-                <ul className="dropdown-list">
-                  {matchedKeywords.map((keyword, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleKeywordSelect(keyword)}
-                    >
-                      {keyword}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
             <Box
               sx={{
                 paddingX: "2rem",
@@ -173,7 +184,7 @@ const Interns = () => {
               }}
             >
               {jobs.map((job, index) => (
-                <JobCard key={index} job={job} />
+                <InternCard key={index} companyData={job} />
               ))}
             </Box>
           </>
