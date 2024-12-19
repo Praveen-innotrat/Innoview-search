@@ -1,12 +1,16 @@
 .interncard-wrapper {
-    width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    margin: 16px;
-    transition: transform 0.2s, box-shadow 0.2s;
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex
+;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-direction: column;
+  justify-content: space-between;
   }
   
   .interncard-wrapper:hover {
@@ -43,7 +47,9 @@
   
   .job-link-wrapper {
     text-align: center;
+    /* position: relative; */
     margin: 16px 0;
+    /* bottom: 0px; */
   }
   
   .job-link {

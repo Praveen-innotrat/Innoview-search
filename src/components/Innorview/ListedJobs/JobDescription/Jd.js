@@ -108,7 +108,7 @@ function Jd() {
         <Button
           className="apply-button"
           sx={{
-            fontSize: 14,
+            fontSize: "16px",
           }}
           onClick={() => {
             handleApply();

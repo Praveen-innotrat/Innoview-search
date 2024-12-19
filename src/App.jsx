@@ -47,6 +47,7 @@ import PostedInternships from "./components/Innorview/ListedJobs/PostedInternshi
 import Jd from "./components/Innorview/ListedJobs/JobDescription/Jd";
 import InternJob from "./components/Innorview/ListedJobs/InternJob";
 import Interns from "./components/Innorview/ListedJobs/Interns";
+import InternDescription from "./components/Innorview/ListedJobs/Interns/InternDescription";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const hasCookies =
@@ -204,6 +205,7 @@ function App() {
           <Route path="/posted-jobs" element={<PostedJobs />} />
           <Route path="/posted-internships" element={<PostedInternships />} />
           <Route path="/jobs-description" element={<Jd />} />
+          <Route path="/interns-description" element={<InternDescription />} />
 
           <Route path="/interview" element={<Interview />} />
           <Route path="/interview/:id" element={<AsyncInterview />} />

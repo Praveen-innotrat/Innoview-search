@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import PostJobCard from "./PostJobCard";
 import SearchIcon from "@mui/icons-material/Search";
 import noData from "./Assets/notfound.svg";
-import "./Recruiter.css";
 import { Audio, BallTriangle, Circles } from "react-loader-spinner";
+import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
 import { HOSTED_API } from "../../../Global";
+import InternsCard from "./InternCard";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router";
+// import { HOSTED_API } from "../../Global";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 
-function PostedJobs() {
-  const [jobData, setJobData] = useState([]); // State to store job data
+function PostedInterships() {
+  const [InternData, setInternData] = useState([]); // State to store job data
   const [filteredJobs, setFilteredJobs] = useState([]); // State to store filtered jobs
   const [searchQuery, setSearchQuery] = useState(""); // State to store search input
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState(null); // State to manage error
-  const [userData, setUserData] = useState([]);
-  const userId = sessionStorage.getItem("user_id");
-
+  const nav = useNavigate();
   const fetchJobData = async () => {
     try {
       const response = await axios.get(`${HOSTED_API}/all_internships`, {
@@ -24,11 +26,39 @@ function PostedJobs() {
           Role: "candidate",
         },
       });
-      console.log(response, "response");
-      if (response.status === 200 || response.status == 201) {
-        setJobData(response.data); // Set the fetched job data
-        setFilteredJobs(response.data); // Initialize filtered jobs with all jobs
-        toast.success("Jobs Fetched Successfully");
+      if (response.status === 200 || response.status === 201) {
+        const interns = response.data.reverse();
+        console.log(interns);
+        // Fetch user data for each job
+        const internsWithUserData = await Promise.all(
+          interns.map(async (intern) => {
+            const payload = { user_id: intern.user_id };
+            try {
+              const userResponse = await axios.post(
+                `${HOSTED_API}/get_user_details`,
+                payload,
+                {
+                  headers: {
+                    Role: "candidate",
+                  },
+                }
+              );
+              if (userResponse.status === 200 || userResponse.status === 201) {
+                return { ...intern, userData: userResponse.data }; // Merge job and user data
+              }
+            } catch (userErr) {
+              console.error(
+                `Failed to fetch user data for job ${intern.job_id}:`,
+                userErr.message
+              );
+              return { ...intern, userData: null }; // Handle case where user data fetch fails
+            }
+          })
+        );
+        console.log(internsWithUserData, "response");
+        setInternData(internsWithUserData); // Set the job data with user details
+        setFilteredJobs(internsWithUserData); // Initialize filtered jobs with all jobs
+        toast.success("Inters fetched successfully");
       }
     } catch (err) {
       setError(err.message); // Set error message if the request fails
@@ -44,15 +74,23 @@ function PostedJobs() {
 
     return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
   }, []);
-  const handleSearch = () => {
-    const searchId = parseInt(searchQuery, 10); // Convert searchQuery to a number
 
-    if (isNaN(searchId)) {
-      setFilteredJobs(jobData); // If searchQuery is not a valid number, show all jobs
+  // Real-time search functionality
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toUpperCase().trim();
+    setSearchQuery(query);
+
+    if (!query) {
+      setFilteredJobs(InternData);
     } else {
-      const filtered = jobData.filter((job) => job.job_id == searchId);
+      const filtered = InternData.filter((job) => job.job_id == query);
       setFilteredJobs(filtered);
     }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setFilteredJobs(InternData);
   };
 
   if (loading) {
@@ -70,7 +108,7 @@ function PostedJobs() {
           visible={true}
         />
       </div>
-    );
+    ); // Display loading message
   }
 
   if (error) {
@@ -79,27 +117,49 @@ function PostedJobs() {
 
   return (
     <div className="posted-jobs-tab">
+      <div className="button-wrapper">
+        <Button
+          sx={{
+            fontSize: "16px",
+          }}
+          onClick={() => nav("/from-our-hiringpartners")}
+        >
+          <ArrowLeftIcon /> BACK
+        </Button>
+      </div>
       <div className="jobs-search">
         <input
           type="text"
           className="jobpost-search"
-          placeholder="Search by job role..."
+          placeholder="Search by job ID or role..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery state
+          onChange={handleSearchChange}
+          style={{
+            transition: "all 0.3s ease-in-out",
+            boxShadow: searchQuery ? "0 4px 8px rgba(0, 0, 0, 0.2)" : "none",
+          }}
         />
-        <button className="job-post-search-button" onClick={handleSearch}>
-          <SearchIcon /> Search
+        {searchQuery && (
+          <button className="clear-search-button" onClick={clearSearch}>
+            <CloseIcon />
+          </button>
+        )}
+        <button
+          className="job-post-search-button"
+          onClick={() => handleSearchChange({ target: { value: searchQuery } })}
+        >
+          <SearchIcon />
         </button>
       </div>
       <div className="posted-job-container">
         {filteredJobs.length > 0 ? (
-          filteredJobs.map((job) => (
-            <PostJobCard key={job.id} userData={userData} job={job} /> // Pass job details as props
+          filteredJobs.map((intern) => (
+            <InternsCard key={intern.job_id} internship={intern} /> // Pass job details as props
           ))
         ) : (
           <div className="no-data-found">
             <img className="no-data-found-imag" src={noData} alt="No Data" />
-            <p>No jobs found.</p>
+            <p>No Internships found.</p>
           </div>
         )}
       </div>
@@ -107,4 +167,4 @@ function PostedJobs() {
   );
 }
 
-export default PostedJobs;
+export default PostedInterships;
