@@ -26,7 +26,11 @@ function PostedJobs() {
         },
       });
       if (response.status === 200 || response.status === 201) {
-        const jobs = response.data.reverse();
+        let filterJobs = response.data.filter(
+          (data) => data.status_id !== "S1" && data.status_id !== "S2"
+        );
+        const jobs = filterJobs.reverse();
+        console.log(jobs, "Jobs");
 
         // Fetch user data for each job
         const jobsWithUserData = await Promise.all(

@@ -7,9 +7,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
 import { HOSTED_API } from "../../../Global";
 import InternsCard from "./InternCard";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-// import { HOSTED_API } from "../../Global";
+import { Button } from "@mui/material";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 
 function PostedInterships() {
@@ -27,8 +26,12 @@ function PostedInterships() {
         },
       });
       if (response.status === 200 || response.status === 201) {
-        const interns = response.data.reverse();
-        console.log(interns);
+        let filterJobs = response.data.filter(
+          (data) => data.status_id !== "S1" && data.status_id !== "S2"
+        );
+        const interns = filterJobs.reverse();
+        console.log(interns, "Jobs");
+
         // Fetch user data for each job
         const internsWithUserData = await Promise.all(
           interns.map(async (intern) => {
