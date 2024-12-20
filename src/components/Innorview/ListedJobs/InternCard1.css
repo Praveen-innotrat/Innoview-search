@@ -1,0 +1,63 @@
+.interncard-wrapper {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .interncard-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .company-header-wrapper {
+    background: linear-gradient(135deg, #4caf50, #81c784);
+    padding: 16px;
+    color: white;
+    text-align: center;
+  }
+  
+  .company-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .job-title {
+    font-size: 1rem;
+    margin-top: 4px;
+  }
+  
+  .details-wrapper {
+    padding: 16px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .detail-item {
+    margin-bottom: 8px;
+  }
+  
+  .job-link-wrapper {
+    text-align: center;
+    margin: 16px 0;
+  }
+  
+  .job-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #4caf50;
+    padding: 8px 16px;
+    border: 1px solid #4caf50;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  .job-link:hover {
+    background-color: #4caf50;
+    color: white;
+  }
+  

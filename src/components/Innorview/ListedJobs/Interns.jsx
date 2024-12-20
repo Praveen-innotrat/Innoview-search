@@ -1,157 +1,198 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import Header from "../../Header/Header";
+import CircularProgress from "@mui/material/CircularProgress";
+import "./Jobs.css";
+import { Box } from "@mui/system";
+import { Typography, Button } from "@mui/material";
+import JobCard from "./JobCard";
+import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
-import noData from "./Assets/notfound.svg";
-import { Audio, BallTriangle, Circles } from "react-loader-spinner";
-import CloseIcon from "@mui/icons-material/Close";
-import { toast } from "react-toastify";
-import { HOSTED_API } from "../../../Global";
-import InternsCard from "./InternCard";
-// import { HOSTED_API } from "../../Global";
+import { useDispatch, useSelector } from "react-redux";
+import { setDefaultKey } from "../../../Store/JoblistingSlice";
+import axios from "axios";
+import API_URLS from "../../../config";
+import InternCard1 from "./InternsCard1";
+import { useNavigate } from "react-router";
 
-function PostedInterships() {
-  const [InternData, setInternData] = useState([]); // State to store job data
-  const [filteredJobs, setFilteredJobs] = useState([]); // State to store filtered jobs
-  const [searchQuery, setSearchQuery] = useState(""); // State to store search input
-  const [loading, setLoading] = useState(true); // State to manage loading state
-  const [error, setError] = useState(null); // State to manage error
+const Interns = () => {
+  const [jobName, setJobName] = useState("");
+  const [matchedKeywords, setMatchedKeywords] = useState([]); // State to hold matched keywords
+  const [loading, setLoading] = useState(false);
+  const [city, setCity] = useState("");
+  const [jobs, setJobs] = useState([]);
+  const dispatch = useDispatch();
+  const nav = useNavigate();
 
-  const fetchJobData = async () => {
+  const keywords = ["chennai", "bangalore", "hyderabad", "kolkata", "pune"];
+
+  const fetchJobData = async (city = "chennai") => {
+    setLoading(true); // Set loading to true before fetching
+
     try {
-      const response = await axios.get(`${HOSTED_API}/all_internships`, {
-        headers: {
-          Role: "candidate",
-        },
-      });
-      if (response.status === 200 || response.status === 201) {
-        const interns = response.data.reverse();
-        console.log(interns);
-        // Fetch user data for each job
-        const internsWithUserData = await Promise.all(
-          interns.map(async (intern) => {
-            const payload = { user_id: intern.user_id };
-            try {
-              const userResponse = await axios.post(
-                `${HOSTED_API}/get_user_details`,
-                payload,
-                {
-                  headers: {
-                    Role: "candidate",
-                  },
-                }
-              );
-              if (userResponse.status === 200 || userResponse.status === 201) {
-                return { ...intern, userData: userResponse.data }; // Merge job and user data
-              }
-            } catch (userErr) {
-              console.error(
-                `Failed to fetch user data for job ${intern.job_id}:`,
-                userErr.message
-              );
-              return { ...intern, userData: null }; // Handle case where user data fetch fails
-            }
-          })
-        );
-        console.log(internsWithUserData, "response");
-        setInternData(internsWithUserData); // Set the job data with user details
-        setFilteredJobs(internsWithUserData); // Initialize filtered jobs with all jobs
-        toast.success("Inters fetched successfully");
+      const payload = { city };
+      const response = await axios.post(
+        `${API_URLS.InnoviewResumeUrl}/get_jobs`,
+        payload
+      );
+
+      console.log(response, "response");
+      if (response.data) {
+        setJobs(response.data); // Update the jobs state with fetched data
       }
-    } catch (err) {
-      setError(err.message); // Set error message if the request fails
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
     } finally {
-      setLoading(false); // Set loading to false after fetching data
+      setLoading(false); // Always set loading to false after the request
     }
+  };
+
+  const handleInputChange = (value) => {
+    setJobName(value);
+    dispatch(setDefaultKey(value));
+
+    // Check for matches with the keywords array
+    const matches = keywords.filter((keyword) =>
+      keyword.toLowerCase().includes(value.toLowerCase())
+    );
+
+    setMatchedKeywords(matches); // Update the state with matched keywords
+  };
+
+  const handleCancelButton = () => {
+    setJobName("");
+    setMatchedKeywords([]); // Clear matched keywords on cancel
+  };
+
+  const handleCityChange = (selectedCity) => {
+    setCity(selectedCity); // Correctly set the city
+    fetchJobData(selectedCity); // Fetch job data for the selected city
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchJobData(); // Call fetchJobData when the component mounts
-    }, 1000); // 10000 milliseconds = 10 seconds
-
-    return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
-  }, []);
-
-  // Real-time search functionality
-  const handleSearchChange = (e) => {
-    const query = e.target.value.toUpperCase().trim();
-    setSearchQuery(query);
-
-    if (!query) {
-      setFilteredJobs(InternData);
-    } else {
-      const filtered = InternData.filter((job) => job.job_id == query);
-      setFilteredJobs(filtered);
+    if (jobName.length === 0) {
+      setMatchedKeywords([]);
     }
-  };
+  }, [jobName]);
 
-  const clearSearch = () => {
-    setSearchQuery("");
-    setFilteredJobs(InternData);
-  };
-
-  if (loading) {
-    return (
-      <div className="loading-wrapper">
-        <div className="loading-title">Fetching Internships</div>
-        <BallTriangle
-          height="100%"
-          width="100%"
-          color="#007bff"
-          radius={5}
-          ariaLabel="ball-triangle-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      </div>
-    ); // Display loading message
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>; // Display error message
-  }
+  useEffect(() => {
+    fetchJobData(); // Initial data fetch
+  }, []); // Dependency array ensures this runs only once
 
   return (
-    <div className="posted-jobs-tab">
-      <div className="jobs-search">
-        <input
-          type="text"
-          className="jobpost-search"
-          placeholder="Search by job ID or role..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-          style={{
-            transition: "all 0.3s ease-in-out",
-            boxShadow: searchQuery ? "0 4px 8px rgba(0, 0, 0, 0.2)" : "none",
+    <div className="jobs">
+      <Header />
+      <div className="jobs-container-tab">
+        <Button
+          sx={{
+            width: "max-content",
           }}
-        />
-        {searchQuery && (
-          <button className="clear-search-button" onClick={clearSearch}>
-            <CloseIcon />
-          </button>
-        )}
-        <button
-          className="job-post-search-button"
-          onClick={() => handleSearchChange({ target: { value: searchQuery } })}
+          variant="contained"
+          onClick={() => nav(-1)}
         >
-          <SearchIcon />
-        </button>
-      </div>
-      <div className="posted-job-container">
-        {filteredJobs.length > 0 ? (
-          filteredJobs.map((intern) => (
-            <InternsCard key={intern.job_id} internship={intern} /> // Pass job details as props
-          ))
-        ) : (
-          <div className="no-data-found">
-            <img className="no-data-found-imag" src={noData} alt="No Data" />
-            <p>No Internships found.</p>
+          Back
+        </Button>
+        <Typography
+          variant="h3"
+          color="#18304B"
+          textAlign="center"
+          gutterBottom
+          sx={{
+            padding: "3rem",
+            fontWeight: "bold",
+          }}
+        >
+          Featured{" "}
+          <span
+            style={{
+              color: "#3399ff",
+            }}
+          >
+            Jobs
+          </span>
+        </Typography>
+
+        {/* Keyword Buttons */}
+        {/* Keyword Buttons */}
+        <div className="keyword-buttons-container">
+          {keywords.map((keyword, index) => (
+            <Button
+              key={index}
+              variant={city === keyword ? "contained" : "outlined"} // Fixed comparison
+              color="primary"
+              sx={{ margin: "0.5rem", width: "max-content" }}
+              onClick={() => handleCityChange(keyword)}
+            >
+              {keyword}
+            </Button>
+          ))}
+        </div>
+
+        {/* Show loading state */}
+        {loading ? (
+          <div className="loading-container">
+            <CircularProgress />
+            <Typography variant="h6" color="textSecondary">
+              Loading jobs, please wait...
+            </Typography>
           </div>
+        ) : (
+          <>
+            <div className="result-page">Results found: {jobs.length}</div>
+
+            <div className="search-bar-container">
+              <input
+                className="search-input"
+                type="text"
+                name="search-jobs"
+                value={jobName}
+                onChange={(e) => handleInputChange(e.target.value)}
+                placeholder="Search Jobs Here"
+              />
+              <div
+                className="cancel-button"
+                style={{
+                  display: jobName.length !== 0 ? "block" : "none",
+                }}
+              >
+                <CancelIcon
+                  onClick={handleCancelButton}
+                  sx={{
+                    fontSize: 24,
+                  }}
+                />
+              </div>
+              <div className="search-button">
+                <SearchIcon
+                  sx={{
+                    fontSize: 24,
+                  }}
+                  onClick={fetchJobData}
+                />
+              </div>
+            </div>
+            <Box
+              sx={{
+                paddingX: "2rem",
+                marginBottom: "4rem",
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(4, 1fr)",
+                },
+                gap: "2rem",
+              }}
+            >
+              {jobs.map((job, index) => (
+                <InternCard1 key={index} companyData={job} />
+              ))}
+            </Box>
+          </>
         )}
       </div>
     </div>
   );
-}
+};
 
-export default PostedInterships;
+export default Interns;
