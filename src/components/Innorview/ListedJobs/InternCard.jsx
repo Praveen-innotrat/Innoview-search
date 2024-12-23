@@ -5,16 +5,41 @@ import Groups2Icon from "@mui/icons-material/Groups2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import { formatRupees } from "../../../Utils";
+import { INNO_API } from "../../../Global";
+import axios from "axios";
 
 function InternsCard({ internship }) {
   console.log(internship, "internship");
   const navigate = useNavigate();
-  const [checkStatus, setCheckStatus] = useState(false);
+  const [appliedCandidates, setAppliedCandidates] = useState([]);
 
   const handleViewClicks = (jobId) => {
     navigate("/interns-description");
     localStorage.setItem("ViewInternId", jobId);
   };
+
+  const fetchAppliedCandidateData = async () => {
+    const payload = { jobId: internship?.job_id };
+
+    try {
+      const response = await axios.post(`${INNO_API}`, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth-token")}`, // Add Bearer token to the Authorization header
+        },
+      });
+
+      if (response.status === 200 || response.status === 201) {
+        setAppliedCandidates(response.data);
+        // setArray(response.data); // Assuming `response.data` is an array of objects
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAppliedCandidateData();
+  }, []);
 
   return (
     <>
@@ -96,7 +121,7 @@ function InternsCard({ internship }) {
               </div>
               <div className="applicants-applied">
                 <Groups2Icon />
-                55 applied
+                {appliedCandidates.length}
               </div>
             </div>
           </div>

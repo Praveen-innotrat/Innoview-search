@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import Groups2Icon from "@mui/icons-material/Groups2";
@@ -7,17 +7,42 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./Postcard.css";
 import { formatRupees } from "../../../Utils";
+import axios from "axios";
+import { INNO_API } from "../../../Global";
 // import { formatRupees } from "../../../Global";
 
 function PostJobCard({ userData, job }) {
   console.log(userData, job, "post");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [appliedCandidates, setAppliedCandidates] = useState([]);
 
   const handleViewClicks = (jobId) => {
     navigate("/jobs-description");
     sessionStorage.setItem("jobId", jobId);
   };
+
+  const fetchAppliedCandidateData = async () => {
+    const payload = { jobId: job?.job_id };
+
+    try {
+      const response = await axios.post(`${INNO_API}`, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("auth-token")}`, // Add Bearer token to the Authorization header
+        },
+      });
+
+      if (response.status === 200 || response.status === 201) {
+        setAppliedCandidates(response.data);
+        // setArray(response.data); // Assuming `response.data` is an array of objects
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAppliedCandidateData();
+  }, []);
 
   return (
     <div className="post-card-wrapper">
@@ -69,7 +94,7 @@ function PostJobCard({ userData, job }) {
           </div>
           <div className="applicants-applied">
             <Groups2Icon />
-            55 applicants applied
+            {appliedCandidates.length}
           </div>
         </div>
       </div>
