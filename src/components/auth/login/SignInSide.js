@@ -92,7 +92,7 @@ export default function SignInSide() {
             path: "/",
           });
           toast.success(data.message);
-          navigate("/dashboard");
+          navigate("/innorview");
         } else {
           toast.error(data.message);
         }

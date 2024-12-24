@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import API_URLS from "../../../config";
 import "./InterviewDetails.css";
 import { formatPhoneNumber } from "../../../Utils";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const InterviewDetails = ({ interviews, setInterviews }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
 
   const usertoken = Cookies.get("token");
   const headers = {
@@ -125,7 +126,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
           }}
           onClick={() => navigate("/innorview")}
         >
-          BACK
+          <ArrowBackIosIcon /> BACK
         </Button>
         <h1 className="interview-title">Interview Details</h1>
         <Button
@@ -142,7 +143,7 @@ const InterviewDetails = ({ interviews, setInterviews }) => {
           }}
           onClick={() => navigate("/innorview/schedule")}
         >
-          Create
+          Create Mock Interview
         </Button>
       </div>
 

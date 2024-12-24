@@ -8,6 +8,17 @@
     background: #ececff;
     width: 100%;
 }
+.back-button-wrapp{
+  display: flex;
+  font-size: 16px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 20px;
+  color: royalblue;
+  font-weight: 600;
+}
 .details-wrapper{
   display: flex;
   flex-wrap: wrap;

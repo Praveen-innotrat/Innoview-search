@@ -129,7 +129,7 @@ export default function Innorview() {
       </div>
 
       <div className="back-button-container">
-        <Button
+        {/* <Button
           variant="contained"
           sx={{
             fontSize: "1.2rem",
@@ -141,7 +141,7 @@ export default function Innorview() {
           onClick={() => navigate(-1)}
         >
           BACK
-        </Button>
+        </Button> */}
       </div>
 
       <Modal open={isModalOpen} onClose={handleCloseModal}>

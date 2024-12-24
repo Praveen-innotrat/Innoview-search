@@ -48,7 +48,7 @@ function InternsCard({ internship }) {
           <div className="header-section">
             <div className="header-row-1">
               <div className="post-jobcard-title">
-                {internship.intern_title || "Role"}
+                {internship.job_id} - {internship.intern_title || "Role"}
               </div>
               <div
                 className="view-button"
@@ -112,6 +112,9 @@ function InternsCard({ internship }) {
               <div className="edit-jobpost-button">Edit</div>
               <div className="delete-jobpost-button">Delete</div>
             </div> */}
+          </div>
+          <div className="posted-by">
+            Posted by : {internship?.userData?.name}
           </div>
           <div className="footer-job-wrapper">
             <div className="footer-job-card">

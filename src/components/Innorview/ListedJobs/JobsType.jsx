@@ -3,7 +3,7 @@ import Online from "./Assets/online.svg";
 import Hiring from "./Assets/hiring-partner.svg";
 import "./Jobs.css";
 import { useNavigate } from "react-router";
-import { Button } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function JobsType() {
   const nav = useNavigate();
@@ -29,16 +29,10 @@ function JobsType() {
           </div>
         </div>
       </div>
-      <div className="back-button-container">
-        <Button
-          sx={{
-            fontSize: 18,
-          }}
-          className="back-button"
-          onClick={() => nav(-1)}
-        >
-          BACK
-        </Button>
+      <div className="back-btn-inn">
+        <div className="back-button-wrapp" onClick={() => nav("/innorview")}>
+          <ArrowBackIosIcon /> BACK
+        </div>
       </div>
     </div>
   );

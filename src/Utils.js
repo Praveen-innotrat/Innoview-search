@@ -31,8 +31,8 @@ export function formatDate(date) {
 }
 
 export function formatRupees(amount) {
-  if (isNaN(amount)) {
-    return "Invalid amount";
+  if (amount == 0) {
+    return "As per Industry Standards"; // Or return 0 or any default value
   }
-  return amount.toLocaleString("en-IN");
+  return Number(amount).toLocaleString("en-IN");
 }

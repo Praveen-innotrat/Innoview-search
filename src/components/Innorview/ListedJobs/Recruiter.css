@@ -8,6 +8,12 @@
   display: flex;
   justify-content: center;
 }
+.posted-by{
+  padding: 10px 0px;
+  font-size: large;
+  font-weight: 500;
+
+}
 .loading-wrapper{
   display: flex;
   height: 70vh;

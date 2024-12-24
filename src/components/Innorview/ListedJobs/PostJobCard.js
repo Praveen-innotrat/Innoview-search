@@ -49,7 +49,9 @@ function PostJobCard({ userData, job }) {
       <div className="post-card-container">
         <div className="header-section">
           <div className="header-row">
-            <div className="post-jobcard-title">{job.job_title || "Role"}</div>
+            <div className="post-jobcard-title">
+              {job.job_id}-{job.job_title || "Role"}
+            </div>
             <div
               className="view-button"
               onClick={() => handleViewClicks(job.job_id)}
@@ -87,6 +89,7 @@ function PostJobCard({ userData, job }) {
           </div>
         </div>
 
+        <div className="posted-by">Posted by : {userData?.name}</div>
         <div className="footer-job-card">
           <div className="salary">
             <CurrencyRupeeIcon />

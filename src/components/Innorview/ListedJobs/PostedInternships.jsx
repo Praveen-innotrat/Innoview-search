@@ -8,8 +8,7 @@ import { toast } from "react-toastify";
 import { HOSTED_API } from "../../../Global";
 import InternsCard from "./InternCard";
 import { useNavigate } from "react-router";
-import { Button } from "@mui/material";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function PostedInterships() {
   const [InternData, setInternData] = useState([]); // State to store job data
@@ -121,14 +120,12 @@ function PostedInterships() {
   return (
     <div className="posted-jobs-tab">
       <div className="button-wrapper">
-        <Button
-          sx={{
-            fontSize: "16px",
-          }}
+        <div
+          className="back-button-wrap"
           onClick={() => nav("/from-our-hiringpartners")}
         >
-          <ArrowLeftIcon /> BACK
-        </Button>
+          <ArrowBackIosIcon /> BACK
+        </div>
       </div>
       <div className="jobs-search">
         <input
