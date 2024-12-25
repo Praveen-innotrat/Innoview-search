@@ -26,7 +26,7 @@ function PostedInterships() {
       });
       if (response.status === 200 || response.status === 201) {
         let filterJobs = response.data.filter(
-          (data) => data.status_id !== "S1" && data.status_id !== "S2"
+          (data) => data.approved_status == 1
         );
         const interns = filterJobs.reverse();
         console.log(interns, "Jobs");
