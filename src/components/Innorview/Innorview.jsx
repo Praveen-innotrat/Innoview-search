@@ -3,26 +3,15 @@ import Header from "../Header/Header";
 import "./Innorview.css";
 import PunchClockIcon from "@mui/icons-material/PunchClock";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import WorkIcon from "@mui/icons-material/Work";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
 import { useNavigate } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  CardActions,
-  Modal,
-} from "@mui/material";
-import Box from "@mui/material/Box";
+import { Button, Modal } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import axios from "axios";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -102,28 +91,61 @@ export default function Innorview() {
     <div className="innorview-container">
       <Header />
 
-      <div className="dashboard">
-        <div className="card-grid">
-          <div className="card" onClick={schedule}>
+      <div className="dashboard-container">
+        <div className="dashboard-grid">
+          <div className="dashboard-card" onClick={schedule}>
             <PunchClockIcon sx={{ fontSize: 40 }} />
-            <span>Scheduled Interviews</span>
-          </div>
-          <div className="card" onClick={() => navigate("/myaccount")}>
-            <LocalOfferIcon sx={{ fontSize: 40 }} />
-            <span>My Account</span>
-          </div>
-        </div>
-        <div className="card-grid">
-          <div className="card" onClick={() => navigate("/choose-type")}>
-            <WorkIcon sx={{ fontSize: 40 }} />
-            <span>Listed Jobs</span>
+            <span className="dashboard-card-text">Scheduled Interviews</span>
           </div>
           <div
-            className="card"
+            className="dashboard-card"
+            onClick={() => {
+              navigate("/posted-jobs");
+            }}
+          >
+            <PunchClockIcon sx={{ fontSize: 40 }} />
+            <span className="dashboard-card-text">Hiring Partner's Jobs</span>
+          </div>
+          <div
+            className="dashboard-card"
+            onClick={() => {
+              navigate("/posted-internships");
+            }}
+          >
+            <PunchClockIcon sx={{ fontSize: 40 }} />
+            <span className="dashboard-card-text">Hiring Partner's Intern</span>
+          </div>
+          <div
+            className="dashboard-card"
+            onClick={() => {
+              navigate("/innorview/listedjob");
+            }}
+          >
+            <PunchClockIcon sx={{ fontSize: 40 }} />
+            <span className="dashboard-card-text">Online Jobs</span>
+          </div>
+          <div
+            className="dashboard-card"
+            onClick={() => {
+              navigate("/innorview/listedInterns");
+            }}
+          >
+            <PunchClockIcon sx={{ fontSize: 40 }} />
+            <span className="dashboard-card-text">Online Interns</span>
+          </div>
+          <div
+            className="dashboard-card"
+            onClick={() => navigate("/myaccount")}
+          >
+            <LocalOfferIcon sx={{ fontSize: 40 }} />
+            <span className="dashboard-card-text">My Account</span>
+          </div>
+          <div
+            className="dashboard-card"
             onClick={() => navigate("/innorview/applications")}
           >
             <WebAssetIcon sx={{ fontSize: 40 }} />
-            <span>Applications Status</span>
+            <span className="dashboard-card-text">Applications Status</span>
           </div>
         </div>
       </div>
