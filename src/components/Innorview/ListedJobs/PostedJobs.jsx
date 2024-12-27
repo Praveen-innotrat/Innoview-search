@@ -3,6 +3,7 @@ import axios from "axios";
 import PostJobCard from "./PostJobCard";
 import SearchIcon from "@mui/icons-material/Search";
 import noData from "./Assets/notfound.svg";
+import "./Postcard.css";
 import "./Recruiter.css";
 import { Audio, BallTriangle, Circles } from "react-loader-spinner";
 import { toast } from "react-toastify";
@@ -75,13 +76,16 @@ function PostedJobs() {
 
     return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
   }, []);
-  const handleSearch = () => {
-    const searchId = parseInt(searchQuery, 10); // Convert searchQuery to a number
 
-    if (isNaN(searchId)) {
-      setFilteredJobs(jobData); // If searchQuery is not a valid number, show all jobs
+  // Real-time search functionality
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toUpperCase().trim();
+    setSearchQuery(query);
+
+    if (!query) {
+      setFilteredJobs(jobData);
     } else {
-      const filtered = jobData.filter((job) => job.job_id == searchId);
+      const filtered = jobData.filter((job) => job.job_id == query);
       setFilteredJobs(filtered);
     }
   };
@@ -111,10 +115,7 @@ function PostedJobs() {
   return (
     <div className="posted-jobs-tab">
       <div className="button-wrapper">
-        <div
-          className="back-button-wrap"
-          onClick={() => nav("/from-our-hiringpartners")}
-        >
+        <div className="back-button-wrap" onClick={() => nav("/innorview")}>
           <ArrowBackIosIcon /> BACK
         </div>
       </div>
@@ -126,14 +127,18 @@ function PostedJobs() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery state
         />
-        <button className="job-post-search-button" onClick={handleSearch}>
+        <button
+          style={{ width: "max-content" }}
+          className="job-post-search-button"
+          onClick={handleSearchChange}
+        >
           <SearchIcon /> Search
         </button>
       </div>
       <div className="posted-job-container">
         {filteredJobs.length > 0 ? (
           filteredJobs.map((job) => (
-            <PostJobCard key={job.id} userData={job.userData} job={job} /> // Pass job details as props
+            <PostJobCard key={job.id} jobData={job} /> // Pass job details as props
           ))
         ) : (
           <div className="no-data-found">

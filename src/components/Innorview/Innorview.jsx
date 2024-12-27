@@ -95,7 +95,9 @@ export default function Innorview() {
         <div className="dashboard-grid">
           <div className="dashboard-card" onClick={schedule}>
             <PunchClockIcon sx={{ fontSize: 40 }} />
-            <span className="dashboard-card-text">Scheduled Interviews</span>
+            <span className="dashboard-card-text">
+              Previous Interview Details
+            </span>
           </div>
           <div
             className="dashboard-card"
@@ -146,6 +148,13 @@ export default function Innorview() {
           >
             <WebAssetIcon sx={{ fontSize: 40 }} />
             <span className="dashboard-card-text">Applications Status</span>
+          </div>
+          <div
+            className="dashboard-card"
+            onClick={() => navigate("/innorview/schedule")}
+          >
+            <WebAssetIcon sx={{ fontSize: 40 }} />
+            <span className="dashboard-card-text">Schedule Mock Interview</span>
           </div>
         </div>
       </div>

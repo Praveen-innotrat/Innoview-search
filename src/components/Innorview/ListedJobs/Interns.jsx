@@ -87,7 +87,7 @@ const Interns = () => {
             width: "max-content",
           }}
           variant="contained"
-          onClick={() => nav(-1)}
+          onClick={() => nav("/innorview")}
         >
           Back
         </Button>

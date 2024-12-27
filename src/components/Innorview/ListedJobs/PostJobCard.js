@@ -8,21 +8,33 @@ import { useDispatch } from "react-redux";
 import "./Postcard.css";
 import { formatRupees } from "../../../Utils";
 import axios from "axios";
-import { INNO_API } from "../../../Global";
+import { HOSTED_API, INNO_API } from "../../../Global";
 // import { formatRupees } from "../../../Global";
+import ShareIcon from "@mui/icons-material/Share";
+import { toast } from "react-toastify";
 
-function PostJobCard({ userData, job }) {
-  console.log(userData, job, "post");
+function PostJobCard({ jobData }) {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState();
+  const [data, setData] = useState([]);
+  const userId = jobData.user_id;
   const [appliedCandidates, setAppliedCandidates] = useState([]);
 
-  const handleViewClicks = (jobId) => {
-    navigate("/jobs-description");
-    sessionStorage.setItem("jobId", jobId);
+  const handleViewClicks = (jobId, type) => {
+    if (type == "internship") {
+      navigate("/interns-description");
+    } else {
+      navigate("/jobs-description");
+    }
+
+    // dispatch(setJobCardViewId(jobId));
+    localStorage.setItem("ViewJobId", jobId);
   };
 
+  const jobId = localStorage.getItem("jobId");
+
   const fetchAppliedCandidateData = async () => {
-    const payload = { jobId: job?.job_id };
+    const payload = { jobId: jobData?.job_id };
 
     try {
       const response = await axios.post(`${INNO_API}`, payload, {
@@ -40,68 +52,146 @@ function PostJobCard({ userData, job }) {
     }
   };
 
+  const handleShareClick = () => {
+    const jobId = jobData?.job_id;
+    const shareUrl = `${window.location.origin}/job-details/${jobId}`;
+    navigator.clipboard.writeText(shareUrl);
+    toast.success("Job link copied to clipboard!");
+  };
+
+  const fetchData = async () => {
+    const payload = { jobId: jobId };
+
+    try {
+      const response = await axios.post(`${INNO_API}`, payload);
+
+      if (response.status === 200 || response.status === 201) {
+        setData(response.data);
+        // setArray(response.data); // Assuming `response.data` is an array of objects
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchUserData = async () => {
+    try {
+      let payload = { user_id: userId };
+      let response = await axios.post(
+        `${HOSTED_API}/get_user_details`,
+        payload,
+        {
+          headers: {
+            Role: "recruiter",
+          },
+        }
+      );
+      console.log(response, "values");
+      if (response.status === 200 || response.status === 201) {
+        setUserData(response.data);
+        // toast.success("User data fetched successfully");
+      } else {
+        toast.error("Somewhere facing issue... Please wait");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   useEffect(() => {
     fetchAppliedCandidateData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, []); // Empty dependency array to run only on mount
+
   return (
-    <div className="post-card-wrapper">
-      <div className="post-card-container">
-        <div className="header-section">
-          <div className="header-row">
-            <div className="post-jobcard-title">
-              {job.job_id}-{job.job_title || "Role"}
+    <>
+      <div className="job-card-wrapper">
+        <div className="job-card">
+          <div className="job-card-header">
+            <div className="header-row">
+              <div
+                className="job-title"
+                title={jobData?.job_title || jobData?.intern_title}
+              >
+                {jobData.job_id} - {jobData.job_title || jobData.intern_title}
+              </div>
+              <div className="action-buttons">
+                <button
+                  className="view-button"
+                  onClick={() =>
+                    handleViewClicks(jobData.job_id, jobData.posting_type)
+                  }
+                >
+                  <VisibilityIcon />
+                </button>
+                <button
+                  style={{
+                    display: jobData.approved_status == 1 ? "block" : "none",
+                  }}
+                  className="share-button"
+                  onClick={handleShareClick}
+                >
+                  <ShareIcon />
+                </button>
+              </div>
             </div>
+            <div className="company-info">
+              <a
+                className="company-link"
+                href={userData?.company_website}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {userData?.company_name || "Company Name"}
+              </a>
+              <div className="location">
+                <LocationOnIcon />
+                {jobData.location || userData?.location || "Location"}
+              </div>
+            </div>
+          </div>
+          <div className="job-card-body">
             <div
-              className="view-button"
-              onClick={() => handleViewClicks(job.job_id)}
+              className="job-description"
+              onClick={() =>
+                handleViewClicks(jobData.job_id, jobData.posting_type)
+              }
             >
-              <VisibilityIcon />
-              View
+              View Job Description
+            </div>
+            <div className="posted-by">
+              Posted by: {userData?.name}, {userId}
+            </div>
+            <div className="job-details">
+              <div className="job-mode">
+                {jobData.job_mode || jobData.intern_mode}
+              </div>
+              <div className="job-type">
+                {jobData.job_type || jobData.intern_type}
+              </div>
+              <div className="job-status">{jobData.job_status}</div>
             </div>
           </div>
-          <div className="post-company-name">
-            <a
-              href={userData?.company_website}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {userData?.company_name || "Company Name"}
-            </a>
-          </div>
-          <div className="post-job-location">
-            <LocationOnIcon />
-            {userData?.location || "Location"}
-          </div>
-        </div>
-
-        <div className="body-section">
-          <div className="post-job-description">
-            {job.jd || "Job Description"}
-          </div>
-          <div className="post-job-deadline">
-            {job.deadline || "Deadline: Tomorrow"}
-          </div>
-          <div className="footer-job-card-wrapper">
-            <div className="job-type">{job.job_mode || "In Office"}</div>
-            <div className="job-type">{job.job_type || "Full-Time"}</div>
-            <div className="job-status job-type">{job.status || "Active"}</div>
-          </div>
-        </div>
-
-        <div className="posted-by">Posted by : {userData?.name}</div>
-        <div className="footer-job-card">
-          <div className="salary">
-            <CurrencyRupeeIcon />
-            {formatRupees(job.salary) || 25000}
-          </div>
-          <div className="applicants-applied">
-            <Groups2Icon />
-            {appliedCandidates.length}
+          <div className="job-card-footer">
+            <div className="salary">
+              <CurrencyRupeeIcon />{" "}
+              {formatRupees(jobData.salary || jobData.stipend)}
+            </div>
+            <div className="applicants">
+              <Groups2Icon />
+              {appliedCandidates.length} Applicants
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -9,6 +9,7 @@ import { HOSTED_API } from "../../../Global";
 import InternsCard from "./InternCard";
 import { useNavigate } from "react-router";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import PostJobCard from "./PostJobCard";
 
 function PostedInterships() {
   const [InternData, setInternData] = useState([]); // State to store job data
@@ -120,10 +121,7 @@ function PostedInterships() {
   return (
     <div className="posted-jobs-tab">
       <div className="button-wrapper">
-        <div
-          className="back-button-wrap"
-          onClick={() => nav("/from-our-hiringpartners")}
-        >
+        <div className="back-button-wrap" onClick={() => nav("/innorview")}>
           <ArrowBackIosIcon /> BACK
         </div>
       </div>
@@ -154,7 +152,7 @@ function PostedInterships() {
       <div className="posted-job-container">
         {filteredJobs.length > 0 ? (
           filteredJobs.map((intern) => (
-            <InternsCard key={intern.job_id} internship={intern} /> // Pass job details as props
+            <PostJobCard key={intern.job_id} jobData={intern} /> // Pass job details as props
           ))
         ) : (
           <div className="no-data-found">
