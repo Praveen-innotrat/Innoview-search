@@ -188,7 +188,7 @@ function App() {
             element={<StudentFresher />}
           />
           <Route path="/innorview/experience" element={<Experience />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/myaccount" element={<ProfilePage />} />
           {/* <Route path="/myaccount" element={<MyAccount />} /> */}
           <Route
             path="/interview-details"

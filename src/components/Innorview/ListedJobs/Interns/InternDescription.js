@@ -8,7 +8,6 @@ import "./InternDescription.css";
 
 function InternDescription() {
   const ViewJobId = localStorage.getItem("ViewJobId");
-  const [approved, setApproved] = useState(false);
 
   // console.log(jobId, "response");
   const [descriptionData, setDescriptionData] = useState({});
@@ -31,39 +30,11 @@ function InternDescription() {
     }
   };
 
-  const getStatus = async () => {
-    try {
-      let response = await axios.get(`${HOSTED_API}/${ViewJobId}/status`, {
-        headers: {
-          Role: "admin",
-        },
-      });
-      console.log(response.data, "response"); // Log the actual data from the response
-      if (response.status == 200 || response.status == 201) {
-        if (response.data.approved_status == 0) {
-          setApproved(false);
-        } else {
-          setApproved(true);
-        }
-      }
-    } catch (error) {
-      if (error.response) {
-        // Server responded with a status code outside the range of 2xx
-        console.error("Error Response:", error.response.data);
-        console.error("Error Status:", error.response.status);
-      } else if (error.request) {
-        // Request was made but no response received
-        console.error("Error Request:", error.request);
-      } else {
-        // Something else caused an error
-        console.error("Error Message:", error.message);
-      }
-    }
+  const handleApplyNow = (jobId) => {
+    localStorage.setItem("jobId", jobId);
+    nav("/innorview/schedule");
   };
 
-  useEffect(() => {
-    getStatus();
-  }, []);
   useEffect(() => {
     fetchData();
   }, []); // Empty dependency array to run only on mount
@@ -88,6 +59,17 @@ function InternDescription() {
           <p className="internship-id">JOB ID: {descriptionData.job_id}</p>
           <p className="job-types">
             {descriptionData.intern_mode} | {descriptionData.intern_type}
+          </p>
+          <p className="apply-now-btn">
+            <Button
+              style={{
+                width: "max-content",
+              }}
+              variant="outlined"
+              onClick={() => handleApplyNow(descriptionData.job_id)}
+            >
+              APPLY NOW
+            </Button>
           </p>
           <section className="internship-info">
             <div className="info-item">
@@ -120,16 +102,6 @@ function InternDescription() {
                 <p key={index}>{data}</p>
               ))}
             </div>
-            {/* <div className="info-item">
-              <h3>Current Status</h3>
-              <p
-                style={{
-                  color: approved ? "green" : "gold",
-                }}
-              >
-                {descriptionData.status_type}
-              </p> 
-            </div>*/}
           </section>
 
           <section className="internship-description">

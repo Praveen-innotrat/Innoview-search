@@ -48,6 +48,7 @@
   }
   
   .internship-title {
+    text-align: left !important;
     font-size: 24px;
     text-transform: capitalize;
     font-weight: 700;
@@ -83,6 +84,7 @@
   }
   
   .info-item p {
+    word-wrap: break-word;
     font-size: 14px;
     color: #555;
   }

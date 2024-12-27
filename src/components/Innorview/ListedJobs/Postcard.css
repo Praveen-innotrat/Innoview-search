@@ -104,6 +104,7 @@
   justify-content: space-between;
   font-size: 14px;
   color: #333;
+  gap: 10px;
 }
 
 .job-card-footer {
@@ -119,7 +120,7 @@
 .applicants {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 14px !important;
   color: #333;
 }
 

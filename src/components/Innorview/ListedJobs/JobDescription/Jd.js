@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { HOSTED_API } from "../../../../Global";
-import { Button } from "@mui/material";
+import { Button, ButtonBase } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { formatRupees } from "../../../../Utils";
 import "./jd.css";
@@ -9,7 +9,6 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 function Jd() {
   const ViewJobId = localStorage.getItem("ViewJobId");
-  const [approved, setApproved] = useState(false);
 
   // console.log(jobId, "response");
   const [descriptionData, setDescriptionData] = useState({});
@@ -32,45 +31,11 @@ function Jd() {
     }
   };
 
-  const getStatus = async () => {
-    try {
-      let response = await axios.get(`${HOSTED_API}/${ViewJobId}/status`, {
-        headers: {
-          Role: "admin",
-        },
-      });
-      console.log(response.data, "response"); // Log the actual data from the response
-      if (response.status == 200 || response.status == 201) {
-        // if (response.data.approved_status !== 0) {
-        //   setApproved(true);
-        // } else {
-        //   setApproved(false);
-        // }
-
-        if (response.data.approved_status == 0) {
-          setApproved(false);
-        } else {
-          setApproved(true);
-        }
-      }
-    } catch (error) {
-      if (error.response) {
-        // Server responded with a status code outside the range of 2xx
-        console.error("Error Response:", error.response.data);
-        console.error("Error Status:", error.response.status);
-      } else if (error.request) {
-        // Request was made but no response received
-        console.error("Error Request:", error.request);
-      } else {
-        // Something else caused an error
-        console.error("Error Message:", error.message);
-      }
-    }
+  const handleApplyNow = (jobId) => {
+    localStorage.setItem("jobId", jobId);
+    nav("/innorview/schedule");
   };
 
-  useEffect(() => {
-    getStatus();
-  }, []);
   useEffect(() => {
     fetchData();
   }, []); // Empty dependency array to run only on mount
@@ -103,6 +68,17 @@ function Jd() {
             Salary (per Annum): <b>Rs</b>{" "}
             {formatRupees(Number(descriptionData?.salary))}.
           </p>
+          <p className="apply-now-btn">
+            <Button
+              style={{
+                width: "max-content",
+              }}
+              variant="outlined"
+              onClick={() => handleApplyNow(descriptionData.job_id)}
+            >
+              APPLY NOW
+            </Button>
+          </p>
 
           <div className="job-info-section">
             <div className="job-info">
@@ -131,16 +107,6 @@ function Jd() {
                 {descriptionData.exp_min} - {descriptionData.exp_max} Years
               </p>
             </div>
-            {/* <div className="job-info">
-              <h3>Status</h3>
-              <p
-                className={`job-status ${
-                  approved ? "status-approved" : "status-pending"
-                }`}
-              >
-                {approved ? "Approved" : "Pending"}
-              </p>
-            </div> */}
           </div>
 
           <div className="job-description-section">

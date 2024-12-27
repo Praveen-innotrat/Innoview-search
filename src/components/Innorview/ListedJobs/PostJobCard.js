@@ -12,6 +12,7 @@ import { HOSTED_API, INNO_API } from "../../../Global";
 // import { formatRupees } from "../../../Global";
 import ShareIcon from "@mui/icons-material/Share";
 import { toast } from "react-toastify";
+import { Button } from "@mui/material";
 
 function PostJobCard({ jobData }) {
   const navigate = useNavigate();
@@ -158,31 +159,36 @@ function PostJobCard({ jobData }) {
             </div>
           </div>
           <div className="job-card-body">
-            <div
-              className="job-description"
-              onClick={() =>
-                handleViewClicks(jobData.job_id, jobData.posting_type)
-              }
-            >
-              View Job Description
+            <div className="job-description">
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  handleViewClicks(jobData.job_id, jobData.posting_type)
+                }
+              >
+                View Job Description and Apply
+              </Button>{" "}
             </div>
-            <div className="posted-by">
-              Posted by: {userData?.name}, {userId}
-            </div>
+            <div className="posted-by">Posted by: {userData?.name}</div>
             <div className="job-details">
-              <div className="job-mode">
+              <div className="job-type">
                 {jobData.job_mode || jobData.intern_mode}
               </div>
               <div className="job-type">
                 {jobData.job_type || jobData.intern_type}
               </div>
-              <div className="job-status">{jobData.job_status}</div>
+              <div className="job-type">{jobData.job_status}</div>
             </div>
           </div>
           <div className="job-card-footer">
             <div className="salary">
-              <CurrencyRupeeIcon />{" "}
-              {formatRupees(jobData.salary || jobData.stipend)}
+              <CurrencyRupeeIcon />
+              {jobData?.salary !== undefined
+                ? formatRupees(jobData.salary) // Format salary if it exists
+                : jobData?.stipend !== undefined
+                ? formatRupees(jobData.stipend) // Otherwise, format stipend if it exists
+                : "Not Mentioned"}{" "}
+              {/* Fallback message */}
             </div>
             <div className="applicants">
               <Groups2Icon />
