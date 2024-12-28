@@ -90,7 +90,22 @@ export default function Innorview() {
   return (
     <div className="innorview-container">
       <Header />
-
+      <div className="back-button-container">
+        <Button
+          variant="contained"
+          sx={{
+            fontSize: "1.2rem",
+            padding: "10px 20px",
+            backgroundColor: "#0073e6",
+            width: "max-content",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#005bb5" },
+          }}
+          onClick={() => navigate("/")}
+        >
+          BACK
+        </Button>
+      </div>
       <div className="dashboard-container">
         <div className="dashboard-grid">
           <div className="dashboard-card" onClick={schedule}>
@@ -156,23 +171,6 @@ export default function Innorview() {
             <WebAssetIcon sx={{ fontSize: 40 }} />
             <span className="dashboard-card-text">Schedule Mock Interview</span>
           </div>
-        </div>
-
-        <div className="back-button-container">
-          <Button
-            variant="contained"
-            sx={{
-              fontSize: "1.2rem",
-              padding: "10px 20px",
-              backgroundColor: "#0073e6",
-              width: "max-content",
-              color: "#fff",
-              "&:hover": { backgroundColor: "#005bb5" },
-            }}
-            onClick={() => navigate(-1)}
-          >
-            BACK
-          </Button>
         </div>
       </div>
 

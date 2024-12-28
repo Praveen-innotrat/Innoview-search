@@ -53,16 +53,18 @@
     
 /* Container */
 .innorview-container {
-    display: flex
-    ;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: column;
-        /* height: 100vh; */
-        height: 100vh;
-        background: hsl(240, 100%, 96%);
-        width: 100%;    padding: 20px;
-    background-color: #f8f9fa;
+  display: flex
+  ;
+      align-items: center;
+      gap: 20px;
+      /* justify-content: space-between; */
+      flex-direction: column;
+      /* height: 100vh; */
+      height: 100vh;
+      background: hsl(240, 100%, 96%);
+      width: 100%;
+      padding: 20px;
+      background-color: #f8f9fa;
   }
   
   /* Header Section */
@@ -150,7 +152,7 @@
     display: flex
 ;
     justify-content: start;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: start;
     padding: 20px;
     background-color: #f8f9fa;

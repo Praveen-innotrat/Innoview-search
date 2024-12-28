@@ -73,7 +73,7 @@ function PostedJobs() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchJobData(); // Call fetchJobData when the component mounts
-    }, 3000); // 10000 milliseconds = 10 seconds
+    }, 2000); // 10000 milliseconds = 10 seconds
 
     return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
   }, []);
