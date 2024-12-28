@@ -10,6 +10,7 @@ import InternsCard from "./InternCard";
 import { useNavigate } from "react-router";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PostJobCard from "./PostJobCard";
+import PostJobCardSkeleton from "../../SkeletonLoader/ForJobCard/PostJobCardSkeleton";
 
 function PostedInterships() {
   const [InternData, setInternData] = useState([]); // State to store job data
@@ -73,7 +74,7 @@ function PostedInterships() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchJobData(); // Call fetchJobData when the component mounts
-    }, 1000); // 10000 milliseconds = 10 seconds
+    }, 3000); // 10000 milliseconds = 10 seconds
 
     return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
   }, []);
@@ -95,24 +96,6 @@ function PostedInterships() {
     setSearchQuery("");
     setFilteredJobs(InternData);
   };
-
-  if (loading) {
-    return (
-      <div className="loading-wrapper">
-        <div className="loading-title">Fetching Internships</div>
-        <BallTriangle
-          height="100%"
-          width="100%"
-          color="#007bff"
-          radius={5}
-          ariaLabel="ball-triangle-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      </div>
-    ); // Display loading message
-  }
 
   if (error) {
     return <div>Error: {error}</div>; // Display error message
@@ -150,10 +133,12 @@ function PostedInterships() {
         </button>
       </div>
       <div className="posted-job-container">
-        {filteredJobs.length > 0 ? (
-          filteredJobs.map((intern) => (
-            <PostJobCard key={intern.job_id} jobData={intern} /> // Pass job details as props
-          ))
+        {loading ? (
+          Array(6) // Adjust the number for how many skeletons you want to show
+            .fill(0)
+            .map((_, index) => <PostJobCardSkeleton key={index} />)
+        ) : filteredJobs.length > 0 ? (
+          filteredJobs.map((job) => <PostJobCard key={job.id} jobData={job} />)
         ) : (
           <div className="no-data-found">
             <img className="no-data-found-imag" src={noData} alt="No Data" />

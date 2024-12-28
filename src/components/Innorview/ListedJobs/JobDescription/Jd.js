@@ -73,6 +73,9 @@ function Jd() {
       <div className="job-details-page">
         <div className="job-details-header">
           <Button
+            style={{
+              fontSize: 14,
+            }}
             onClick={() => {
               nav(-1);
               localStorage.removeItem("ViewJobId");
@@ -83,9 +86,23 @@ function Jd() {
           </Button>
         </div>
         <div className="job-details-container">
-          <h1 className="job-title">
-            {descriptionData.job_title || "Job Title"}
-          </h1>
+          <div className="header-row-description">
+            <h1 className="job-title">
+              {descriptionData.job_title || "Job Title"}
+            </h1>
+            <p className="apply-now-btn">
+              <Button
+                style={{
+                  width: "max-content",
+                  fontSize: 14,
+                }}
+                variant="contained"
+                onClick={() => handleApplyNow(descriptionData.job_id)}
+              >
+                APPLY NOW
+              </Button>
+            </p>
+          </div>
           <a
             className="company-link"
             href={userData?.company_website}
@@ -104,17 +121,6 @@ function Jd() {
           <p className="job-salary">
             Salary (per Annum): <b>Rs</b>{" "}
             {formatRupees(Number(descriptionData?.salary))}.
-          </p>
-          <p className="apply-now-btn">
-            <Button
-              style={{
-                width: "max-content",
-              }}
-              variant="outlined"
-              onClick={() => handleApplyNow(descriptionData.job_id)}
-            >
-              APPLY NOW
-            </Button>
           </p>
 
           <div className="job-info-section">
@@ -187,8 +193,20 @@ function Jd() {
           </div>
           <div className="job-description-section">
             <h3 className="skills-info">Skills</h3>
-            <div>{descriptionData.skills}</div>
+            <div className="skills-info">{descriptionData.skills}</div>
           </div>
+          <p className="apply-now-btn">
+            <Button
+              style={{
+                width: "max-content",
+                fontSize: 14,
+              }}
+              variant="contained"
+              onClick={() => handleApplyNow(descriptionData.job_id)}
+            >
+              APPLY NOW
+            </Button>
+          </p>
         </div>
       </div>
     </>

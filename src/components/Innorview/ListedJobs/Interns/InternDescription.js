@@ -71,6 +71,9 @@ function InternDescription() {
       <div className="internship-details-page">
         <div className="header-section">
           <Button
+            style={{
+              fontSize: 14,
+            }}
             className="back-button"
             onClick={() => {
               nav(-1);
@@ -82,7 +85,21 @@ function InternDescription() {
         </div>
 
         <div className="internship-details-container">
-          <h1 className="internship-title">{descriptionData.intern_title}</h1>
+          <div className="header-row-description">
+            <h1 className="internship-title">{descriptionData.intern_title}</h1>
+            <p className="apply-now-btn">
+              <Button
+                style={{
+                  width: "max-content",
+                  fontSize: 14,
+                }}
+                variant="contained"
+                onClick={() => handleApplyNow(descriptionData.job_id)}
+              >
+                APPLY NOW
+              </Button>
+            </p>
+          </div>
           <a
             className="company-link"
             href={userData?.company_website}
@@ -95,17 +112,7 @@ function InternDescription() {
           <p className="job-types">
             {descriptionData.intern_mode} | {descriptionData.intern_type}
           </p>
-          <p className="apply-now-btn">
-            <Button
-              style={{
-                width: "max-content",
-              }}
-              variant="outlined"
-              onClick={() => handleApplyNow(descriptionData.job_id)}
-            >
-              APPLY NOW
-            </Button>
-          </p>
+
           <section className="internship-info">
             <div className="info-item">
               <h3>Location</h3>
@@ -177,6 +184,18 @@ function InternDescription() {
             <h3>Intern Skills</h3>
             <div className="skills-info">{descriptionData?.skills}</div>
           </section>
+          <p className="apply-now-btn">
+            <Button
+              style={{
+                width: "max-content",
+                fontSize: 14,
+              }}
+              variant="contained"
+              onClick={() => handleApplyNow(descriptionData.job_id)}
+            >
+              APPLY NOW
+            </Button>
+          </p>
         </div>
       </div>
     </>

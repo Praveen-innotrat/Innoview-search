@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { HOSTED_API } from "../../../Global";
 import { useNavigate } from "react-router";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import PostJobCardSkeleton from "../../SkeletonLoader/ForJobCard/PostJobCardSkeleton";
 
 function PostedJobs() {
   const [jobData, setJobData] = useState([]); // State to store job data
@@ -72,7 +73,7 @@ function PostedJobs() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchJobData(); // Call fetchJobData when the component mounts
-    }, 1000); // 10000 milliseconds = 10 seconds
+    }, 3000); // 10000 milliseconds = 10 seconds
 
     return () => clearTimeout(timer); // Cleanup the timeout if the component unmounts
   }, []);
@@ -89,24 +90,6 @@ function PostedJobs() {
       setFilteredJobs(filtered);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="loading-wrapper">
-        <div className="loading-title">Fetching Jobs</div>
-        <BallTriangle
-          height="100%"
-          width="100%"
-          color="#007bff"
-          radius={5}
-          ariaLabel="ball-triangle-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      </div>
-    );
-  }
 
   if (error) {
     return <div>Error: {error}</div>; // Display error message
@@ -136,14 +119,16 @@ function PostedJobs() {
         </button>
       </div>
       <div className="posted-job-container">
-        {filteredJobs.length > 0 ? (
-          filteredJobs.map((job) => (
-            <PostJobCard key={job.id} jobData={job} /> // Pass job details as props
-          ))
+        {loading ? (
+          Array(6) // Adjust the number for how many skeletons you want to show
+            .fill(0)
+            .map((_, index) => <PostJobCardSkeleton key={index} />)
+        ) : filteredJobs.length > 0 ? (
+          filteredJobs.map((job) => <PostJobCard key={job.id} jobData={job} />)
         ) : (
           <div className="no-data-found">
             <img className="no-data-found-imag" src={noData} alt="No Data" />
-            <p>No jobs found.</p>
+            <p>No Internships found.</p>
           </div>
         )}
       </div>
