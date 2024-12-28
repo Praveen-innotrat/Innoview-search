@@ -157,22 +157,23 @@ export default function Innorview() {
             <span className="dashboard-card-text">Schedule Mock Interview</span>
           </div>
         </div>
-      </div>
 
-      <div className="back-button-container">
-        {/* <Button
-          variant="contained"
-          sx={{
-            fontSize: "1.2rem",
-            padding: "10px 20px",
-            backgroundColor: "#0073e6",
-            color: "#fff",
-            "&:hover": { backgroundColor: "#005bb5" },
-          }}
-          onClick={() => navigate(-1)}
-        >
-          BACK
-        </Button> */}
+        <div className="back-button-container">
+          <Button
+            variant="contained"
+            sx={{
+              fontSize: "1.2rem",
+              padding: "10px 20px",
+              backgroundColor: "#0073e6",
+              width: "max-content",
+              color: "#fff",
+              "&:hover": { backgroundColor: "#005bb5" },
+            }}
+            onClick={() => navigate(-1)}
+          >
+            BACK
+          </Button>
+        </div>
       </div>
 
       <Modal open={isModalOpen} onClose={handleCloseModal}>

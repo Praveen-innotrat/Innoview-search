@@ -32,15 +32,24 @@ function LandingScreen() {
               Empower Your Hardware Dreams with Innotrat Labs: Your Gateway to
               Cutting-edge IoT, Medical Electronics, and Automation Solutions
             </div>
-            <Link
-              to={
-                localStorage.getItem("auth-token")
-                  ? "/innorview/schedule"
-                  : "/eureka"
-              }
-            >
-              <div className="scheldule-button">Schedule now</div>
-            </Link>
+            <div className="landing-screens-buttons-container">
+              <Link
+                to={
+                  localStorage.getItem("auth-token") ? "/innorview" : "/eureka"
+                }
+              >
+                <div className="explore-button">Explore</div>
+              </Link>
+              <Link
+                to={
+                  localStorage.getItem("auth-token")
+                    ? "/innorview/schedule"
+                    : "/eureka"
+                }
+              >
+                <div className="schedule-now-button">Schedule Mock</div>
+              </Link>
+            </div>
           </div>
         </div>
         <div id="screen-2" className="screen-2">

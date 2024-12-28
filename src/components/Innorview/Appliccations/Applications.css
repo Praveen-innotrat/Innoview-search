@@ -119,8 +119,10 @@
   
   /* Back Button */
   .back-button-container {
-    display: flex;
-    justify-content: flex-start;
+    width: 100%;
+    display: flex
+;
+    justify-content: center;
     margin-bottom: 20px;
   }
   
