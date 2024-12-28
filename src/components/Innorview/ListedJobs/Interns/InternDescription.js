@@ -5,13 +5,14 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { formatRupees } from "../../../../Utils";
 import "./InternDescription.css";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 function InternDescription() {
   const ViewJobId = localStorage.getItem("ViewJobId");
 
   // console.log(jobId, "response");
   const [descriptionData, setDescriptionData] = useState({});
-  console.log(descriptionData, "response");
+  const [userData, setUserData] = useState({});
   const nav = useNavigate();
   const fetchData = async () => {
     try {
@@ -24,12 +25,37 @@ function InternDescription() {
 
       if (response.status === 200 || response.status === 201) {
         setDescriptionData(response.data);
+        fetchUserData(response.data.user_id);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  const fetchUserData = async (userId) => {
+    try {
+      let payload = { user_id: userId };
+      let response = await axios.post(
+        `${HOSTED_API}/get_user_details`,
+        payload,
+        {
+          headers: {
+            Role: "recruiter",
+          },
+        }
+      );
+      console.log(response, "values");
+      if (response.status === 200 || response.status === 201) {
+        setUserData(response.data);
+        // toast.success("User data fetched successfully");
+      } else {
+        toast.error("Somewhere facing issue... Please wait");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data. Please try again later.");
+    }
+  };
   const handleApplyNow = (jobId) => {
     localStorage.setItem("jobId", jobId);
     nav("/innorview/schedule");
@@ -56,6 +82,14 @@ function InternDescription() {
 
         <div className="internship-details-container">
           <h1 className="internship-title">{descriptionData.intern_title}</h1>
+          <a
+            className="company-link"
+            href={userData?.company_website}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {userData?.company_name || "Company Name"}
+          </a>
           <p className="internship-id">JOB ID: {descriptionData.job_id}</p>
           <p className="job-types">
             {descriptionData.intern_mode} | {descriptionData.intern_type}
@@ -74,7 +108,8 @@ function InternDescription() {
           <section className="internship-info">
             <div className="info-item">
               <h3>Location</h3>
-              <p>{descriptionData?.location}</p>
+              <LocationOnIcon />{" "}
+              {descriptionData.location || userData.location || "Not Mentioned"}
             </div>
             <div className="info-item">
               <h3>Stipend (Per Annum)</h3>
