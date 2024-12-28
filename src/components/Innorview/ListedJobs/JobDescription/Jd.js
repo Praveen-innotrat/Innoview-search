@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { formatRupees } from "../../../../Utils";
 import "./jd.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { toast } from "react-toastify";
 
 function Jd() {
   const ViewJobId = localStorage.getItem("ViewJobId");
 
   // console.log(jobId, "response");
   const [descriptionData, setDescriptionData] = useState({});
+  const [userData, setUserData] = useState({});
   console.log(descriptionData, "response");
   const nav = useNavigate();
   const fetchData = async () => {
@@ -25,6 +27,7 @@ function Jd() {
 
       if (response.status === 200 || response.status === 201) {
         setDescriptionData(response.data);
+        fetchUserData(response.data.user_id);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -34,6 +37,31 @@ function Jd() {
   const handleApplyNow = (jobId) => {
     localStorage.setItem("jobId", jobId);
     nav("/innorview/schedule");
+  };
+
+  const fetchUserData = async (userId) => {
+    try {
+      let payload = { user_id: userId };
+      let response = await axios.post(
+        `${HOSTED_API}/get_user_details`,
+        payload,
+        {
+          headers: {
+            Role: "recruiter",
+          },
+        }
+      );
+      console.log(response, "values");
+      if (response.status === 200 || response.status === 201) {
+        setUserData(response.data);
+        // toast.success("User data fetched successfully");
+      } else {
+        toast.error("Somewhere facing issue... Please wait");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data. Please try again later.");
+    }
   };
 
   useEffect(() => {
@@ -58,8 +86,17 @@ function Jd() {
           <h1 className="job-title">
             {descriptionData.job_title || "Job Title"}
           </h1>
+          <a
+            className="company-link"
+            href={userData?.company_website}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {userData?.company_name || "Company Name"}
+          </a>
           <p className="job-location">
-            <LocationOnIcon /> {descriptionData.location || "Not Mentioned"}
+            <LocationOnIcon />{" "}
+            {descriptionData.location || userData.location || "Not Mentioned"}
           </p>
           <p className="job-types">
             {descriptionData.job_mode} | {descriptionData.job_type}
