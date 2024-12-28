@@ -189,7 +189,7 @@ export default function SignUpSide() {
               />
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <InputLabel htmlFor="file" className="form-label">
                 Upload File
               </InputLabel>
@@ -216,7 +216,7 @@ export default function SignUpSide() {
                 type="file"
                 accept="video/*"
               />
-            </div>
+            </div> */}
 
             <div className="form-group">
               <FormControl
