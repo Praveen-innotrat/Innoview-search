@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { formatRupees } from "../../../../Utils";
 import "./InternDescription.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { toast } from "react-toastify";
 
 function InternDescription() {
   const ViewJobId = localStorage.getItem("ViewJobId");
