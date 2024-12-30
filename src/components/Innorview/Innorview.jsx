@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MessageContext } from "../context/MessageContext";
 import Cookies from "js-cookie";
+import BackButton from "./ListedJobs/JobDescription/BackButton/BackButton";
 
 export default function Innorview() {
   const { menu, setMenu } = useContext(MessageContext);
@@ -90,22 +91,7 @@ export default function Innorview() {
   return (
     <div className="innorview-container">
       <Header />
-      <div className="back-button-container">
-        <Button
-          variant="contained"
-          sx={{
-            fontSize: "1.2rem",
-            padding: "10px 20px",
-            backgroundColor: "#0073e6",
-            width: "max-content",
-            color: "#fff",
-            "&:hover": { backgroundColor: "#005bb5" },
-          }}
-          onClick={() => navigate("/")}
-        >
-          BACK
-        </Button>
-      </div>
+      <BackButton path={"/"} />
       <div className="dashboard-container">
         <div className="dashboard-grid">
           <div className="dashboard-card" onClick={schedule}>

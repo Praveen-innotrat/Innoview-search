@@ -9,8 +9,8 @@ import { Audio, BallTriangle, Circles } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { HOSTED_API } from "../../../Global";
 import { useNavigate } from "react-router";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PostJobCardSkeleton from "../../SkeletonLoader/ForJobCard/PostJobCardSkeleton";
+import BackButton from "./JobDescription/BackButton/BackButton";
 
 function PostedJobs() {
   const [jobData, setJobData] = useState([]); // State to store job data
@@ -98,9 +98,7 @@ function PostedJobs() {
   return (
     <div className="posted-jobs-tab">
       <div className="button-wrapper">
-        <div className="back-button-wrap" onClick={() => nav("/innorview")}>
-          <ArrowBackIosIcon /> BACK
-        </div>
+        <BackButton path={"/innorview"} />
       </div>
       <div className="jobs-search">
         <input

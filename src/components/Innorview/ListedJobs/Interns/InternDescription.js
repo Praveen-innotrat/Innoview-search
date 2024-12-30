@@ -7,6 +7,7 @@ import { formatRupees } from "../../../../Utils";
 import "./InternDescription.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { toast } from "react-toastify";
+import BackButton from "../JobDescription/BackButton/BackButton";
 
 function InternDescription() {
   const ViewJobId = localStorage.getItem("ViewJobId");
@@ -70,18 +71,7 @@ function InternDescription() {
     <>
       <div className="internship-details-page">
         <div className="header-section">
-          <Button
-            style={{
-              fontSize: 14,
-            }}
-            className="back-button"
-            onClick={() => {
-              nav(-1);
-              localStorage.removeItem("ViewJobId");
-            }}
-          >
-            Back to Internship
-          </Button>
+          <BackButton path={"/posted-internships"} value={"to Internships"} />
         </div>
 
         <div className="internship-details-container">

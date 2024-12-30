@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PostJobCard from "./PostJobCard";
 import PostJobCardSkeleton from "../../SkeletonLoader/ForJobCard/PostJobCardSkeleton";
+import BackButton from "./JobDescription/BackButton/BackButton";
 
 function PostedInterships() {
   const [InternData, setInternData] = useState([]); // State to store job data
@@ -104,9 +105,7 @@ function PostedInterships() {
   return (
     <div className="posted-jobs-tab">
       <div className="button-wrapper">
-        <div className="back-button-wrap" onClick={() => nav("/innorview")}>
-          <ArrowBackIosIcon /> BACK
-        </div>
+        <BackButton path={"/innorview"} value={""} />
       </div>
       <div className="jobs-search">
         <input

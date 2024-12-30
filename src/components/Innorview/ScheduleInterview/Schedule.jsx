@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import API_URLS from "../../../config";
 import { Button } from "@mui/material";
+import BackButton from "../ListedJobs/JobDescription/BackButton/BackButton";
 
 const Schedule = ({ interviews, setInterviews }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -173,6 +174,7 @@ const Schedule = ({ interviews, setInterviews }) => {
   return (
     <div className="schedule">
       <Header />
+      <BackButton path={"/innorview"} value={""} />
       <div className="schedule-container">
         <ToastContainer />
         <div>
@@ -252,12 +254,14 @@ const Schedule = ({ interviews, setInterviews }) => {
               </label>
               <div className="schedule-btn-section">
                 {" "}
-                <button
+                <Button
                   onClick={scheduleInterview}
+                  variant="contained"
                   disabled={loading || (formSubmitted && !isFormValid)}
                   className="schedule-button"
                   style={{
                     color: loading ? "white" : "",
+                    fontSize: 15,
                   }}
                 >
                   {loading ? (
@@ -268,18 +272,13 @@ const Schedule = ({ interviews, setInterviews }) => {
                   ) : (
                     "Schedule Interview"
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           ) : (
             <p>Please log in to schedule an interview.</p>
           )}
         </div>
-      </div>
-      <div className="back-btn-inno">
-        <Button sx={{ fontSize: "1.5rem" }} onClick={() => navigate(-1)}>
-          BACK
-        </Button>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import {
   Grid,
   TextField,
   Typography,
+  Skeleton,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import Header from "../../Header/Header";
@@ -14,25 +15,40 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import API_URLS from "../../../config";
 import { formatPhoneNumber } from "../../../Utils";
+import "./Profile.css";
+import BackButton from "../ListedJobs/JobDescription/BackButton/BackButton";
 
-const MyComponent = styled("div")({
-  color: "#000000",
-  padding: 8,
-  borderRadius: 4,
-  marginBottom: "1rem",
-  backdropFilter: "blur(20px)",
-  border: "1px solid #50719e",
+const StyledComponent = styled("div")({
+  color: "#1a1a1a",
+  padding: "1rem",
+  borderRadius: "8px",
+  marginBottom: "1.5rem",
+  backgroundColor: "#f9fafb",
+  border: "1px solid #d1d5db",
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
 });
 
-const ProfileComponent = styled("div")({
-  height: "100%",
-  backgroundPosition: "center",
-  backgroundSize: "cover",
+const ProfileWrapper = styled("div")({
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  backgroundColor: "#f3f4f6",
+  alignItems: "center",
+});
+
+const ProfileContainer = styled(Container)({
+  marginTop: "4rem",
+  padding: "2rem",
+  backgroundColor: "#ffffff",
+  borderRadius: "12px",
+  boxShadow: "0 6px 10px rgba(0, 0, 0, 0.1)",
+  maxWidth: "800px",
 });
 
 const ProfilePage = () => {
   const [resumeFile, setResumeFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [userDetails, setUserDetails] = useState({
     name: "",
     number: "",
@@ -54,7 +70,6 @@ const ProfilePage = () => {
             }
           );
           const { profile } = response.data;
-          console.log(profile, "profile");
           setUserDetails({
             name: profile.name,
             number: profile.mobile_number,
@@ -64,6 +79,8 @@ const ProfilePage = () => {
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -113,44 +130,27 @@ const ProfilePage = () => {
   };
 
   return (
-    <div
-      className="profile-card-wrapper"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        backgroundColor: "#ececff",
-      }}
-    >
+    <ProfileWrapper>
       <Header />
-      <div className="profile-card-bg"></div>
+      <BackButton path={"/innorview"} value={""} />
+      <ProfileContainer>
+        <StyledComponent>
+          <Typography variant="h4" textAlign="center" gutterBottom>
+            Your Profile
+          </Typography>
+        </StyledComponent>
+        <Divider />
 
-      <ProfileComponent>
-        <Container
+        <Box
           sx={{
-            marginTop: "4rem",
-            paddingTop: "2rem",
-            marginBottom: "2rem",
+            padding: "1.5rem",
+            borderRadius: "8px",
+            backgroundColor: "#ffffff",
           }}
         >
-          <MyComponent>
-            <Typography variant="h4" textAlign="center" gutterBottom>
-              Your Profile
-            </Typography>
-          </MyComponent>
-          <Divider />
-
-          <Box
-            elevation={6}
-            sx={{
-              padding: "1rem",
-              backdropFilter: "blur(20px)",
-              backgroundColor: "",
-              color: "#000000",
-              borderRadius: "10px",
-              border: "1px solid #50719e",
-            }}
-          >
+          {isLoading ? (
+            <Skeleton variant="rectangular" width="100%" height={400} />
+          ) : (
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
@@ -169,7 +169,17 @@ const ProfilePage = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
-                  Contact: {formatPhoneNumber(userDetails.number)}
+                  Contact:{" "}
+                  {isEditing ? (
+                    <TextField
+                      name="number"
+                      value={userDetails.number}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  ) : (
+                    formatPhoneNumber(userDetails.number)
+                  )}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -190,20 +200,14 @@ const ProfilePage = () => {
 
               <Grid item xs={12}>
                 <form onSubmit={handleSubmit}>
-                  <div>Upload Resume</div>
-
+                  <Typography variant="subtitle1" gutterBottom>
+                    Upload Resume
+                  </Typography>
                   <Box
                     sx={{
                       display: "flex",
                       flexDirection: "column",
                       gap: "1rem",
-                      width: {
-                        xs: "100%",
-                        sm: "100%",
-                        md: "100%",
-                        lg: "100%",
-                        xl: "300px",
-                      },
                     }}
                   >
                     {isEditing ? (
@@ -214,7 +218,7 @@ const ProfilePage = () => {
                         inputProps={{ accept: ".pdf, .doc, .docx" }}
                       />
                     ) : (
-                      userDetails.resume
+                      <Typography>{userDetails.resume}</Typography>
                     )}
 
                     {isEditing ? (
@@ -234,10 +238,10 @@ const ProfilePage = () => {
                 </form>
               </Grid>
             </Grid>
-          </Box>
-        </Container>
-      </ProfileComponent>
-    </div>
+          )}
+        </Box>
+      </ProfileContainer>
+    </ProfileWrapper>
   );
 };
 

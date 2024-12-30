@@ -5,9 +5,11 @@
   }
   
   .job-details-header {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 20px;
+    display: flex
+    ;
+        justify-content: center;
+        width: 100%;
+        margin: 20px;
   }
 
   li ,.skills-info {

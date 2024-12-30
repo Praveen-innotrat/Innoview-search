@@ -7,6 +7,7 @@ import { formatRupees } from "../../../../Utils";
 import "./jd.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { toast } from "react-toastify";
+import BackButton from "./BackButton/BackButton";
 
 function Jd() {
   const ViewJobId = localStorage.getItem("ViewJobId");
@@ -71,20 +72,7 @@ function Jd() {
   return (
     <>
       <div className="job-details-page">
-        <div className="job-details-header">
-          <Button
-            style={{
-              fontSize: 14,
-            }}
-            onClick={() => {
-              nav(-1);
-              localStorage.removeItem("ViewJobId");
-            }}
-            className="back-button"
-          >
-            Back to Jobs
-          </Button>
-        </div>
+        <BackButton path={"/posted-jobs"} value={"to Jobs"} />
         <div className="job-details-container">
           <div className="header-row-description">
             <h1 className="job-title">
