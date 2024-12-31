@@ -35,10 +35,11 @@ const Jobs = () => {
   ];
 
   const fetchJobData = async (value) => {
+    setJobName(value);
     setLoading(true);
     try {
-      const payload = { keyword: value }; // Construct payload dynamically
-      console.log("Sending payload:", payload); // Debug the payload
+      const payload = { keyword: jobName }; // Construct payload dynamically
+      // console.log("Sending payload:", payload); // Debug the payload
       const response = await axios.post(
         `${API_URLS.InnoviewResumeUrl}/get_internships`,
         payload
@@ -79,7 +80,7 @@ const Jobs = () => {
   };
 
   useEffect(() => {
-    if (jobName.length === 0) {
+    if (jobName?.length === 0) {
       setMatchedKeywords([]);
     }
   }, [jobName]);
@@ -149,7 +150,7 @@ const Jobs = () => {
               />
               <div
                 className="cancel-button"
-                style={{ display: jobName.length ? "block" : "none" }}
+                style={{ display: jobName?.length ? "block" : "none" }}
               >
                 <CancelIcon
                   onClick={handleCancelButton}
